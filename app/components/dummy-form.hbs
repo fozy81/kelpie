@@ -1,0 +1,7 @@
+<form>
+  <Input @value={{changeset.title}} />
+  <Input @value={{changeset.description}} />
+
+  <button {{on "click" this.submit changeset}}>Submit</button>
+  <button {{on "click" this.rollback changeset}}>Cancel</button>
+</form>

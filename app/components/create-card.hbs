@@ -1,0 +1,62 @@
+
+{{#if this.show}}
+
+<div class="m-2 p-2
+            shadow-md border-gray-400
+            bg-gray-200">
+
+Name 
+<Input class="shadow-md border-2 border-gray-400" 
+@placeholder="Name"
+{{did-insert this.focus}}
+@modelName = {{@modelname}}
+@value={{this.newName}}
+@insert-newline={{fn this.createCard}} />
+ <button class="p-2 font-bold"
+      {{on "click" this.showCard}}
+        {{on "keyup" this.showCard}}
+      {{on "focusout" this.showCard}}>X</button>
+
+
+
+{{#if @list}}
+
+ {{#each @list as |item|}}
+
+     <div>
+       <button 
+        {{on "click" (fn this.addTemplate item.id)}}>
+        {{item.title}}
+        </button>
+     </div>
+{{/each}}
+{{ else }}
+  
+{{/if}}
+
+
+
+
+</div>
+
+
+
+{{else}}
+
+<div class="m-2 p-2
+            shadow-md border-gray-400
+            bg-gray-200">
+  <button class="w-full text-left"
+    {{on "keyup" this.showCard}}
+    {{on "click" this.showCard}}
+  {{on "focusout" this.showCard}}
+ 
+  > 
+   {{@label}}
+  </button>
+</div>
+
+
+{{/if}}
+
+{{yield}}

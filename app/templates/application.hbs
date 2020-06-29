@@ -1,5 +1,14 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-<WelcomePage />
+{{!-- The following component displays Ember's default welcome message. --}} 
+<div class="lg:w-2/3 lg:m-auto">
+<nav class="bg-teal-400 font-bold text-white flex"> 
+    <div class="text-center w-full">
+    {{#link-to "projects"}}
+       🦄 Kelpie
+    {{/link-to}} 
+    </div>
+    
+    </nav>
 {{!-- Feel free to remove this! --}}
 
 {{outlet}}
+</div>

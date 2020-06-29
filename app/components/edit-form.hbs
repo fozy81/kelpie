@@ -1,0 +1,49 @@
+
+
+<div class="wrap flex">
+<div class="w-full m-2 p-2 shadow-md border-2 rounded-md
+            border-teal-300 text-left">
+        
+
+<div class="font-bold p-2 text-gray-600">Editing...</div>
+<hr class="border-t-2 border-gray-400">
+<div class="font-bold p-2">
+Title <span class="ml-2"> 
+ <Input class="m-2 w-30 border-b border-gray-400"
+ @value={{@form.title}}
+/></span>
+</div>
+<div class="font-bold p-2">
+Description <span class="ml-2"> 
+ <Input class="m-2 w-30 border-b border-gray-400" 
+@value={{@form.description}}
+/></span>
+</div>
+<div class="font-bold p-2">
+{{#each @form.actions as |question|}}
+Question<span class="ml-2">
+<Input class="m-2 w-30 border-b border-gray-400" 
+@value={{question.question}}
+/></span>
+Type<span class="ml-2">
+<Input class="m-2 w-30 border-b border-gray-400" 
+@value={{question.type}}
+/></span>
+
+{{/each}}
+<p></p><button class="border-gray-400 border-2 p-2">
+Add question
+</button>
+<button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
+Cancel
+</button>
+<button class="border-gray-400 border-2 p-2">
+Save
+</button>
+<p></p>
+</div>
+</div>
+</div>
+
+
+{{yield}}

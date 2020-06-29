@@ -1,0 +1,76 @@
+
+{{#if this.edit}}
+{{#each @templates as |form|}}
+{{#if (eq form.title @model.title)}}
+<EditForm @edit={{this.editForm}} @form={{form}} />
+{{/if}}
+{{/each}}
+{{else}}
+
+
+
+<div class="wrap flex">
+<div class="w-full h-auto m-2 p-2 shadow-md border-2 rounded-md
+            border-teal-300 text-left">
+   <div class="wrap flex">         
+<button type="button" class="w-full text-left"
+            {{on "click" this.showQuestion}}
+            > 
+<div class="font-bold">{{@model.title}}</div>
+{{@model.description}}
+</button>
+
+{{#if this.shows}}
+<div class="w-8 text-right block">
+ 
+<Menu @label="form" @title="..." @edit={{this.editForm}}/>
+
+</div>
+
+{{/if}}
+</div>
+{{#if this.shows}}
+<div {{on "change" this.formChange}} {{ref this "formElement"}}>
+{{#each @model.responses as |response|}}
+
+<FormQuestion @question={{response.question}}
+              @rep={{response.rep}}              
+              @value={{response.response}} 
+              @formid={{@model.id}}
+              @type={{response.type}}
+              @multiEntry={{response.multiEntry}}
+              @response={{response.response}}
+              @id={{response.id}}
+              @model={{response}}  
+              @input={{this.input}}            
+              />
+{{/each}} 
+  <button formid={{@model.id}} type="submit"  {{on "click" this.addSelections}}>Submit form</button>
+</div>
+
+<p></p>
+{{#each @model.responses as |response|}}
+{{#if response.multiEntry}}
+{{#if response.response }}
+<div class="border-b">
+{{response.question}}
+{{response.response}}
+</div>
+{{/if}}
+{{/if}}
+{{/each}} 
+
+
+{{else}}
+<p></p>
+{{@question}}<button class="ml-2">{{@response}}</button>
+<p></p>
+
+{{/if}}
+
+
+</div>   
+</div>
+
+{{/if}}
+{{yield}}

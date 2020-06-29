@@ -1,0 +1,33 @@
+
+
+<div class="flex wrap">
+   <div class="py-2 flex-1 m-2 text-blue-400"> 
+{{#link-to "projects"}} 
+    Back to Projects
+    
+{{/link-to}} 
+  </div>
+<div class="relative">
+   <Menu @label="project" @title="...Show menu" class=" flex-1" /></div>
+   </div>
+<div class="p-2">
+<p></p>
+<div class="font-bold">{{@model.title}}</div>
+<p></p>
+{{@model.description}}
+<p></p>
+
+Tasks
+</div>
+
+
+{{#each @model.tasks as |task|}}
+
+<Card @title={{task.title}}
+       @route="task"
+       @model={{task.id}} />
+{{/each}}
+<CreateCard @label="Add New Task"
+            @modelName="task"/>
+
+{{outlet}}

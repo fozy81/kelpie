@@ -1,0 +1,70 @@
+
+
+
+{{#if this.showField}}
+
+{{#if (eq @type "select")}}
+{{#if (eq @rep 1)}}
+<p></p>
+ <label for="insects">Choose inverts:</label>
+
+<select multientry={{@multiEntry}} id={{@id}} >
+  <option selected="true" value="">--- pick ---</option>
+  <option value="Mayfly">Mayfly</option>
+  <option value="Stonefly">Stonefly</option>
+  <option value="Cased-caddis">Cased-caddis</option>
+  <option value="Worms">Worms</option>
+</select> 
+<p></p>
+
+{{/if}}
+{{/if}}
+{{#if (eq @rep 1)}}
+{{#if (eq @type "input")}}
+ {{#if @response}}
+
+{{@question}}<button  {{on "click" (fn this.showInput value=@value)}} class="ml-2">{{@response}}</button>
+<p></p>
+ {{else}}
+
+<p></p>
+{{@question}} <span class="ml-2"> 
+ <Input class="m-2 border-b border-gray-400" 
+ id={{@id}}
+ response={{if @multiEntry "" @response}}
+ @formid={{@formid}}
+ @value={{if @multiEntry "" this.value}} 
+ @showField={{if @response true}} 
+ /></span>
+<p></p>
+ {{/if}}
+  {{/if}}
+  {{/if}}
+ {{#if @response}}
+ {{#if (eq @multiEntry false)}}
+
+{{/if}}
+{{/if}}
+
+
+
+{{else}} 
+
+<p></p>
+{{@question}}
+ <span class="ml-2"> 
+ <Input class="m-2 border-b border-gray-400" 
+ id={{@id}}
+ response={{if @multiEntry "" @response}}
+
+ @formid={{@formid}}
+ @value={{if @multiEntry ""  @response}}  />
+
+  
+     <button class="p-2 font-bold"
+    {{on "click" (fn this.cancel)}}>X</button>
+</span>
+
+{{/if}}
+
+{{yield}}

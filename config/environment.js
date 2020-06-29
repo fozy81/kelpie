@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
-  let ENV = {
+  var ENV = {
     modulePrefix: 'my-blog-21',
     environment,
     rootURL: '/',
@@ -43,8 +43,19 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
+  ENV.remote_couch =  'http://localhost:5984/test';
+  ENV.local_couch = 'test';
+  ENV.authAdapter = 'application';
   if (environment === 'production') {
-    // here you can enable a production-specific feature
+    ENV.rootURL = '/';
+    ENV.remote_couch = 'https://my.couchcluster.com/bloggr';
+  }
+  if ( ENV.remote_couch ) {
+    // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
+    var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
+    ENV.contentSecurityPolicy = {
+      'connect-src': "'self' " + remote_couch_hostname
+    };
   }
 
   return ENV;
