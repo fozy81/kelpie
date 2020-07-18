@@ -40,23 +40,27 @@ export default class CreateCardComponent extends Component {
         })
     }
     if(model == "task") {
-       const id = router.currentRoute.params.project_id
-       console.log(id)
+       const id = router.currentRoute.params.project_id       
         let myProject = this.store.peekRecord('project', id);
-        let myTask = this.store.createRecord(model, {
+        let task = this.store.createRecord(model, {
             title: this.newName,
             project: myProject      
           }) 
+           
+          let self = this;
+      
+          function transitionToTask(task) {
+            router.transitionTo('/task/' + task.id);
+          }
 
           function failure(reason) {
             console.log(reason) // handle the error
-          }          
-
-          myTask
+          } 
+                    
+          task
              .save()
-             .catch(failure);           
-          
-          this.show = !this.show
+             .then(transitionToTask)
+             .catch(failure);
     }  
     
     if(model == "form") {
