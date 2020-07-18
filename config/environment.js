@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'my-blog-21',
+    modulePrefix: 'kelpie',
     environment,
     rootURL: '/',
     locationType: 'auto',

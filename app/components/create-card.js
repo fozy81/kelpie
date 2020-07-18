@@ -41,11 +41,21 @@ export default class CreateCardComponent extends Component {
     }
     if(model == "task") {
        const id = router.currentRoute.params.project_id
+       console.log(id)
         let myProject = this.store.peekRecord('project', id);
-        this.store.createRecord(model, {
+        let myTask = this.store.createRecord(model, {
             title: this.newName,
             project: myProject      
-          }).save()       
+          }) 
+
+          function failure(reason) {
+            console.log(reason) // handle the error
+          }          
+
+          myTask
+             .save()
+             .catch(failure);           
+          
           this.show = !this.show
     }  
     

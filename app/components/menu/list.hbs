@@ -1,9 +1,9 @@
 {{#if this.show}}
-<div {{on-click-outside this.removeCard}}> 
+<div {{on-click-outside this.removeMenuList}}> 
 <div class ="relative block right-0 float-right pr-32 m-2 text-left" >
 <div class="absolute bg-white p-2 rounded-lg border-gray-200 border-2">
 <div class="left-0 block py-2">Menu 
-    <button class="" {{on "click" this.hideCard}}>
+    <button class="" {{on "click" this.hideMenuList}}>
         X
         </button> </div>
 
@@ -18,7 +18,8 @@
 {{#if (eq @label "project")}}
 
 <div class="block py-2">Add New Task</div>
-<div class="block py-2">Remove Project</div>
+<div class="block py-2" {{on "click" this.removeProject}}>
+    <button class="text-left block py-2" >Remove Project</button></div>
 <div class="block py-2">Show Archived Tasks</div>
 <div class="block py-2">Print...</div>
 
@@ -27,7 +28,7 @@
 {{#if (eq @label "task")}}
 
 <div class="block py-2">Add New Form</div>
-<div class="block py-2">Remove Task</div>
+<div class="block py-2" {{on "click" this.removeTask}}>Remove Task</div>
 <div class="block py-2">Show Archived Forms</div>
 <div class="block py-2">Print...</div>
 
@@ -38,7 +39,7 @@
 <div class="block py-2">
     <button type="button" {{on "click" @edit}}>Edit Form</button>
     </div>
-<div class="block py-2">Remove Form</div>
+<div class="block py-2" {{on "click" this.removeForm}}>Remove Form</div>
 <div class="block py-2">Print...</div>
 
 {{/if}}

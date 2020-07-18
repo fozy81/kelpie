@@ -18,6 +18,10 @@ export default class ApplicationAdapter extends Adapter {
 
     const db = new PouchDB(localDb);
     
+
+    
+  
+  
 //  db.sync(remote, {
 //    live: true,   // do a live, ongoing sync
 //    retry: true   // retry if the connection is lost
@@ -25,7 +29,6 @@ export default class ApplicationAdapter extends Adapter {
      this.set('db', db);
 
     return this;
-  }
-
-
-}
+  }    
+  
+}  
