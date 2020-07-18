@@ -19,7 +19,7 @@
 
 <div class="block py-2">Add New Task</div>
 <div class="block py-2" {{on "click" this.removeProject}}>
-    <button class="text-left block py-2" >Remove Project</button></div>
+    <button class="text-left" type="button">Remove Project</button></div>
 <div class="block py-2">Show Archived Tasks</div>
 <div class="block py-2">Print...</div>
 
@@ -28,7 +28,9 @@
 {{#if (eq @label "task")}}
 
 <div class="block py-2">Add New Form</div>
-<div class="block py-2" {{on "click" this.removeTask}}>Remove Task</div>
+<div class="block py-2" {{on "click" this.removeTask}}>
+    <button type="button">Remove Task</button>
+    </div>
 <div class="block py-2">Show Archived Forms</div>
 <div class="block py-2">Print...</div>
 
@@ -39,7 +41,8 @@
 <div class="block py-2">
     <button type="button" {{on "click" @edit}}>Edit Form</button>
     </div>
-<div class="block py-2" {{on "click" this.removeForm}}>Remove Form</div>
+<div class="block py-2" {{on "click" this.removeForm}}>
+    <button type="button">Remove Form</button></div>
 <div class="block py-2">Print...</div>
 
 {{/if}}
