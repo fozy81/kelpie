@@ -7,19 +7,44 @@ export default class ApplicationRoute extends Route {
 
     let store = this.store
 
+
+
     let projects = this.store.query('project', {
       filter: { title: 'Welcome Project' }
     }).then(function (project) {
       console.log(project.content[0])
 
-
       if (typeof project.content[0] === "undefined") {
         let project = store.createRecord('project', {
           title: 'Welcome Project',
           description: 'Demo example project'
-        })
+        })  
 
-        function failure(reason) {
+        let template = store.createRecord('template', {
+          title: 'Wildlife Survey',
+          description: 'Record wildlife present'
+        })
+        template
+          .save()
+          .then(addActions)          
+          .catch(failure);      
+
+        function addActions(template) {  
+        let actions = store.createRecord('action', {
+          question: 'Species',
+          response: '',
+          multiEntry: true,
+          type: 'select',
+          rep: 1,
+          template: template
+        })
+        actions
+          .save()          
+          .catch(failure);         
+          console.log(`actionsId: ` + actions.template)
+        }
+
+         function failure(reason) {
           console.log(reason) // handle the error
           return
         }
@@ -28,8 +53,8 @@ export default class ApplicationRoute extends Route {
           .then(addTask)
           .catch(failure);
 
+        function addTask(project) {  
 
-        function addTask(project) {          
           let task = store.createRecord('task', {
             title: 'Woodlands site',
             description: 'Woods',
@@ -42,11 +67,15 @@ export default class ApplicationRoute extends Route {
 
         }
 
-        function addForm(task) {          
+   
+      
+        function addForm(task) {        
+
           let form = store.createRecord('form', {
             title: 'Wildlife Survey',
-            description: 'Record wildlife present',
-            task: task
+            description: 'Record wildlife present',            
+            task: task,
+            templateId: template.id
           })
           form
             .save()
@@ -68,8 +97,7 @@ export default class ApplicationRoute extends Route {
             .save()          
             .catch(failure);
 
-        }
-
+        }                
       }
 
     }

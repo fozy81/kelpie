@@ -1,8 +1,10 @@
 
 {{#if this.edit}}
-{{#each @templates as |form|}}
-{{#if (eq form.title @model.title)}}
-<EditForm @edit={{this.editForm}} @form={{form}} />
+
+{{#each @templates as |template|}}
+Hello from form-card.hbs template.id: {{template.id}} form.templateId: {{@model.templateId}}
+{{#if (eq template.id @model.templateId)}}
+<EditForm @forms={{@model}} @edit={{this.editForm}} @form={{template}} />
 {{/if}}
 {{/each}}
 {{else}}

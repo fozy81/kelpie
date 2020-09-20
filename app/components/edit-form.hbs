@@ -10,7 +10,7 @@
 <div class="font-bold p-2">
 Title <span class="ml-2"> 
  <Input class="m-2 w-30 border-b border-gray-400"
- @value={{@form.title}}
+ @value={{this.title}}
 /></span>
 </div>
 <div class="font-bold p-2">
@@ -37,7 +37,7 @@ Add question
 <button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
 Cancel
 </button>
-<button class="border-gray-400 border-2 p-2">
+<button class="border-gray-400 border-2 p-2" {{on "click" this.saveForm}}>
 Save
 </button>
 <p></p>

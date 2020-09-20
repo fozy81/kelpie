@@ -4,7 +4,7 @@ export default class FormModel extends Model {
 
     @attr title;
     @attr description;
-    @attr template_id;
+    @attr templateId;
     @attr('string') rev;  
     @belongsTo task;
     @hasMany responses;
