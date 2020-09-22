@@ -1,7 +1,7 @@
 export default function(server) {
 
 server.loadFixtures();
-server.createList('template', 2);
+server.createList('formTemplate', 2);
 
 
 

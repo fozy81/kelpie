@@ -20,6 +20,7 @@ export default function() {
     this.resource('responses');
  
 
-    this.resource('templates');
+    // this.resource('templates');
+    this.resource('formTemplates');
     this.resource('actions');
 }

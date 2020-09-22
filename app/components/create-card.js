@@ -72,19 +72,20 @@ export default class CreateCardComponent extends Component {
       }
 
       let myTask = store.peekRecord('task', id);
-      let template = store.createRecord('template', {
+      let formTemplate = store.createRecord('form-template', {
         title: this.newName
       })
-      template
+      formTemplate
         .save()
         .then(addForm)
         .catch(failure);
 
-      function addForm(template) {
+      function addForm(formTemplate) {
+        // add form template to form record
         let form = store.createRecord(model, {
           title: newName,
           task: myTask,
-          templateId: template.id
+          templateId: formTemplate.id
         })
         form
           .save()
@@ -98,35 +99,35 @@ export default class CreateCardComponent extends Component {
 
 
   @action
-  addTemplate(id) {
+  addFormTemplate(id) {
     const router = this.router
     const store = this.store
     const taskId = router.currentRoute.params.task_id
     let myTask = store.peekRecord('task', taskId);
-    let template = store.peekRecord('template', id);
-    console.log('tempalteID: ' + template.actions)
+    let formTemplate = store.peekRecord('form-template', id);
+    console.log('templateID: ' + formTemplate.questionTemplates)
     let formRecord = store.createRecord('form', {
-      title: template.title,
-      description: template.description,
-      templateId: template.id,
+      title: formTemplate.title,
+      description: formTemplate.description,
+      templateId: formTemplate.id,
       task: myTask
     }
     )
-    formRecord.save().then(function (form) {
+    formRecord.save().then(function(form) {
       console.log(form.templateId)
-      let responses = template.actions
-      console.log(responses)
+      let questionTemplates = formTemplate.questionTemplates
+      console.log(questionTemplates)
       let myForm = store.peekRecord('form', form.id);
-      responses.map(function (action) {
-        let response = store.createRecord('response', {
-          question: action.question,
-          response: action.response,
+      questionTemplates.map(function(questionTemplate) {
+        let question = store.createRecord('question', {
+          question: questionTemplate.question,
+          response: questionTemplate.response,
           rep: 1,
-          multiEntry: action.multiEntry,
-          type: action.type,
+          multiEntry: questionTemplate.multiEntry,
+          type: questionTemplate.type,
           form: myForm
         })
-        response.save()
+        question.save()
       })
     })
 

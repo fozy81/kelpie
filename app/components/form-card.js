@@ -31,7 +31,7 @@ export default class CounterComponent extends Component {
     let newQuestion = this.question
     console.log(newQuestion)
     let myForm = this.store.peekRecord('form', id)
-    let response = this.store.createRecord('response', {
+    let response = this.store.createRecord('question', {
       question: newQuestion,
       form: myForm
     });
@@ -90,13 +90,13 @@ export default class CounterComponent extends Component {
     let formid = event.target.attributes.formid.value
     let store = this.store   
     this.selectedOptions.map(function (select) {
-      store.findRecord('response', select.id).then(function (question) {
+      store.findRecord('question', select.id).then(function (question) {
         // if multiEntry
         console.log(question.multiEntry)
         if (question.response && question.multiEntry) {
                 console.log("HEllo")
           let myForm = store.peekRecord('form', formid)
-          store.createRecord('response', {
+          store.createRecord('question', {
             response: select.value,
             rep: true,            
             question: question.question,

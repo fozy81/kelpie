@@ -18,7 +18,7 @@ export default class EditFormComponent extends Component {
     console.log(this.args.forms)
     let newTitle = this.title
     let templateId = this.args.form.id
-   this.store.findRecord('template', templateId).then(function(template) {
+   this.store.findRecord('form-template', templateId).then(function(template) {
        template.title = newTitle;  
        template.save();  
    })

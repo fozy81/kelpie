@@ -7,8 +7,6 @@ export default class ApplicationRoute extends Route {
 
     let store = this.store
 
-
-
     let projects = this.store.query('project', {
       filter: { title: 'Welcome Project' }
     }).then(function (project) {
@@ -18,33 +16,32 @@ export default class ApplicationRoute extends Route {
         let project = store.createRecord('project', {
           title: 'Welcome Project',
           description: 'Demo example project'
-        })  
+        })
 
-        let template = store.createRecord('template', {
+        let formTemplate = store.createRecord('form-template', {
           title: 'Wildlife Survey',
           description: 'Record wildlife present'
         })
-        template
+        formTemplate
           .save()
-          .then(addActions)          
-          .catch(failure);      
+          .then(addQuestionTemplate)
+          .catch(failure);
 
-        function addActions(template) {  
-        let actions = store.createRecord('action', {
-          question: 'Species',
-          response: '',
-          multiEntry: true,
-          type: 'select',
-          rep: 1,
-          template: template
-        })
-        actions
-          .save()          
-          .catch(failure);         
-          console.log(`actionsId: ` + actions.template)
+        function addQuestionTemplate(formTemplate) {
+          let questionTemplate = store.createRecord('question-template', {
+            question: 'Species',
+            response: '',
+            multiEntry: true,
+            type: 'select',
+            rep: 1,
+            formTemplate: formTemplate
+          })
+          questionTemplate
+            .save()
+            .catch(failure);        
         }
 
-         function failure(reason) {
+        function failure(reason) {
           console.log(reason) // handle the error
           return
         }
@@ -53,7 +50,7 @@ export default class ApplicationRoute extends Route {
           .then(addTask)
           .catch(failure);
 
-        function addTask(project) {  
+        function addTask(project) {
 
           let task = store.createRecord('task', {
             title: 'Woodlands site',
@@ -67,25 +64,25 @@ export default class ApplicationRoute extends Route {
 
         }
 
-   
-      
-        function addForm(task) {        
+
+
+        function addForm(task) {
 
           let form = store.createRecord('form', {
             title: 'Wildlife Survey',
-            description: 'Record wildlife present',            
+            description: 'Record wildlife present',
             task: task,
-            templateId: template.id
+            templateId: formTemplate.id
           })
           form
             .save()
-            .then(addResponse)
+            .then(addQuestion)
             .catch(failure);
 
         }
 
-        function addResponse(form) {          
-          let response = store.createRecord('response', {
+        function addQuestion(form) {
+          let response = store.createRecord('question', {
             question: 'Species',
             response: '',
             multiEntry: true,
@@ -94,150 +91,13 @@ export default class ApplicationRoute extends Route {
             form: form
           })
           response
-            .save()          
+            .save()
             .catch(failure);
 
-        }                
+        }
       }
 
     }
     )
-
-
-    // })  
-
-
-
-    // this.store.push({
-    //   data: {
-    //     id: '1',
-    //     type: 'project',
-    //     attributes: {
-    //       title: 'Example project',
-    //       description: 'Showcasing some features'
-    //     },
-    //     relationships: {
-    //       tasks: {
-    //         data: [
-    //           {
-    //             id: '2',
-    //             type: 'task'
-    //           },
-    //           {
-    //             id: '3',
-    //             type: 'task'
-    //           },
-    //           {
-    //             id: '4',
-    //             type: 'task'
-    //           }
-    //         ]
-    //       }
-    //     }
-    //   },
-    //   included: [
-    //     {
-    //       id: '2',
-    //       type: 'task',
-    //       attributes: {
-    //         title: 'Field Site 1'
-    //       },
-    //       relationships: {
-    //         forms: {
-    //           data: [
-    //             {
-    //               id: '5',
-    //               type: 'form'
-    //             }]
-    //         }
-    //       }
-    //     },
-    //     {
-    //       id: '3',
-    //       type: 'task',
-    //       attributes: {
-    //         title: 'Woodlands site 2'
-    //       }
-    //     },
-    //     {
-    //       id: '4',
-    //       type: 'task',
-    //       attributes: {
-    //         title: 'Shoreline Site 3'
-    //       }
-    //     },
-    //     {
-    //       id: '5',
-    //       type: 'form',
-    //       attributes: {
-    //         title: 'Wildlife',
-    //         description: 'Record wildlife species observed'
-    //       },
-    //       relationships: {
-    //         responses: {
-    //           data: [
-    //             {
-    //               id: '6',
-    //               type: 'response'
-    //             }]
-    //         }
-    //       }
-    //     },
-    //     {
-    //       id: '6',
-    //       type: 'response',
-    //       attributes: {
-    //         question: 'Species',
-    //         response: '',
-    //         multiEntry: true,
-    //         type: 'select',
-    //         rep: 1
-    //       }
-    //     }
-    //   ]
-    // })
-
-
-    // this.store.push({
-    //   data: {
-    //     id: '7',
-    //     type: 'template',
-    //     attributes: {
-    //       title: 'Wildlife',
-    //       description: 'Record wildlife species'
-    //     },
-    //     relationships: {
-    //       actions: {
-    //         data: [
-    //           {
-    //             id: '8',
-    //             type: 'action'
-    //           }
-    //         ]
-    //       }
-    //     }
-    //   },
-    //   included: [
-    //     {
-    //       id: '8',
-    //       type: 'action',
-    //       attributes: {
-    //         question: 'Species',
-    //         response: '',
-    //         multiEntry: true,
-    //         type: 'select',
-    //         rep: '1'
-    //       }
-    //     }]
-    // }).save();
-
-
-    // return this.store.findAll('project', 1);
-
-
-    //     }
-    //   });
-    //   }
-    // }
   }
 }

@@ -8,6 +8,6 @@ export default class ActionModel extends Model {
     @attr type;
     @attr rep;
     @attr('string') rev;  
-    @belongsTo template;
+    @belongsTo formTemplate;
 
 }

@@ -20,7 +20,7 @@ Description <span class="ml-2">
 /></span>
 </div>
 <div class="font-bold p-2">
-{{#each @form.actions as |question|}}
+{{#each @form.questionTemplates as |question|}}
 Question<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.question}}
@@ -32,7 +32,7 @@ Type<span class="ml-2">
 
 {{/each}}
 <p></p><button class="border-gray-400 border-2 p-2">
-Add question
+Add Question
 </button>
 <button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
 Cancel

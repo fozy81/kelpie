@@ -1,10 +1,10 @@
 
 {{#if this.edit}}
 
-{{#each @templates as |template|}}
-Hello from form-card.hbs template.id: {{template.id}} form.templateId: {{@model.templateId}}
+{{#each @templates as |formTemplate|}}
+Hello from form-card.hbs template.id: {{formTemplate.id}} form.templateId: {{@model.templateId}}
 {{#if (eq template.id @model.templateId)}}
-<EditForm @forms={{@model}} @edit={{this.editForm}} @form={{template}} />
+<EditForm @forms={{@model}} @edit={{this.editForm}} @form={{formTemplate}} />
 {{/if}}
 {{/each}}
 {{else}}
@@ -33,17 +33,17 @@ Hello from form-card.hbs template.id: {{template.id}} form.templateId: {{@model.
 </div>
 {{#if this.shows}}
 <div {{on "change" this.formChange}} {{ref this "formElement"}}>
-{{#each @model.responses as |response|}}
+{{#each @model.questions as |question|}}
 
-<FormQuestion @question={{response.question}}
-              @rep={{response.rep}}              
-              @value={{response.response}} 
+<FormQuestion @question={{question.question}}
+              @rep={{question.rep}}              
+              @value={{question.response}} 
               @formid={{@model.id}}
-              @type={{response.type}}
-              @multiEntry={{response.multiEntry}}
-              @response={{response.response}}
-              @id={{response.id}}
-              @model={{response}}  
+              @type={{question.type}}
+              @multiEntry={{question.multiEntry}}
+              @response={{question.response}}
+              @id={{question.id}}
+              @model={{question}}  
               @input={{this.input}}            
               />
 {{/each}} 
@@ -51,12 +51,12 @@ Hello from form-card.hbs template.id: {{template.id}} form.templateId: {{@model.
 </div>
 
 <p></p>
-{{#each @model.responses as |response|}}
-{{#if response.multiEntry}}
-{{#if response.response }}
+{{#each @model.questions as |question|}}
+{{#if question.multiEntry}}
+{{#if question.response }}
 <div class="border-b">
-{{response.question}}
-{{response.response}}
+{{question.question}}
+{{question.response}}
 </div>
 {{/if}}
 {{/if}}
