@@ -18,10 +18,10 @@ Back to {{@model.task.project.title}}
 
 {{#each @model.task.forms as |form|}}
 <FormCard @model={{form}}
-          @templates={{@model.form}}
+          @formTemplates={{@model.formTemplate}}
           />
 {{/each}}
-<CreateCard @list={{@model.form}} @modelName="form" @label="Add New Form"/>
+<CreateCard @list={{@model.formTemplate}} @modelName="form" @label="Add New Form"/>
 
 
 
