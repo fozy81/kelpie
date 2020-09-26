@@ -5,22 +5,23 @@
             border-teal-300 text-left">
         
 
-<div class="font-bold p-2 text-gray-600">Editing...</div>
+<div class="font-bold p-2 text-gray-600">Editing Form Template...</div>
 <hr class="border-t-2 border-gray-400">
 <div class="font-bold p-2">
 Title <span class="ml-2"> 
  <Input class="m-2 w-30 border-b border-gray-400"
- @value={{this.title}}
+ @value={{@formTemplate.title}}
+ {{did-insert this.focus}}
 /></span>
 </div>
 <div class="font-bold p-2">
 Description <span class="ml-2"> 
  <Input class="m-2 w-30 border-b border-gray-400" 
-@value={{@form.description}}
+@value={{@formTemplate.description}}
 /></span>
 </div>
 <div class="font-bold p-2">
-{{#each @form.questionTemplates as |question|}}
+{{#each @formTemplate.questionTemplates as |question|}}
 Question<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.question}}
@@ -31,15 +32,21 @@ Type<span class="ml-2">
 /></span>
 
 {{/each}}
-<p></p><button class="border-gray-400 border-2 p-2">
+
+<AddQuestion @count={{this.count}} />  
+
+<p></p><button class="border-gray-400 border-2 p-2" {{on "click" this.addQuestion}}>
 Add Question
 </button>
+
 <button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
 Cancel
 </button>
+
 <button class="border-gray-400 border-2 p-2" {{on "click" this.saveForm}}>
 Save
 </button>
+
 <p></p>
 </div>
 </div>

@@ -1,0 +1,14 @@
+{{#each (repeat @count) as |empty|}}
+<p></p>
+Question<span class="ml-2">
+<Input class="m-2 w-30 border-b border-gray-400" 
+@placeholder="Add question"
+@value={{this.question}}
+/></span>
+
+Type<span class="ml-2">
+<Input class="m-2 w-30 border-b border-gray-400" 
+@placeholder="Question type"
+/></span>
+{{/each}}
+{{yield}}

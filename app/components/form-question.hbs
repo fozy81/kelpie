@@ -6,7 +6,7 @@
 {{#if (eq @type "select")}}
 {{#if (eq @rep 1)}}
 <p></p>
- <label for="insects">Choose:</label>
+ <label for="insects">{{@question}}</label>
 
 <select multientry={{@multiEntry}} id={{@id}} >
   <option selected="true" value="">--- pick ---</option>
