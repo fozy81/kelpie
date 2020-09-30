@@ -1,5 +1,5 @@
 
-{{#if this.edit}}
+{{#if @model.edit}}
 
 {{#each @formTemplates as |formTemplate|}}
 {{#if (eq formTemplate.id @model.templateId)}}
@@ -32,6 +32,7 @@
 </div>
 {{#if this.shows}}
 <div {{on "change" this.formChange}} {{ref this "formElement"}}>
+
 {{#each @model.questions as |question|}}
 
 <FormQuestion @question={{question.question}}
@@ -45,21 +46,36 @@
               @model={{question}}  
               @input={{this.input}}            
               />
+
+
 {{/each}} 
   <button formid={{@model.id}} type="submit"  {{on "click" this.addSelections}}>Submit form</button>
 </div>
 
 <p></p>
-{{#each @model.questions as |question|}}
-{{#if question.multiEntry}}
-{{#if question.response }}
-<div class="border-b">
+
+<!-- 
+ Display multi-entry responses\
+(from all forms with matching templateId?)
+-->
+<div>
+{{#each @forms as |form|}}
+
+{{#if (eq form.templateId  @model.templateId)}}
+<hr>
+{{#each form.questions as |question|}}
 {{question.question}}
 {{question.response}}
+<p></p>
+{{/each}}
+
+{{/if}}
+
+{{/each}}
+
 </div>
-{{/if}}
-{{/if}}
-{{/each}} 
+
+
 
 
 {{else}}

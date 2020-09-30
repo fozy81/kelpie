@@ -7,10 +7,15 @@ export default class CounterComponent extends Component {
 
   @tracked edit = false;
 
+  @service store;
   @action
-  editForm(){    
-      this.edit = !this.edit
-      console.log(this.edit)
+  editForm(){ 
+     let id = this.args.model.id
+     this.store.findRecord('form', id).then(function(form) {
+     form.edit = !form.edit;
+     form.save()
+  }) 
+
   }
 
   @tracked shows = false;
@@ -85,26 +90,34 @@ export default class CounterComponent extends Component {
     console.log(this.formElement.childNodes)
     
     console.log(this.selectedOptions)
+    let selectedOptions = this.selectedOptions
     console.log("save data")
     console.log(event.target.attributes.formid.value)
     let formid = event.target.attributes.formid.value
-    let store = this.store   
-    this.selectedOptions.map(function (select) {
+    let store = this.store
+    let currentForm = store.peekRecord('form', formid)    
+    store.createRecord('form', {
+       title: currentForm.title,
+       description: currentForm.description,
+       templateId: currentForm.templateId,
+       rep: 2,
+       task: currentForm.task      
+    }).save().then(function(newForm) {   
+    selectedOptions.map(function (select) {
       store.findRecord('question', select.id).then(function (question) {
         // if multiEntry
         console.log(question.multiEntry)
-        if (question.response && question.multiEntry) {
-                console.log("HEllo")
-          let myForm = store.peekRecord('form', formid)
+        console.log(newForm.title)
+        if (question.response && question.multiEntry) {                   
           store.createRecord('question', {
             response: select.value,
             rep: true,            
             question: question.question,
-            form: myForm,
+            form: newForm,
             type: question.type,
             multiEntry: question.multiEntry
           }).save()
-
+      
         } else {
           // none multiEntry or first time multiEntry
           question.response = select.value;
@@ -112,6 +125,9 @@ export default class CounterComponent extends Component {
         }
       })
     })
+    }
+    )
+    
     // this.showQuestion() 
     this.showInput() 
     this.showInput() 
@@ -123,5 +139,7 @@ export default class CounterComponent extends Component {
     this.input = !this.input
     console.log(this.input)
   }
+
+
 
 }

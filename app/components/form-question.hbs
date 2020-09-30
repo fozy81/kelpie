@@ -1,8 +1,5 @@
 
-
-
 {{#if this.showField}}
-
 {{#if (eq @type "select")}}
 {{#if (eq @rep 1)}}
 <p></p>
@@ -26,7 +23,6 @@
 {{@question}}<button  {{on "click" (fn this.showInput value=@value)}} class="ml-2">{{@response}}</button>
 <p></p>
  {{else}}
-
 <p></p>
 {{@question}} <span class="ml-2"> 
  <Input class="m-2 border-b border-gray-400" 

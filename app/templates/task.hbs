@@ -17,9 +17,12 @@ Back to {{@model.task.project.title}}
 
 
 {{#each @model.task.forms as |form|}}
+{{#if (eq form.rep 1) }}
 <FormCard @model={{form}}
+          @forms={{@model.task.forms}}
           @formTemplates={{@model.formTemplate}}
           />
+{{/if}}
 {{/each}}
 <CreateCard @list={{@model.formTemplate}} @modelName="form" @label="Add New Form"/>
 

@@ -72,6 +72,8 @@ export default class ApplicationRoute extends Route {
             title: 'Wildlife Survey',
             description: 'Record wildlife present',
             task: task,
+            rep: 1,
+            edit: false,
             templateId: formTemplate.id
           })
           form
