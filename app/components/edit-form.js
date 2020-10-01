@@ -38,9 +38,9 @@ export default class EditFormComponent extends Component {
     console.log(formTemplateId)
     let formTemplate = this.store.peekRecord('form-template', formTemplateId)
     let newQuestion = this.store.createRecord('question-template', {
-      question: 'Test',
+      question: '',
       type: '',
-      multiEntry: true,
+      multiEntry: false,
       formTemplate: formTemplate
     })
 

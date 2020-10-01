@@ -22,10 +22,8 @@
 </button>
 
 {{#if this.shows}}
-<div class="w-8 text-right block">
- 
+<div class="w-8 text-right block"> 
 <Menu @id={{@model.id}} @label="form" @title="..." @edit={{this.editForm}}/>
-
 </div>
 
 {{/if}}
@@ -51,9 +49,7 @@
 {{/each}} 
   <button formid={{@model.id}} type="submit"  {{on "click" this.addSelections}}>Submit form</button>
 </div>
-
 <p></p>
-
 <!-- 
  Display multi-entry responses\
 (from all forms with matching templateId?)
@@ -68,16 +64,10 @@
 {{question.response}}
 <p></p>
 {{/each}}
-
 {{/if}}
-
 {{/each}}
 
 </div>
-
-
-
-
 {{else}}
 <p></p>
 {{@question}}<button class="ml-2">{{@response}}</button>
