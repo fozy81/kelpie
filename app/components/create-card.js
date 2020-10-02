@@ -31,6 +31,10 @@ export default class CreateCardComponent extends Component {
     } else {
       model = this.args.modelName
     }
+    // Don't want empty/null name 
+    if(this.newName == '') {
+      return
+    }
     if (model == "project") {
       this.store.createRecord(model, {
         title: this.newName
