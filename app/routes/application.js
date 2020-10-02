@@ -20,7 +20,8 @@ export default class ApplicationRoute extends Route {
 
         let formTemplate = store.createRecord('form-template', {
           title: 'Wildlife Survey',
-          description: 'Record wildlife present'
+          description: 'Record wildlife present',
+          multiEntry: true
         })
         formTemplate
           .save()
@@ -74,6 +75,7 @@ export default class ApplicationRoute extends Route {
             task: task,
             rep: 1,
             edit: false,
+            multiEntry: true,
             templateId: formTemplate.id
           })
           form

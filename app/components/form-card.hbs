@@ -1,19 +1,22 @@
-
+{{@model.multiEntry}}
 {{#if @model.edit}}
 
 {{#each @formTemplates as |formTemplate|}}
 {{#if (eq formTemplate.id @model.templateId)}}
-<EditForm @forms={{@model}} @edit={{this.editForm}} @formTemplate={{formTemplate}} />
+<EditForm 
+ @forms={{@model}}
+ @edit={{this.editForm}}
+ @formTemplate={{formTemplate}}
+/>
 {{/if}}
 {{/each}}
 {{else}}
 
-
-
 <div class="wrap flex">
-<div class="w-full h-auto m-2 p-2 shadow-md border-2 rounded-md
+<div class="w-full h-auto m-2 p-2 shadow-md
+            border-2 rounded-md
             border-teal-300 text-left">
-   <div class="wrap flex">         
+<div class="wrap flex">         
 <button type="button" class="w-full text-left"
             {{on "click" this.showQuestion}}
             > 
@@ -23,47 +26,49 @@
 
 {{#if this.shows}}
 <div class="w-8 text-right block"> 
-<Menu @id={{@model.id}} @label="form" @title="..." @edit={{this.editForm}}/>
+<Menu @id={{@model.id}}
+      @label="form" 
+      @title="..."
+      @edit={{this.editForm}}/>
 </div>
 
 {{/if}}
 </div>
 {{#if this.shows}}
-<div {{on "change" this.formChange}} {{ref this "formElement"}}>
-
+<div {{on "change" this.formChange}} 
+     {{ref this "formElement"}}>
 {{#each @model.questions as |question|}}
 
-<FormQuestion @question={{question.question}}
-              @rep={{question.rep}}              
-              @value={{question.response}} 
-              @formid={{@model.id}}
-              @type={{question.type}}
-              @multiEntry={{question.multiEntry}}
-              @response={{question.response}}
-              @id={{question.id}}
-              @model={{question}}  
+<FormQuestion @formid={{@model.id}}              
+              @question={{question}}  
               @input={{this.input}}            
               />
-
-
 {{/each}} 
-  <button formid={{@model.id}} type="submit"  {{on "click" this.addSelections}}>Submit form</button>
+
+<button
+ formid={{@model.id}}   
+ type="submit"
+ {{on "click" this.addSelections}}>Submit form
+</button>
 </div>
 <p></p>
 <!-- 
  Display multi-entry responses\
-(from all forms with matching templateId?)
+(from all forms with matching templateId)
 -->
 <div>
 {{#each @forms as |form|}}
-
-{{#if (eq form.templateId  @model.templateId)}}
-<hr>
+{{#if form.multiEntry}}
+{{#if (eq form.templateId  @model.templateId) }}
 {{#each form.questions as |question|}}
+{{#if question.response}}
 {{question.question}}
 {{question.response}}
 <p></p>
+{{/if}}
 {{/each}}
+<hr>
+{{/if}}
 {{/if}}
 {{/each}}
 

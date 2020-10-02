@@ -4,11 +4,12 @@ export default class FormModel extends Model {
 
     @attr title;
     @attr description;
-    @attr templateId;
-    @attr('string') rev;  
     @attr rep;
     @attr edit;
+    @attr multiEntry; 
     @belongsTo task;
     @hasMany questions;
+    @attr('string') rev;  
+
 
 }

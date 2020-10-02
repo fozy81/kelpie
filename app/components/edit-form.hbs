@@ -7,28 +7,44 @@
 <hr class="border-t-2 border-gray-400">
 <div class="font-bold p-2">
 Title <span class="ml-2"> 
- <Input class="m-2 w-30 border-b border-gray-400"
+ <Input
+ class="m-2 w-30 border-b border-gray-400"
  @value={{@formTemplate.title}}
- {{did-insert this.focus}}
-/></span>
+/> 
+</span>
 </div>
+
 <div class="font-bold p-2">
 Description <span class="ml-2"> 
  <Input class="m-2 w-30 border-b border-gray-400" 
+ id="vehicle1" name="vehicle1" 
 @value={{@formTemplate.description}}
+ {{did-insert this.focus}}
 /></span>
 </div>
+
+<div class="font-bold p-2">  
+Mutli-entry form <span class="ml-2"> 
+<Input class="m-2 w-30 border-b border-gray-400" 
+@type="checkbox"
+name="multiEntry"
+@checked={{@formTemplate.multiEntry}}
+/>
+</span>
+</div>
+
 <div class="font-bold p-2">
 {{#each @formTemplate.questionTemplates as |question|}}
 Question<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.question}}
+ {{did-insert this.focus}}
 /></span>
 Type<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.type}}
 /></span>
-
+<p></p>
 {{/each}}
 
 <AddQuestion @count={{this.count}} />  
@@ -37,12 +53,16 @@ Type<span class="ml-2">
 Add Question
 </button>
 
-<button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
-Cancel
+<button class="border-gray-400 border-2 p-2" {{on "click" this.saveForm}}>
+Save Form
 </button>
 
-<button class="border-gray-400 border-2 p-2" {{on "click" this.saveForm}}>
-Save
+<button class="border-gray-400 border-2 p-2" {{on "click" this.saveReplaceForm}}>
+Save & Replace Form
+</button>
+
+<button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
+Cancel
 </button>
 
 <p></p>

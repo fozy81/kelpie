@@ -73,7 +73,8 @@ export default class CreateCardComponent extends Component {
 
       let myTask = store.peekRecord('task', id);
       let formTemplate = store.createRecord('form-template', {
-        title: this.newName      
+        title: this.newName,
+        multiEntry: false    
       })
       formTemplate
         .save()
@@ -87,6 +88,7 @@ export default class CreateCardComponent extends Component {
           task: myTask,
           rep: 1,
           edit: true,
+          multiEntry: false,        
           templateId: formTemplate.id
         })
         form
@@ -112,7 +114,8 @@ export default class CreateCardComponent extends Component {
       title: formTemplate.title,
       description: formTemplate.description,
       rep: 1,
-      edit: false,     
+      edit: false,    
+      multiEntry: formTemplate.multiEntry, 
       templateId: formTemplate.id,
       task: myTask
     }

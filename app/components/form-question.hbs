@@ -1,11 +1,12 @@
 
 {{#if this.showField}}
-{{#if (eq @type "select")}}
-{{#if (eq @rep 1)}}
+{{#if (eq @question.type "select")}}
+{{#if (eq @question.rep 1)}}
 <p></p>
- <label for="insects">{{@question}}</label>
+ <label for="insects">{{@question.question}}</label>
 
-<select multientry={{@multiEntry}} id={{@id}} >
+<select multientry={{@question.multiEntry}}
+        id={{@question.id}} >
   <option selected="true" value="">--- pick ---</option>
   <option value="Robin">Robin</option>
   <option value="Fox">Fox</option>
@@ -16,51 +17,57 @@
 
 {{/if}}
 {{/if}}
-{{#if (eq @rep 1)}}
-{{#if (eq @type "input")}}
- {{#if @response}}
+{{#if (eq @question.rep 1)}}
+{{#if (eq @question.type "input")}}
+{{#if @question.response}}
 
-{{@question}}<button  {{on "click" (fn this.showInput value=@value)}} class="ml-2">{{@response}}</button>
+<!-- If response previously entered show input value--> 
+{{@question.question}}:
+<button 
+ class="ml-2 p-1 border border-gray-400"
+ {{on "click" (fn this.showInput value=@question.response)}}>
+ {{@question.response}}  
+</button>
 <p></p>
- {{else}}
+
+{{else}}
+
+ <!-- If response empty open empty input field--> 
 <p></p>
-{{@question}} <span class="ml-2"> 
+{{@question.question}} <span class="ml-2"> 
  <Input class="m-2 border-b border-gray-400" 
- id={{@id}}
- response={{if @multiEntry "" @response}}
+ id={{@question.id}}
+ response={{if @question.multiEntry "" @question.response}}
  @formid={{@formid}}
- @value={{if @multiEntry "" this.value}} 
- @showField={{if @response true}} 
+ @value={{if @question.multiEntry "" this.value}} 
+ @showField={{if @question.response true}} 
  /></span>
 <p></p>
+
  {{/if}}
-  {{/if}}
-  {{/if}}
- {{#if @response}}
- {{#if (eq @multiEntry false)}}
+ {{/if}}
+ {{/if}}
 
-{{/if}}
-{{/if}}
-
-
-
+<!-- If showField false open input with response --> 
 {{else}} 
 
 <p></p>
-{{@question}}
- <span class="ml-2"> 
+{{@question.question}}:
+ <!-- If multi-entry input value is emtpy --> 
+ <!-- 'response' attribute is used below as @value can be updated
+ but we roll back to saved response if 'X' cancel selected --> 
+ <span class="ml-2">    
  <Input class="m-2 border-b border-gray-400" 
- id={{@id}}
- response={{if @multiEntry "" @response}}
-
+ id={{@question.id}}
+ response={{if @question.multiEntry "" @question.response}}
  @formid={{@formid}}
- @value={{if @multiEntry ""  @response}}  />
+ @value={{if @question.multiEntry ""  @question.response}}  />
 
-  
-     <button class="p-2 font-bold"
-    {{on "click" (fn this.cancel)}}>X</button>
+<button class="p-2 font-bold"
+  {{on "click" (fn this.cancel)}}>X
+</button>
 </span>
-
+<p></p>
 {{/if}}
 
 {{yield}}

@@ -87,28 +87,31 @@ export default class CounterComponent extends Component {
   @action
   addSelections(event) {   
     event.preventDefault();   
-    console.log(this.formElement.childNodes)
-    
-    console.log(this.selectedOptions)
+    console.log(this.formElement.childNodes)    
+    console.log('select options' + this.selectedOptions)
     let selectedOptions = this.selectedOptions
     console.log("save data")
-    console.log(event.target.attributes.formid.value)
+    console.log('formid:' + event.target.attributes.formid.value)    
     let formid = event.target.attributes.formid.value
     let store = this.store
-    let currentForm = store.peekRecord('form', formid)    
+    let currentForm = store.peekRecord('form', formid) 
+    if(currentForm.multiEntry)  {
     store.createRecord('form', {
        title: currentForm.title,
        description: currentForm.description,
        templateId: currentForm.templateId,
+       multiEntry: currentForm.multiEntry,
        rep: 2,
        task: currentForm.task      
     }).save().then(function(newForm) {   
     selectedOptions.map(function (select) {
-      store.findRecord('question', select.id).then(function (question) {
+      console.log('question id: ' + select.id)
+      store.findRecord('question', select.id)
+      .then(function (question) {
         // if multiEntry
-        console.log(question.multiEntry)
+        console.log('multi-entry: ' + question.multiEntry)
         console.log(newForm.title)
-        if (question.response && question.multiEntry) {                   
+                         
           store.createRecord('question', {
             response: select.value,
             rep: true,            
@@ -118,15 +121,21 @@ export default class CounterComponent extends Component {
             multiEntry: question.multiEntry
           }).save()
       
-        } else {
-          // none multiEntry or first time multiEntry
-          question.response = select.value;
-          question.save();
-        }
+        }) 
       })
     })
-    }
-    )
+  }      
+   else {
+ 
+    selectedOptions.map(function (select) {
+      console.log(select.value)
+      store.findRecord('question', select.id)
+      .then(function (question) {
+        question.response = select.value
+        question.save()
+      })
+    })        
+  }
     
     // this.showQuestion() 
     this.showInput() 
