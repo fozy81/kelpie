@@ -26,5 +26,12 @@ export default class FormQuestionComponent extends Component {
     console.log(this.value)
   }
 
+  @action
+  focus(element) {
+    console.log(this.args.index)
+    if(this.args.index == 0) {
+    element.focus();
+    }
+  }
 
 }

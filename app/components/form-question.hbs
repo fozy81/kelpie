@@ -11,7 +11,7 @@
   <option value="Robin">Robin</option>
   <option value="Fox">Fox</option>
   <option value="Badger">Badger</option>
-  <option value="Hedgehog">Hedgehog</option>
+  <option value="Hedgehog">Hedgehog</option>  
 </select> 
 <p></p>
 
@@ -41,6 +41,7 @@
  @formid={{@formid}}
  @value={{if @question.multiEntry "" this.value}} 
  @showField={{if @question.response true}} 
+ {{did-insert this.focus}}
  /></span>
 <p></p>
 
@@ -61,7 +62,8 @@
  id={{@question.id}}
  response={{if @question.multiEntry "" @question.response}}
  @formid={{@formid}}
- @value={{if @question.multiEntry ""  @question.response}}  />
+ @value={{if @question.multiEntry ""  @question.response}} 
+  />
 
 <button class="p-2 font-bold"
   {{on "click" (fn this.cancel)}}>X
