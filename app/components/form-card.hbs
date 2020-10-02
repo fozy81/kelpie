@@ -38,7 +38,7 @@
      {{ref this "formElement"}}>
 {{#each @model.questions as |question index|}}
 
-<FormQuestion @formid={{@model.id}}              
+<FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
               @index={{index}}              

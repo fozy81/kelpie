@@ -1,9 +1,10 @@
 
 {{#if this.showField}}
-{{#if (eq @question.type "select")}}
 {{#if (eq @question.rep 1)}}
+{{#if (eq @question.type "select")}}
+
 <p></p>
- <label for="insects">{{@question.question}}</label>
+ <label for={{@question.question}}>{{@question.question}}</label>
 
 <select multientry={{@question.multiEntry}}
         id={{@question.id}} >
@@ -16,9 +17,8 @@
 <p></p>
 
 {{/if}}
-{{/if}}
-{{#if (eq @question.rep 1)}}
-{{#if (eq @question.type "input")}}
+
+{{#if (not-eq @question.type "select")}}
 {{#if @question.response}}
 
 <!-- If response previously entered show input value--> 
@@ -34,13 +34,15 @@
 
  <!-- If response empty open empty input field--> 
 <p></p>
+
 {{@question.question}} <span class="ml-2"> 
  <Input class="m-2 border-b border-gray-400" 
  id={{@question.id}}
  response={{if @question.multiEntry "" @question.response}}
- @formid={{@formid}}
+ @formid={{@form.id}}
  @value={{if @question.multiEntry "" this.value}} 
  @showField={{if @question.response true}} 
+ @type={{@question.type}}
  {{did-insert this.focus}}
  /></span>
 <p></p>
@@ -61,8 +63,9 @@
  <Input class="m-2 border-b border-gray-400" 
  id={{@question.id}}
  response={{if @question.multiEntry "" @question.response}}
- @formid={{@formid}}
- @value={{if @question.multiEntry ""  @question.response}} 
+ @formid={{@form.id}}
+ @value={{if @question.multiEntry ""  @question.response}}
+  @type={{@question.type}} 
   />
 
 <button class="p-2 font-bold"
