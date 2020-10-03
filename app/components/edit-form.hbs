@@ -41,13 +41,15 @@ Question<span class="ml-2">
  {{did-insert this.focus}}
 /></span>
 <p></p>
+<!--
 Type<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.type}} 
 /></span>
+-->
+<div {{on "change" this.formChange}} 
+     {{ref this "formElement"}}>
 
-
-<!--
 <label for={{question.type}}>Type</label>
 <select id={{question.id}} >
   <option selected="true" value="">--- pick ---</option>
@@ -57,7 +59,7 @@ Type<span class="ml-2">
   <option value="time">time</option>  
 </select> 
 <p></p>
--->
+</div>
 {{/each}}
 
 <AddQuestion @count={{this.count}} />  

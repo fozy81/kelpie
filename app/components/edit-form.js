@@ -19,27 +19,81 @@ export default class EditFormComponent extends Component {
     this.args.edit()
   }
 
+  @tracked selectedOptions = [];
+  @action
+  formChange(event) {
+
+    let selection = { id: event.target.id, value: event.target.value }   
+    if (this.selectedOptions.length === 0 ) {
+      this.selectedOptions.push(selection)
+    } else {
+      // eslint-disable-next-line no-inner-declarations
+      function changeDesc(value, id, selectedOptions) {
+        let found = false
+        for (var i = 0; i < selectedOptions.length; i++) {
+          if (selectedOptions[i].id === id) {
+            selectedOptions[i].value = value;
+            //break; Stop this loop, we found it!
+            found += true
+          }
+        }
+
+        if (found === false) {
+          selectedOptions = selectedOptions.push(selection)
+        }
+        return selectedOptions
+      }
+      let selectedOptions = this.selectedOptions
+      let options = changeDesc(event.target.value, event.target.id, selectedOptions);
+      this.selectedOptions = selectedOptions
+
+    }
+          console.log(this.selectedOptions)
+        
+  }
+
   @service router;
   @action
-  saveReplaceForm() {
+  saveReplaceForm(event) {
     event.preventDefault()
     let store = this.store
+    let selectedOptions = this.selectedOptions
     //save form template
     let formTemplateId = this.args.formTemplate.id
-    store.findRecord('form-template', formTemplateId).then(function (formTemplate) {
+    store.findRecord('form-template', formTemplateId).then(
+      function (formTemplate) {
+      // convert checkbox string to boolean
       if(formTemplate.multiEntry === 'true') {
         formTemplate.multiEntry = true
       } else {
         formTemplate.multiEntry = false
       }
-      formTemplate.save();
+     
+      formTemplate.save().then(function(formTemplates) {
+
+      // For question type 'dropdown' select options:
+     let questionTemplates = formTemplates.questionTemplates;
+        questionTemplates.map(function(question, index) {
+       console.log(question.id)
+        store.findRecord('question-template', question.id).then( 
+        function(questionTemplate) {
+          console.log('questiontemplate: ' + questionTemplate.question)
+          questionTemplate.type = selectedOptions[index].value
+          
+          questionTemplate.save()
+        })
+       
+     })
+    })
     })   
-    // update remove existing form?
+     
+
+    // remove existing formlet questionTemplates = formTemplate.questionTemplates 
     let formId  = this.args.forms.id
     
     let form = store.peekRecord('form', formId);
     form.destroyRecord();
-    // add new form?
+    // add new form
     const taskId = this.router.currentRoute.params.task_id
     console.log(taskId)
     let myTask = store.peekRecord('task', taskId);
@@ -60,6 +114,7 @@ export default class EditFormComponent extends Component {
       let myForm = store.peekRecord('form', form.id);
       questionTemplates.map(function(questionTemplate) {
         console.log('question: ' + questionTemplate.question)
+        console.log('type: ' + questionTemplate.type)
         let question = store.createRecord('question', {
           question: questionTemplate.question,
           response: questionTemplate.response,

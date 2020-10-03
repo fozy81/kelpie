@@ -4,7 +4,7 @@
             shadow-md border-gray-400
             bg-gray-200">
 
-Name 
+Title 
 <Input class="shadow-md border-2 border-gray-400" 
 @placeholder="Name"
 {{did-insert this.focus}}
@@ -37,9 +37,9 @@ Name
             shadow-md border-gray-400
             bg-gray-200">
   <button class="w-full text-left"
-    {{on "keyup" this.showCard}}
     {{on "click" this.showCard}}
-  {{on "focusout" this.showCard}}
+    {{on "keyup" this.showCard}}
+    {{on "focusout" this.showCard}}
  
   > 
    {{@label}}
