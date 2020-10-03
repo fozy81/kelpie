@@ -33,35 +33,39 @@ name="multiEntry"
 </span>
 </div>
 
+{{#each @formTemplate.questionTemplates as |question index|}}
 <div class="font-bold p-2">
-{{#each @formTemplate.questionTemplates as |question|}}
 Question<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{question.question}}
  {{did-insert this.focus}}
 /></span>
 <p></p>
-<!--
-Type<span class="ml-2">
-<Input class="m-2 w-30 border-b border-gray-400" 
-@value={{question.type}} 
-/></span>
--->
+{{#if (and question.type (not-eq this.showField index))}}
+Type: 
+<button 
+ class="ml-2 p-1 border border-gray-400"
+ {{on "click" (fn this.showInput index)}}>
+ {{question.type}}  
+</button>
+{{else}}
+
 <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}>
 
 <label for={{question.type}}>Type</label>
 <select id={{question.id}} >
-  <option selected="true" value="">--- pick ---</option>
-  <option value="input">text</option>
+  <option selected="true" value="text">text</option>
   <option value="number">number</option>
   <option value="date">date</option>
   <option value="time">time</option>  
+  <option value="select">select</option>  
 </select> 
-<p></p>
+</div>
+{{/if}}
 </div>
 {{/each}}
-
+<div class="p-2">
 <AddQuestion @count={{this.count}} />  
 
 <p></p><button class="border-gray-400 border-2 p-2" {{on "click" this.addQuestion}}>
@@ -79,11 +83,11 @@ Save & Replace Form
 <button {{on "click" @edit}} class="border-gray-400 border-2 p-2">
 Cancel
 </button>
-
+</div>
 <p></p>
 </div>
 </div>
-</div>
+
 
 
 {{yield}}
