@@ -55,7 +55,7 @@
 </div>
 
 <!-- 
- Display multi-entry responses\
+ Display multi-entry responses
 (from all forms with matching templateId)
 -->
 
@@ -63,10 +63,17 @@
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
 <div>
-{{#each form.questions as |question|}}
+{{#each form.questions as |question index|}}
 {{#if question.response}}
-{{question.question}}
-{{question.response}}
+
+<FormQuestion @form={{@model}}                         
+              @question={{question}}  
+              @input={{this.input}}
+              @index={{index}}
+              @display={{true}}   
+              @addSelections={{this.addSelections}}
+              />
+
 <p></p>
 {{/if}}
 {{/each}}

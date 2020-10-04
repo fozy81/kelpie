@@ -1,6 +1,18 @@
 
+{{#if (and @display this.showField)}}
+<!-- If response previously entered show input value--> 
+{{@question.question}}:
+<button 
+ class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
+ {{on "click" (fn this.showInput value=@question.response)}}>
+ {{@question.response}}  
+</button>
+<p></p>
+{{/if}}
+
 {{#if this.showField}}
 {{#if (eq @question.rep 1)}}
+{{#if @question.multiEntry}}
 {{#if (eq @question.type "select")}}
 
 <p></p>
@@ -17,21 +29,23 @@
 <p></p>
 
 {{/if}}
+{{/if}}
 
-{{#if (not-eq @question.type "select")}}
 {{#if @question.response}}
 
 <!-- If response previously entered show input value--> 
 {{@question.question}}:
 <button 
- class="ml-2 p-1 border border-gray-400"
+ class="ml-2 mb-1 p-1 px-3 border border-gray-400 rounded-sm"
  {{on "click" (fn this.showInput value=@question.response)}}>
  {{@question.response}}  
 </button>
 <p></p>
 
+
 {{else}}
 
+{{#if (not-eq @question.type "select")}}
  <!-- If response empty open empty input field--> 
 <p></p>
 
@@ -46,21 +60,35 @@
  {{did-insert this.focus}}
  /></span>
 <p></p>
+{{/if}}
+ {{/if}}
+ {{/if}}
 
- {{/if}}
- {{/if}}
- {{/if}}
 
 <!-- If showField false open input with response --> 
 {{else}} 
+ <span class="ml-2">  
+{{#if (eq @question.type "select")}} 
 
-<p></p>
+ <label for={{@question.question}}>{{@question.question}}</label>
+<select multientry={{@question.multiEntry}}
+        id={{@question.id}} >
+  <option selected="true" value="">--- pick ---</option>
+  <option value="Robin">Robin</option>
+  <option value="Fox">Fox</option>
+  <option value="Badger">Badger</option>
+  <option value="Hedgehog">Hedgehog</option>  
+</select> 
+<button class="p-2 font-bold"
+  {{on "click" (fn this.showInput )}}>X
+</button>
+{{else}}
+
 {{@question.question}}:
  <!-- If multi-entry input value is emtpy --> 
  <!-- 'response' attribute is used below as @value can be updated
- but we roll back to saved response if 'X' cancel selected --> 
- <span class="ml-2">    
- <Input class="m-2 border-b border-gray-400" 
+ but we roll back to saved response if 'X' cancel selected -->  
+ <Input class="m-2 border-b border-gray-400 w-2/5" 
  id={{@question.id}}
  response={{if @question.multiEntry "" @question.response}}
  @formid={{@form.id}}
@@ -69,10 +97,20 @@
   />
 
 <button class="p-2 font-bold"
-  {{on "click" (fn this.cancel)}}>X
+  {{on "click" (fn this.showInput )}}>X
 </button>
+
+{{/if}}
+{{#if @display}}
+<button  
+ formid={{@form.id}}   
+ type="submit"
+ {{on "click" (fn @addSelections)}}>Update
+</button>
+<p></p>
+
+{{/if}}
 </span>
 <p></p>
 {{/if}}
-
 {{yield}}
