@@ -38,19 +38,34 @@
      {{ref this "formElement"}}>
 {{#each @model.questions as |question index|}}
 
+
+
 <FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
-              @index={{index}}              
+              @index={{index}} 
+              @hideEditQuestion={{this.hideEditQuestion}}              
+              @display={{false}}    
+              @update={{false}}      
               />
 
 {{/each}} 
 
+<!--
+<SubmitButton @model={{@model}} 
+              @update="false"
+              @add={{this.addSelections}} />
+-->
+
+<div class="grid grid-cols-1">
 <button
- formid={{@model.id}}   
- type="submit"
- {{on "click" this.addSelections}}>Submit form
+class="place-content-center mb-1 p-1 rounded-md bg-indigo-800 text-white font-bold"
+ formid={{@model.id}}  
+ update="false"
+ type="submit" 
+ {{on "click" this.addSelections}}>Submit Form
 </button>
+</div>
 <p></p>
 </div>
 
@@ -59,10 +74,16 @@
 (from all forms with matching templateId)
 -->
 
-{{#each @forms as |form|}}
+{{#each @forms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
-<div>
+<div class="wrap flex">
+<div class="w-full h-auto border border-teal-500 m-1 rounded-md">
+<div class="wrap flex">  
+<button class="w-full text-left block"  {{on "click" (fn this.showMenu index)}}>
+
+<div {{on "change" this.formChange}} 
+     {{ref this "formElement"}}>    
 {{#each form.questions as |question index|}}
 {{#if question.response}}
 
@@ -72,12 +93,27 @@
               @index={{index}}
               @display={{true}}   
               @addSelections={{this.addSelections}}
+              @update={{true}}
+              @hideEditQuestion={{this.hideEditQuestion}}
               />
 
 <p></p>
 {{/if}}
 {{/each}}
-<hr>
+
+</div>
+</button>
+      {{#if (eq this.menu index)}}
+<div class="w-8 text-right block"> 
+<Menu @id={{form.id}}
+      @label="form" 
+      @title="..."
+      @edit={{this.editForm}}/>
+</div>
+
+{{/if}}
+</div>
+</div>
 </div>
 {{/if}}
 {{/if}}

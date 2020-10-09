@@ -1,0 +1,15 @@
+
+
+<!-- Display question active for entry -->
+{{#if (or (eq @question.response false) 
+              @questoin.multiEntry) }}
+
+
+{{@question.question}}:
+
+
+{{/if}}
+
+
+
+{{yield}}

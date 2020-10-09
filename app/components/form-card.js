@@ -18,6 +18,15 @@ export default class CounterComponent extends Component {
 
   }
 
+  @tracked menu = "";
+  @action
+  showMenu(index) {
+    event.preventDefault()
+    this.menu = index
+    console.log("menu: " + this.menu)
+
+  }
+
   @tracked shows = false;
   @action
   showQuestion() {
@@ -52,6 +61,7 @@ export default class CounterComponent extends Component {
 
 
   @tracked selectedOptions = [];
+  @tracked hideEditQuestion = true;
   @action
   formChange(event) {
 
@@ -81,21 +91,25 @@ export default class CounterComponent extends Component {
 
     }
           console.log(this.selectedOptions)
-        
+          this.hideEditQuestion !=  this.hideEditQuestion
+          console.log('hideEditQuestion: ' + this.hideEditQuestion)
   }
 
   @action
   addSelections(event) {   
-    event.preventDefault();   
+    event.preventDefault();  
+    console.log(event)  
     console.log(this.formElement.childNodes)    
-    console.log('select options' + this.selectedOptions)
+    console.log('select options: ' + this.selectedOptions)
     let selectedOptions = this.selectedOptions
     console.log("save data")
     console.log('formid:' + event.target.attributes.formid.value)    
     let formid = event.target.attributes.formid.value
     let store = this.store
     let currentForm = store.peekRecord('form', formid) 
-    if(currentForm.multiEntry)  {
+     let update = event.target.attributes.update.value
+    console.log('update ' + update)
+    if(currentForm.multiEntry && update === "false")  {
     store.createRecord('form', {
        title: currentForm.title,
        description: currentForm.description,
@@ -136,10 +150,12 @@ export default class CounterComponent extends Component {
       })
     })        
   }
-    
+  console.log(this.selectedOptions)
+  this.hideEditQuestion = false
+  console.log('hideEditQuestion: ' + this.hideEditQuestion)
     // this.showQuestion() 
     this.showInput() 
-    this.showInput() 
+   // this.showInput() 
   }
 
   @tracked input = true

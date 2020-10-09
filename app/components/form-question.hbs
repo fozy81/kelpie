@@ -1,116 +1,169 @@
 
-{{#if (and @display this.showField)}}
-<!-- If response previously entered show input value--> 
-{{@question.question}}:
-<button 
- class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
- {{on "click" (fn this.showInput value=@question.response)}}>
- {{@question.response}}  
-</button>
-<p></p>
-{{/if}}
+<!-- ######## MULTIENTRY QUESTION ################################ -->
 
-{{#if this.showField}}
-{{#if (eq @question.rep 1)}}
 {{#if @question.multiEntry}}
-{{#if (eq @question.type "select")}}
-
-<p></p>
- <label for={{@question.question}}>{{@question.question}}</label>
-
-<select multientry={{@question.multiEntry}}
-        id={{@question.id}} >
-  <option selected="true" value="">--- pick ---</option>
-  <option value="Robin">Robin</option>
-  <option value="Fox">Fox</option>
-  <option value="Badger">Badger</option>
-  <option value="Hedgehog">Hedgehog</option>  
-</select> 
-<p></p>
-
+  <!-- ### REP 1 (first form in task) ### -->
+  {{#if (and (eq @question.rep 1) (eq @display false))}}
+    {{#if (eq @question.type "select")}}
+      <p></p>
+      <label for={{@question.question}}>{{@question.question}}</label>
+      <select multientry={{@question.multiEntry}}
+              id={{@question.id}} >
+        <option selected="true" value="">--- pick ---</option>
+        <option value="Robin">Robin</option>
+        <option value="Fox">Fox</option>
+        <option value="Badger">Badger</option>
+        <option value="Hedgehog">Hedgehog</option>  
+      </select> 
+      <p></p>
+    <!-- If mulitEntry question type not 'select': -->
+    {{#if (not-eq @question.type "select")}}
+      <p></p>
+      {{@question.question}} <span class="ml-2"> 
+      <Input class="m-2 border-b border-gray-400" 
+      id={{@question.id}}
+      response={{if @question.multiEntry "" @question.response}}
+      @formid={{true}}
+      @update={{@update}}
+      @value={{if @question.multiEntry "" this.value}} 
+      @showField={{if @question.response true}} 
+      @type={{@question.type}}
+      {{did-insert this.focus}}
+      /></span>
+      <p></p>
+    {{/if}}
+    {{/if}}
+    <!-- If @display true then rendered button --> 
+  {{else}}
+   {{#if (and @display this.showField)}} 
+     {{@question.question}}:
+     <button 
+     class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
+     {{on "click" (fn this.showInput value=@question.response)}}>
+     {{@question.response}}  
+    </button>
+    <p></p> 
+   {{/if}}  
+   {{#if (and @display (eq this.showField false))}} 
+    {{#if (eq @question.type "select")}} 
+     <label for={{@question.question}}>{{@question.question}}</label>
+     <select multientry={{@question.multiEntry}}
+             id={{@question.id}} >
+      <option selected="true" value="">--- pick ---</option>
+      <option value="Robin">Robin</option>
+      <option value="Fox">Fox</option>
+      <option value="Badger">Badger</option>
+      <option value="Hedgehog">Hedgehog</option>  
+      </select> 
+      <button class="p-2 font-bold"
+      {{on "click" (fn this.showInput )}}>X
+      </button>
+    {{else}} 
+      <p></p>
+      {{@question.question}} <span class="ml-2"> 
+      <Input class="m-2 border-b border-gray-400" 
+      id={{@question.id}}
+      response={{if @question.multiEntry "" @question.response}}
+      @formid={{true}}
+      @update={{true}}
+      @value={{if @question.multiEntry "" this.value}} 
+      @showField={{if @question.response true}} 
+      @type={{@question.type}}
+      {{did-insert this.focus}}
+      /></span>
+      <p></p>
+    {{/if}}
+      <button  
+      formid={{@form.id}} 
+      update="true"         
+      type="submit"
+      form="false"
+      {{on "click" (fn @addSelections)}}>Update
+      </button>
+      <p></p>
+    {{/if}}
+  {{/if}}
 {{/if}}
+
+
+<!-- ############ SINGLE ENTRY QUESTION ####################### -->
+<!-- ### On first entry ### -->
+{{#if (eq @question.multiEntry false)}}
+  {{#if this.showField}}  
+    {{#if (eq @question.response '')}}       
+      {{#if (eq @question.type "select")}}
+        <p></p>
+        <label for={{@question.question}}>{{@question.question}}</label>
+        <select multientry={{@question.multiEntry}}
+              id={{@question.id}} >
+          <option selected="true" value="">--- pick ---</option>
+          <option value="Robin">Robin</option>
+          <option value="Fox">Fox</option>
+          <option value="Badger">Badger</option>
+          <option value="Hedgehog">Hedgehog</option>   
+        </select> 
+        <p></p>
+      {{else}}
+        <p></p>
+        {{@question.question}} <span class="ml-2"> 
+        <Input class="m-2 border-b border-gray-400" 
+        id={{@question.id}}
+        response={{if @question.multiEntry "" @question.response}}
+        @formid={{@form.id}}
+        @update={{false}}
+        @value={{if @question.multiEntry "" this.value}} 
+        @showField={{if @question.response true}} 
+        @type={{@question.type}}
+        {{did-insert this.focus}}
+        /></span>
+        <p></p>
+      {{/if}}
+    {{/if}}
+    {{#if @question.response}}
+    <!-- ### If response entered #### -->
+    {{@question.question}}:
+    <button 
+     class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
+     {{on "click" (fn this.showInput value=@question.response)}}>
+     {{@question.response}}  
+    </button>
+    <p></p>    
+    {{/if}}
+  {{/if}}
+  <!-- ### On update #### -->
+  {{#if (eq this.showField false)}} 
+    {{#if (eq @question.type "select")}} 
+     <label for={{@question.question}}>{{@question.question}}</label>
+     <select multientry={{@question.multiEntry}}
+             id={{@question.id}} >
+      <option selected="true" value="">--- pick ---</option>
+      <option value="Robin">Robin</option>
+      <option value="Fox">Fox</option>
+      <option value="Badger">Badger</option>
+      <option value="Hedgehog">Hedgehog</option>  
+      </select> 
+      <button class="p-2 font-bold"
+      {{on "click" (fn this.showInput )}}>X
+      </button>
+    {{else}} 
+      <p></p>
+      {{@question.question}} <span class="ml-2"> 
+      <Input class="m-2 border-b border-gray-400" 
+      id={{@question.id}}
+      response={{if @question.multiEntry "" @question.response}}
+      @formid={{false}}
+      @update={{@update}}
+      @value={{if @question.multiEntry "" this.value}} 
+      @showField={{if @question.response true}} 
+      @type={{@question.type}}
+      {{did-insert this.focus}}
+      /> </span>
+       <button class="p-2 font-bold"
+      {{on "click" (fn this.showInput )}}>X
+      </button>    
+      <p></p>
+    {{/if}}  
+  {{/if}}
 {{/if}}
 
-{{#if @question.response}}
-
-<!-- If response previously entered show input value--> 
-{{@question.question}}:
-<button 
- class="ml-2 mb-1 p-1 px-3 border border-gray-400 rounded-sm"
- {{on "click" (fn this.showInput value=@question.response)}}>
- {{@question.response}}  
-</button>
-<p></p>
-
-
-{{else}}
-
-{{#if (not-eq @question.type "select")}}
- <!-- If response empty open empty input field--> 
-<p></p>
-
-{{@question.question}} <span class="ml-2"> 
- <Input class="m-2 border-b border-gray-400" 
- id={{@question.id}}
- response={{if @question.multiEntry "" @question.response}}
- @formid={{@form.id}}
- @value={{if @question.multiEntry "" this.value}} 
- @showField={{if @question.response true}} 
- @type={{@question.type}}
- {{did-insert this.focus}}
- /></span>
-<p></p>
-{{/if}}
- {{/if}}
- {{/if}}
-
-
-<!-- If showField false open input with response --> 
-{{else}} 
- <span class="ml-2">  
-{{#if (eq @question.type "select")}} 
-
- <label for={{@question.question}}>{{@question.question}}</label>
-<select multientry={{@question.multiEntry}}
-        id={{@question.id}} >
-  <option selected="true" value="">--- pick ---</option>
-  <option value="Robin">Robin</option>
-  <option value="Fox">Fox</option>
-  <option value="Badger">Badger</option>
-  <option value="Hedgehog">Hedgehog</option>  
-</select> 
-<button class="p-2 font-bold"
-  {{on "click" (fn this.showInput )}}>X
-</button>
-{{else}}
-
-{{@question.question}}:
- <!-- If multi-entry input value is emtpy --> 
- <!-- 'response' attribute is used below as @value can be updated
- but we roll back to saved response if 'X' cancel selected -->  
- <Input class="m-2 border-b border-gray-400 w-2/5" 
- id={{@question.id}}
- response={{if @question.multiEntry "" @question.response}}
- @formid={{@form.id}}
- @value={{if @question.multiEntry ""  @question.response}}
-  @type={{@question.type}} 
-  />
-
-<button class="p-2 font-bold"
-  {{on "click" (fn this.showInput )}}>X
-</button>
-
-{{/if}}
-{{#if @display}}
-<button  
- formid={{@form.id}}   
- type="submit"
- {{on "click" (fn @addSelections)}}>Update
-</button>
-<p></p>
-
-{{/if}}
-</span>
-<p></p>
-{{/if}}
 {{yield}}

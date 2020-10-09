@@ -117,7 +117,7 @@ export default class EditFormComponent extends Component {
           console.log('type: ' + questionTemplate.type)
           let question = store.createRecord('question', {
             question: questionTemplate.question,
-            response: questionTemplate.response,
+            response: '',
             rep: 1,
             multiEntry: questionTemplate.multiEntry,
             type: questionTemplate.type,
