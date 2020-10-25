@@ -2,8 +2,8 @@
 <!-- ######## MULTIENTRY QUESTION ################################ -->
 
 {{#if @question.multiEntry}}
-  <!-- ### REP 1 (first form in task) ### -->
-  {{#if (and (eq @question.rep 1) (eq @display false))}}
+  <!-- ### Index 1 (first form in task) ### -->
+  {{#if (and (eq @index 0) (eq @display false))}}
     {{#if (eq @question.type "select")}}
       <p></p>
       <label for={{@question.question}}>{{@question.question}}</label>
@@ -17,25 +17,23 @@
       </select> 
       <p></p>
     <!-- If mulitEntry question type not 'select': -->
-    {{#if (not-eq @question.type "select")}}
+    {{else}}
       <p></p>
       {{@question.question}} <span class="ml-2"> 
       <Input class="m-2 border-b border-gray-400" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
-      @formid={{true}}
-      @update={{@update}}
+      @formid={{true}}      
       @value={{if @question.multiEntry "" this.value}} 
       @showField={{if @question.response true}} 
       @type={{@question.type}}
       {{did-insert this.focus}}
       /></span>
-      <p></p>
-    {{/if}}
+      <p></p>    
     {{/if}}
     <!-- If @display true then rendered button --> 
   {{else}}
-   {{#if (and @display this.showField)}} 
+   {{#if (and @display this.showField)}}    
      {{@question.question}}:
      <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
@@ -44,7 +42,7 @@
     </button>
     <p></p> 
    {{/if}}  
-   {{#if (and @display (eq this.showField false))}} 
+   {{#if (and @display (eq this.showField false))}}        
     {{#if (eq @question.type "select")}} 
      <label for={{@question.question}}>{{@question.question}}</label>
      <select multientry={{@question.multiEntry}}
@@ -59,13 +57,12 @@
       {{on "click" (fn this.showInput )}}>X
       </button>
     {{else}} 
-      <p></p>
+      <p></p>      
       {{@question.question}} <span class="ml-2"> 
       <Input class="m-2 border-b border-gray-400" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
-      @formid={{true}}
-      @update={{true}}
+      @formid={{true}}      
       @value={{if @question.multiEntry "" this.value}} 
       @showField={{if @question.response true}} 
       @type={{@question.type}}
@@ -109,8 +106,7 @@
         <Input class="m-2 border-b border-gray-400" 
         id={{@question.id}}
         response={{if @question.multiEntry "" @question.response}}
-        @formid={{@form.id}}
-        @update={{false}}
+        @formid={{@form.id}}        
         @value={{if @question.multiEntry "" this.value}} 
         @showField={{if @question.response true}} 
         @type={{@question.type}}
@@ -145,14 +141,13 @@
       <button class="p-2 font-bold"
       {{on "click" (fn this.showInput )}}>X
       </button>
-    {{else}} 
+    {{else}}     
       <p></p>
       {{@question.question}} <span class="ml-2"> 
       <Input class="m-2 border-b border-gray-400" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
-      @formid={{false}}
-      @update={{@update}}
+      @formid={{false}}      
       @value={{if @question.multiEntry "" this.value}} 
       @showField={{if @question.response true}} 
       @type={{@question.type}}

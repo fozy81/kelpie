@@ -81,8 +81,7 @@ export default class EditFormComponent extends Component {
         store.findRecord('question-template', question.id).then( 
         function(questionTemplate) {
           console.log('questiontemplate: ' + questionTemplate.question)
-          questionTemplate.type = selectedOptions[index].value
-          
+          questionTemplate.type = selectedOptions[index].value          
           questionTemplate.save()
         })
        
@@ -114,12 +113,12 @@ export default class EditFormComponent extends Component {
         let myForm = store.peekRecord('form', form.id);
         questionTemplates.map(function(questionTemplate) {
           console.log('question: ' + questionTemplate.question)
-          console.log('type: ' + questionTemplate.type)
+          console.log('multi-entry? : ' + myForm.multiEntry)
           let question = store.createRecord('question', {
             question: questionTemplate.question,
             response: '',
             rep: 1,
-            multiEntry: questionTemplate.multiEntry,
+            multiEntry: myForm.multiEntry,
             type: questionTemplate.type,
             form: myForm
           })

@@ -1,3 +1,4 @@
+{{@model.title}}
 {{#if @model.edit}}
 
 {{#each @formTemplates as |formTemplate|}}
@@ -38,7 +39,7 @@
      {{ref this "formElement"}}>
 {{#each @model.questions as |question index|}}
 
-
+{{index}}
 
 <FormQuestion @form={{@model}}              
               @question={{question}}  
@@ -46,7 +47,7 @@
               @index={{index}} 
               @hideEditQuestion={{this.hideEditQuestion}}              
               @display={{false}}    
-              @update={{false}}      
+              @update={{index}}      
               />
 
 {{/each}} 
@@ -73,12 +74,11 @@ class="place-content-center mb-1 p-1 rounded-md bg-indigo-800 text-white font-bo
  Display multi-entry responses
 (from all forms with matching templateId)
 -->
-
 {{#each @forms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
 <div class="wrap flex">
-<div class="w-full h-auto border border-teal-500 m-1 rounded-md">
+<div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">
 <div class="wrap flex">  
 <button class="w-full text-left block"  {{on "click" (fn this.showMenu index)}}>
 

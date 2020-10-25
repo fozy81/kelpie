@@ -108,8 +108,14 @@ export default class CounterComponent extends Component {
     let store = this.store
     let currentForm = store.peekRecord('form', formid) 
      let update = event.target.attributes.update.value
+     console.log('update: ' + update)
+     console.log('rep: ' +  currentForm.rep)
     console.log('update ' + update)
-    if(currentForm.multiEntry && update === "false")  {
+    if(currentForm.multiEntry
+       && update === "false" &&
+       currentForm.rep != 1
+
+       ) {
     store.createRecord('form', {
        title: currentForm.title,
        description: currentForm.description,
@@ -139,8 +145,14 @@ export default class CounterComponent extends Component {
       })
     })
   }      
-   else {
- 
+   else {    
+   // update form (don't create new form)
+   store.findRecord('form', formid)
+       .then(function(form) {
+        form.rep = 2
+        form.save()
+       })
+   
     selectedOptions.map(function (select) {
       console.log(select.value)
       store.findRecord('question', select.id)
@@ -148,7 +160,7 @@ export default class CounterComponent extends Component {
         question.response = select.value
         question.save()
       })
-    })        
+    })      
   }
   console.log(this.selectedOptions)
   this.hideEditQuestion = false
