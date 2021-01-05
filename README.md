@@ -1,7 +1,8 @@
 # Kelpie
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Kelpie aims to be a prototype/demo app for planning and recording survey data either on or offline. Full of bugs and hacks...just a testbed for tinkering with js, ember, pouch, html, css, linting...
+
+See [Demo](https://kelpie.netlify.app)
 
 ## Prerequisites
 
