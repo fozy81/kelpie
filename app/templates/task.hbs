@@ -12,18 +12,20 @@ Back to {{@model.task.project.title}}
 
 
 <div class="font-bold">Task: {{@model.task.title}}</div>
+
+
+
+  {{#each @model.task.forms as | allform|}}    
+   {{allform.title}}
+  {{/each}}
+
 </div>
 
+<Forms 
+       @forms={{@model.task.forms}}
+       @formTemplates={{@model.formTemplate}}/>
 
 
-{{#each @model.task.forms as |form|}}
-{{#if (eq form.rep 1) }}
-<FormCard @model={{form}}
-          @forms={{@model.task.forms}}
-          @formTemplates={{@model.formTemplate}}
-          />
-{{/if}}
-{{/each}}
 <CreateCard @list={{@model.formTemplate}} @modelName="form" @label="Add New Form"/>
 
 

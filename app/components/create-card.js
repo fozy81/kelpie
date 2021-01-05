@@ -77,18 +77,29 @@ export default class CreateCardComponent extends Component {
 
       let myTask = store.peekRecord('task', id);
       let formTemplate = store.createRecord('form-template', {
-        title: this.newName,
-        multiEntry: false    
+        title: newName,
+        description: '',
+        rep: '',
+        edit: true,
+        multEntry: false    
       })
       formTemplate
         .save()
         .then(addForm)
         .catch(failure);
 
+       function refresh() { 
+        location.reload(true)
+       }
+
+      
+
       function addForm(formTemplate) {
         // add form template to form record
+        console.log('creating new form')
         let form = store.createRecord(model, {
           title: newName,
+          description: '',
           task: myTask,
           rep: 1,
           edit: true,
@@ -97,17 +108,24 @@ export default class CreateCardComponent extends Component {
         })
         form
           .save()
-          .catch(failure);
+          .then(refresh)
+          .catch(failure);          
       }
       this.show = !this.show
+   
     }
 
     this.newName = ""
+    
   }
 
 
   @action
   addFormTemplate(id) {
+    function refresh() { 
+      location.reload(true)
+     }
+
     const router = this.router
     const store = this.store
     const taskId = router.currentRoute.params.task_id
@@ -124,8 +142,11 @@ export default class CreateCardComponent extends Component {
       task: myTask
     }
     )
-    formRecord.save().then(function(form) {
-      console.log(form.templateId)
+    formRecord
+      .save()
+      .then(function(form) {
+      console.log('form id:' + form.templateId)
+      console.log('template questions:' + formTemplate.questionTemplates )
       let questionTemplates = formTemplate.questionTemplates      
       let myForm = store.peekRecord('form', form.id);
       questionTemplates.map(function(questionTemplate) {
@@ -138,11 +159,11 @@ export default class CreateCardComponent extends Component {
           type: questionTemplate.type,
           form: myForm
         })
-        question.save()
+        question.save()        
       })
-    })
+    }).then(refresh)
 
 
-    this.show = !this.show
+    this.show = !this.show    
   }
 }

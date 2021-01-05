@@ -9,7 +9,7 @@ export default class FormModel extends Model {
     @attr multiEntry; 
     @attr templateId;
     @belongsTo task;
-     @hasMany questions;
+    @hasMany questions;
     @attr('string') rev;  
 
 

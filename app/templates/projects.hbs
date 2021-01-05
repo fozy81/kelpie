@@ -1,15 +1,11 @@
-
-
 <div class="flex wrap"><h2 class="py-2 m-1 flex-1">Recents </h2>
 <div class="relative">
     <Menu @label="projects" class="flex-1" @title="...Show menu"/></div></div>
 
-
-
-{{#each model as |project|}}
-
+{{#each model as |project index|}}
+{{#if (lt index 3)}}
 <Card @route="project" @model={{project.id}} @title={{project.title}}/>
-
+{{/if}}
 {{/each}}
 
 
@@ -22,7 +18,7 @@
 
 {{/each}}
 
-<CreateCard @list={{this.list}} @label="Show more"/>
+
 
 
 {{outlet}}

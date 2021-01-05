@@ -155,6 +155,7 @@ export default class CounterComponent extends Component {
    
     selectedOptions.map(function (select) {
       console.log(select.value)
+      console.log('selectid' + select.id)
       store.findRecord('question', select.id)
       .then(function (question) {
         question.response = select.value
@@ -167,7 +168,7 @@ export default class CounterComponent extends Component {
   console.log('hideEditQuestion: ' + this.hideEditQuestion)
     // this.showQuestion() 
     this.showInput() 
-   // this.showInput() 
+   this.showInput() 
   }
 
   @tracked input = true
@@ -176,7 +177,5 @@ export default class CounterComponent extends Component {
     this.input = !this.input
     console.log(this.input)
   }
-
-
 
 }

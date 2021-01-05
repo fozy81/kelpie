@@ -55,6 +55,10 @@ export default class EditFormComponent extends Component {
   @service router;
   @action
   saveReplaceForm(event) {
+    function refresh() { 
+      location.reload(true)
+     }
+
     event.preventDefault()
     let store = this.store
     let args = this.args
@@ -124,7 +128,7 @@ export default class EditFormComponent extends Component {
           })
           question.save()
         })
-      })
+      }).then(refresh)
     })   
      
 

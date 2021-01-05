@@ -3,7 +3,7 @@
 
 {{#if @question.multiEntry}}
   <!-- ### Index 1 (first form in task) ### -->
-  {{#if (and (eq @index 0) (eq @display false))}}
+  {{#if   (eq @display false)}}
     {{#if (eq @question.type "select")}}
       <p></p>
       <label for={{@question.question}}>{{@question.question}}</label>
@@ -87,7 +87,7 @@
 <!-- ### On first entry ### -->
 {{#if (eq @question.multiEntry false)}}
   {{#if this.showField}}  
-    {{#if (eq @question.response '')}}       
+    {{#if (eq @question.response '')}}        
       {{#if (eq @question.type "select")}}
         <p></p>
         <label for={{@question.question}}>{{@question.question}}</label>
@@ -114,8 +114,8 @@
         /></span>
         <p></p>
       {{/if}}
-    {{/if}}
-    {{#if @question.response}}
+    {{/if}}   
+    {{#if @question.response}}    
     <!-- ### If response entered #### -->
     {{@question.question}}:
     <button 

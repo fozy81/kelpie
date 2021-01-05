@@ -4,9 +4,7 @@ import { inject as service } from '@ember/service';
 export default class ApplicationRoute extends Route {
 
   model() {
-
     let store = this.store
-
     let projects = this.store.query('project', {
       filter: { title: 'Welcome Project' }
     }).then(function (project) {
@@ -31,7 +29,7 @@ export default class ApplicationRoute extends Route {
         function addQuestionTemplate(formTemplate) {
           let questionTemplate = store.createRecord('question-template', {
             question: 'Species',
-            response: '',
+            response: '',           
             multiEntry: true,
             type: 'select',
             rep: 1,
@@ -39,7 +37,19 @@ export default class ApplicationRoute extends Route {
           })
           questionTemplate
             .save()
-            .catch(failure);        
+            .catch(failure);    
+            
+            let questionTemplateTwo = store.createRecord('question-template', {
+              question: 'Count',  
+              response: '',                     
+              multiEntry: true,
+              type: 'number',
+              rep: 1,
+              formTemplate: formTemplate
+            })
+            questionTemplateTwo
+              .save()                                     
+              .catch(failure);   
         }
 
         function failure(reason) {
@@ -52,7 +62,6 @@ export default class ApplicationRoute extends Route {
           .catch(failure);
 
         function addTask(project) {
-
           let task = store.createRecord('task', {
             title: 'Woodlands site',
             description: 'Woods',
@@ -62,13 +71,9 @@ export default class ApplicationRoute extends Route {
             .save()
             .then(addForm)
             .catch(failure);
-
         }
 
-
-
         function addForm(task) {
-
           let form = store.createRecord('form', {
             title: 'Wildlife Survey',
             description: 'Record wildlife present',
@@ -80,27 +85,38 @@ export default class ApplicationRoute extends Route {
           })
           form
             .save()
-            .then(addQuestion)
+            .then(addQuestion)            
             .catch(failure);
 
         }
 
         function addQuestion(form) {
-          let response = store.createRecord('question', {
-            question: 'Species',
-            response: '',
+          let question = store.createRecord('question', {
+            question: 'Species', 
+            response: 'Fox',           
             multiEntry: true,
             type: 'select',
             rep: 1,
             form: form
           })
-          response
-            .save()
-            .catch(failure);
+          question
+            .save()                               
+            .catch(failure)
+            
+            let questionTwo = store.createRecord('question', {
+              question: 'Count',
+              response: '5',            
+              multiEntry: true,
+              type: 'number',
+              rep: 1,
+              form: form
+            })
+            questionTwo
+              .save()                                     
+              .catch(failure);      
 
         }
       }
-
     }
     )
   }
