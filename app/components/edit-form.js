@@ -54,10 +54,7 @@ export default class EditFormComponent extends Component {
 
   @service router;
   @action
-  saveReplaceForm(event) {
-    function refresh() { 
-      location.reload(true)
-     }
+  saveReplaceForm(event) { 
 
     event.preventDefault()
     let store = this.store
@@ -128,7 +125,7 @@ export default class EditFormComponent extends Component {
           })
           question.save()
         })
-      }).then(refresh)
+      })
     })   
      
 
@@ -143,8 +140,7 @@ export default class EditFormComponent extends Component {
 
   @tracked count = 0
   @action
-  addQuestion() {
-    // this.count += 1
+  addQuestion() {.then(refresh)
     let formTemplateId = this.args.formTemplate.id
     console.log(formTemplateId)
     let formTemplate = this.store.peekRecord('form-template', formTemplateId)

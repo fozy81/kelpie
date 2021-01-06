@@ -88,11 +88,7 @@ export default class CreateCardComponent extends Component {
         .then(addForm)
         .catch(failure);
 
-       function refresh() { 
-        location.reload(true)
-       }
-
-      
+     
 
       function addForm(formTemplate) {
         // add form template to form record
@@ -108,7 +104,6 @@ export default class CreateCardComponent extends Component {
         })
         form
           .save()
-          .then(refresh)
           .catch(failure);          
       }
       this.show = !this.show
@@ -122,9 +117,6 @@ export default class CreateCardComponent extends Component {
 
   @action
   addFormTemplate(id) {
-    function refresh() { 
-      location.reload(true)
-     }
 
     const router = this.router
     const store = this.store
@@ -160,8 +152,7 @@ export default class CreateCardComponent extends Component {
           form: myForm
         })
         question.save()        
-      })
-    }).then(refresh)
+      })    })
 
 
     this.show = !this.show    

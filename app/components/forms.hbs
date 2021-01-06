@@ -1,27 +1,12 @@
 
-
-<div> 
-
-{{#let (unique-forms  @forms) as |data|}}
-
-  {{#if data.isLoading}}
-    <p>loading...</p>
-  {{else if data.isLoaded}}
-  {{#each data.value as | form|}}    
-<FormCard @model={{form}}
-          @allforms={{@forms}}
-          @formTemplates={{@formTemplates}}
-          />
-
-
+{{#let this.uniqueForms as |uniqueforms|}}
+  {{#each uniqueforms as |form|}}  
+    <FormCard
+      @model={{form}}
+      @allforms={{@forms}}
+      @formTemplates={{@formTemplates}}
+    />
   {{/each}}
-  {{else if data.isError}}
-    <p>Whoops! Something went wrong!</p>
-    <p>{{data.error.message}}</p>
-  {{/if}}
 {{/let}}
 
-
-
-</div>
 {{yield}}
