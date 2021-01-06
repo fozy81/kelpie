@@ -21,6 +21,7 @@ Tasks:
 
 </div>
 {{#each @model.tasks as |task|}}
+
 <Card @title={{task.title}}
        @route="task"
        @model={{task.id}} />

@@ -140,7 +140,7 @@ export default class EditFormComponent extends Component {
 
   @tracked count = 0
   @action
-  addQuestion() {.then(refresh)
+  addQuestion() {
     let formTemplateId = this.args.formTemplate.id
     console.log(formTemplateId)
     let formTemplate = this.store.peekRecord('form-template', formTemplateId)
