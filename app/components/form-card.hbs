@@ -1,3 +1,4 @@
+{{!-- Edit form --}}
 {{#if @model.edit}}
 {{#each @formTemplates as |formTemplate|}}
 {{#if (eq formTemplate.id @model.templateId)}}
@@ -9,7 +10,7 @@
 {{/if}}
 {{/each}} 
 {{else}}
-
+{{!-- Closed form --}}
 <div class="wrap flex">
 <div class="w-full h-auto m-2 p-2 shadow-md
             border-2 rounded-md
@@ -21,7 +22,7 @@
 <div class="font-bold">{{@model.title}}</div>
 {{@model.description}}
 </button>
-
+{{!-- Open form menu --}}
 {{#if this.shows}}
 <div class="w-8 text-right block"> 
 <Menu @id={{@model.id}}
@@ -33,6 +34,7 @@
 {{/if}}
 </div>
 {{#if this.shows}}
+{{!-- Open form questions --}}
 <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}>
 {{#each @model.questions as |question index|}}
@@ -46,17 +48,11 @@
               @update={{index}}      
               />
 
-{{/each}} 
-
-<!--
-<SubmitButton @model={{@model}} 
-              @update="false"
-              @add={{this.addSelections}} />
--->
-
+{{/each}}
 <div class="grid grid-cols-1">
+ {{!-- Submit form --}}     
 <button
-class="place-content-center mb-1 p-1 rounded-md bg-indigo-800 text-white font-bold"
+class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"
  formid={{@model.id}}  
  update="false"
  type="submit" 
@@ -66,10 +62,10 @@ class="place-content-center mb-1 p-1 rounded-md bg-indigo-800 text-white font-bo
 <p></p>
 </div>
 
-<!-- 
+{{!-- 
  Display multi-entry responses
 (from all forms with matching templateId)
--->
+--}}
 {{#each @allforms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}

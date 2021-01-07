@@ -1,0 +1,14 @@
+
+<div>
+{{#let this.flat as |responses|}}
+
+ <EmberTable as |t|>
+    <t.head
+     @columns={{this.columns}} 
+     @sorts={{sorts}}
+     @onUpdateSorts={{action (mut sorts)}} />
+    <t.body @rows={{responses}} />
+  </EmberTable>
+{{/let}}
+</div>
+{{yield}}

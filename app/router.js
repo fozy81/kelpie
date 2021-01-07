@@ -16,4 +16,5 @@ Router.map(function() {
   this.route('task', {
     path: 'task/:task_id'
   });
+  this.route('responses');
 });

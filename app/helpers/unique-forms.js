@@ -50,28 +50,8 @@ class AsyncData {
   }
 
   resolveWith(value) {
-    this._state = "LOADED";
-    console.log(value);
-    
-      let selection = value
-      console.log(selection)
-      var arr = [];
-      selection.forEach(function(item){
-        var i = arr.findIndex(x => x.title == item.title);
-        if(i <= -1){
-          arr.push({id: item.id, title: item.title});
-        }
-      });
-    
-      arr = arr.map(function(item) {
-          return item.id
-      }) 
-      console.log(arr);  
-      
-      const found = selection.filter(el => arr.includes(el.id));
-       console.log(found)
-                
-    this._value = found;
+    this._state = "LOADED";    
+    this._value = value;
   }
 
   rejectWith(error) {

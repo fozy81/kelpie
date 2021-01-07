@@ -4,7 +4,7 @@ export default class FormsComponent extends Component {
 
   
   get uniqueForms(){ 
-  let selection = this.args.forms
+  let selection = this.args.forms  
   console.log(selection)
   var arr = [];
   selection.forEach(function(item){
