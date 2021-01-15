@@ -39,8 +39,8 @@
 <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}> 
 
-{{#let this.orderByPosition as |questions|}}
-{{#each questions as |question index|}}
+{{#let this.orderByPosition as | orderedquestions|}}
+{{#each orderedquestions as |question index|}}
 <FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
@@ -69,7 +69,8 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
  Display multi-entry responses
 (from all forms with matching templateId)
 --}}
-{{#each @allforms as |form index|}}
+{{#let this.orderFormQuestionsByPosition as |forms|}}
+{{#each forms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
 {{#if form.display}}
@@ -80,8 +81,7 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
  <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}>   
 
-{{#let this.orderByPosition as |questions|}}
-{{#each questions as |question index|}}
+{{#each form.questions as |question index|}}
 {{#if question.response}}
 <FormQuestion @form={{@model}}                         
               @question={{question}}  
@@ -96,7 +96,6 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 <p></p>
 {{/if}}
 {{/each}}
-{{/let}}
 </div>
 </button>
       {{#if (eq this.menu index)}}
@@ -115,6 +114,7 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 {{/if}}
 {{/if}}
 {{/each}}
+{{/let}}
 {{/if}}
 </div>   
 </div>

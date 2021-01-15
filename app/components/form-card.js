@@ -147,6 +147,7 @@ export default class CounterComponent extends Component {
   }      
    else {    
    // update form (don't create new form)
+   console.log('updating response')
    store.findRecord('form', formid)
        .then(function(form) {
         form.rep = 2
@@ -164,7 +165,7 @@ export default class CounterComponent extends Component {
       })
     })      
   }
-  console.log(this.selectedOptions)
+  console.log('selectOptions: '  + this.selectedOptions)
     this.hideEditQuestion = false
   console.log('hideEditQuestion2: ' + this.hideEditQuestion)
     // this.showQuestion() 
@@ -187,8 +188,22 @@ export default class CounterComponent extends Component {
     let sorted = questions.sortBy('pos') 
 
     sorted.map(item => console.log('sorted order?' + item.pos))
-    return(sorted)
+    return sorted
 
   }
+
+  get orderFormQuestionsByPosition(){   
+     console.log('order question in forms')
+    let forms = this.args.allforms  
+   
+  //  let sorted = forms.map(function(form){      
+  //    form.questions.sortBy('pos')    
+      
+  //   })
+
+    return forms
+
+  }
+
 
 }
