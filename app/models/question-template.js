@@ -7,6 +7,7 @@ export default class QuestionTemplateModel extends Model {
     @attr multiEntry;
     @attr type;
     @attr rep;
+    @attr('number') pos;
     @attr('string') rev;  
     @belongsTo formTemplate;
 

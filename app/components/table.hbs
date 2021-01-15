@@ -1,4 +1,10 @@
 
+{{!-- <div {{did-insert this.query}}>
+
+{{#let this.data as |responses|}}
+{{responses}}
+{{/let}}
+</div>  --}}
 <div>
 {{#let this.flat as |responses|}}
 
@@ -6,8 +12,21 @@
     <t.head
      @columns={{this.columns}} 
      @sorts={{sorts}}
-     @onUpdateSorts={{action (mut sorts)}} />
-    <t.body @rows={{responses}} />
+     @onUpdateSorts={{action (mut sorts)}}        
+     /> 
+     <t.body @rows={{responses}} as |b|>
+    <b.row as |r|>
+      <r.cell as |cell column|>
+        {{#if column.cellComponent}}
+          {{#component column.cellComponent color=column.color}}
+            {{cell}}
+          {{/component}}
+        {{else}}
+          {{cell}}
+        {{/if}}
+      </r.cell>
+    </b.row>
+  </t.body>
   </EmberTable>
 {{/let}}
 </div>

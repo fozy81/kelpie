@@ -1,9 +1,10 @@
 
 {{#let this.uniqueForms as |uniqueforms|}}
-  {{#each uniqueforms as |form|}}  
+  {{#each uniqueforms as |form|}}   
     <FormCard
       @model={{form}}
-      @allforms={{@forms}}
+      @questions={{form.questions}}
+      @allforms={{@forms}}      
       @formTemplates={{@formTemplates}}
     />
   {{/each}}

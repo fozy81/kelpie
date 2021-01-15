@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class CreateCardComponent extends Component {
 
+
   @action
   focus(element) {
     element.focus();
@@ -17,6 +18,28 @@ export default class CreateCardComponent extends Component {
 
     this.show = !this.show
 
+  }
+
+  @action
+  searchMatches() {
+  //   console.log('search')
+  //   console.log(this.newName)
+  // const router = this.router
+  // let model = null
+  // if (this.args.modelName == null) {
+  //   model = router.currentRoute.attributes.modelName
+  // } else {
+  //   model = this.args.modelName
+  // }
+  // this.store.query(model,  {
+  //   filter: { 
+  //     title: { $regex: this.newName }
+  // }
+  // }).then(function(query) {
+  //   console.log(query)
+  //   query.map(function(item) {
+  //     console.log('model' + item.title)
+  //   })})
   }
 
   @tracked newName;
@@ -34,7 +57,8 @@ export default class CreateCardComponent extends Component {
     // Don't want empty/null name 
     if(this.newName == '') {
       return
-    }
+    }    
+
     if (model == "project") {
       this.store.createRecord(model, {
         title: this.newName
@@ -64,7 +88,7 @@ export default class CreateCardComponent extends Component {
       task
         .save()
         .then(transitionToTask)
-        .catch(failure);
+        .catch(failure)
     }
 
     if (model == "form") {
@@ -104,7 +128,7 @@ export default class CreateCardComponent extends Component {
         })
         form
           .save()
-          .catch(failure);          
+          .catch((reason) => console.log('error detected'));          
       }
       this.show = !this.show
    
@@ -122,7 +146,7 @@ export default class CreateCardComponent extends Component {
     const store = this.store
     const taskId = router.currentRoute.params.task_id
     let myTask = store.peekRecord('task', taskId);
-    let formTemplate = store.peekRecord('form-template', id);
+    store.findRecord('form-template', id).then(function(formTemplate) {
     console.log('templateID: ' + formTemplate.questionTemplates)
     let formRecord = store.createRecord('form', {
       title: formTemplate.title,
@@ -131,28 +155,38 @@ export default class CreateCardComponent extends Component {
       edit: false,    
       multiEntry: formTemplate.multiEntry, 
       templateId: formTemplate.id,
+      display: false,  
       task: myTask
     }
     )
+  
     formRecord
       .save()
       .then(function(form) {
       console.log('form id:' + form.templateId)
+      store.findRecord('form-template', id).then(function(formTemplate){
       console.log('template questions:' + formTemplate.questionTemplates )
-      let questionTemplates = formTemplate.questionTemplates      
-      let myForm = store.peekRecord('form', form.id);
+      console.log('template questions:' + formTemplate.questionTemplates.length )
+      let questionTemplates = formTemplate.questionTemplates 
       questionTemplates.map(function(questionTemplate) {
         console.log('question: ' + questionTemplate.question)
+        console.log('multi-entry? : ' + questionTemplate.multiEntry)
         let question = store.createRecord('question', {
           question: questionTemplate.question,
           response: questionTemplate.response,
           rep: 1,
           multiEntry: questionTemplate.multiEntry,
           type: questionTemplate.type,
-          form: myForm
+          pos: questionTemplate.pos,
+          form: form
         })
-        question.save()        
-      })    })
+        question
+        .save()
+        .catch((reason) => console.log('error in question save detected'));         
+      })    
+  }).catch((reason) => console.log('error in load form template detected'));    
+     })
+    })
 
 
     this.show = !this.show    

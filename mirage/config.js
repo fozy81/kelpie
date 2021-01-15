@@ -12,15 +12,15 @@ export default function() {
 
 
       
-    this.get('/projects');
-    this.post('/projects');
-    this.get('/projects/:id');
-    this.resource('tasks');
-    this.resource('forms');
-    this.resource('responses');
+    // this.get('/projects');
+    // this.post('/projects');
+    // this.get('/projects/:id');
+    // this.resource('tasks');
+    // this.resource('forms');
+    // this.resource('responses');
  
 
     // this.resource('templates');
-    this.resource('formTemplates');
-    this.resource('actions');
+    // this.resource('formTemplates');
+    // this.resource('actions');
 }

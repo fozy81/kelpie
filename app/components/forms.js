@@ -8,9 +8,9 @@ export default class FormsComponent extends Component {
   console.log(selection)
   var arr = [];
   selection.forEach(function(item){
-    var i = arr.findIndex(x => x.title == item.title);
+    var i = arr.findIndex(x => x.templateId == item.templateId);
     if(i <= -1){
-      arr.push({id: item.id, title: item.title});
+      arr.push({id: item.id, templateId: item.templateId});
     }
   });
 
@@ -24,5 +24,5 @@ export default class FormsComponent extends Component {
  
   return(found)
   }
-
-}
+  
+ }

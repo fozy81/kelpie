@@ -1,4 +1,5 @@
 {{!-- Edit form --}}
+
 {{#if @model.edit}}
 {{#each @formTemplates as |formTemplate|}}
 {{#if (eq formTemplate.id @model.templateId)}}
@@ -36,9 +37,10 @@
 {{#if this.shows}}
 {{!-- Open form questions --}}
 <div {{on "change" this.formChange}} 
-     {{ref this "formElement"}}>
-{{#each @model.questions as |question index|}}
+     {{ref this "formElement"}}> 
 
+{{#let this.orderByPosition as |questions|}}
+{{#each questions as |question index|}}
 <FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
@@ -49,6 +51,7 @@
               />
 
 {{/each}}
+{{/let}}
 <div class="grid grid-cols-1">
  {{!-- Submit form --}}     
 <button
@@ -69,14 +72,16 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 {{#each @allforms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
+{{#if form.display}}
 <div class="wrap flex">
 <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">
 <div class="wrap flex">  
 <button class="w-full text-left block"  {{on "click" (fn this.showMenu index)}}>
+ <div {{on "change" this.formChange}} 
+     {{ref this "formElement"}}>   
 
-<div {{on "change" this.formChange}} 
-     {{ref this "formElement"}}>    
-{{#each form.questions as |question index|}}
+{{#let this.orderByPosition as |questions|}}
+{{#each questions as |question index|}}
 {{#if question.response}}
 <FormQuestion @form={{@model}}                         
               @question={{question}}  
@@ -91,7 +96,7 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 <p></p>
 {{/if}}
 {{/each}}
-
+{{/let}}
 </div>
 </button>
       {{#if (eq this.menu index)}}
@@ -106,6 +111,7 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 </div>
 </div>
 </div>
+{{/if}}
 {{/if}}
 {{/if}}
 {{/each}}

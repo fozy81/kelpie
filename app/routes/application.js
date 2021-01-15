@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import shortlink from 'shortlink';
 
 export default class ApplicationRoute extends Route {
 
@@ -13,7 +13,8 @@ export default class ApplicationRoute extends Route {
       if (typeof project.content[0] === "undefined") {
         let project = store.createRecord('project', {
           title: 'Welcome Project',
-          description: 'Demo example project'
+          description: 'Demo example project',
+          projectId: shortlink.generate(8)  
         })
 
         let formTemplate = store.createRecord('form-template', {
@@ -33,6 +34,7 @@ export default class ApplicationRoute extends Route {
             multiEntry: true,
             type: 'select',
             rep: 1,
+            pos: 1,
             formTemplate: formTemplate
           })
           questionTemplate
@@ -45,6 +47,7 @@ export default class ApplicationRoute extends Route {
               multiEntry: true,
               type: 'number',
               rep: 1,
+              pos: 2,
               formTemplate: formTemplate
             })
             questionTemplateTwo
@@ -81,7 +84,8 @@ export default class ApplicationRoute extends Route {
             rep: 1,
             edit: false,
             multiEntry: true,
-            templateId: formTemplate.id
+            templateId: formTemplate.id,
+            display: true
           })
           form
             .save()
@@ -97,6 +101,7 @@ export default class ApplicationRoute extends Route {
             multiEntry: true,
             type: 'select',
             rep: 1,
+            pos: 1,            
             form: form
           })
           question
@@ -109,6 +114,7 @@ export default class ApplicationRoute extends Route {
               multiEntry: true,
               type: 'number',
               rep: 1,
+              pos: 2,
               form: form
             })
             questionTwo

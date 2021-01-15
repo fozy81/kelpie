@@ -77,17 +77,18 @@ export default class EditFormComponent extends Component {
 
       // For question type 'dropdown' select options:
      let questionTemplates = formTemplates.questionTemplates;
-        questionTemplates.map(function(question, index) {
-       console.log(question.id)
+        questionTemplates.map(function(question, index) {       
         store.findRecord('question-template', question.id).then( 
         function(questionTemplate) {
-          console.log('questiontemplate: ' + questionTemplate.question)
-          questionTemplate.type = selectedOptions[index].value          
+          console.log('questiontemplate question: ' + questionTemplate.question)
+          questionTemplate.type = selectedOptions[index].value   
+
+          questionTemplate.response = ''       
           questionTemplate.save()
         })
        
      })
-    })
+    }) 
     }).then(function() {
       let formId  = args.forms.id
     
@@ -105,7 +106,8 @@ export default class EditFormComponent extends Component {
         edit: false, 
         multiEntry: formTemplate.multiEntry,    
         templateId: formTemplate.id,
-        task: myTask
+        task: myTask,
+        display: false
       }
       )
       formRecord.save().then(function(form) {
@@ -114,13 +116,14 @@ export default class EditFormComponent extends Component {
         let myForm = store.peekRecord('form', form.id);
         questionTemplates.map(function(questionTemplate) {
           console.log('question: ' + questionTemplate.question)
-          console.log('multi-entry? : ' + myForm.multiEntry)
+          console.log('multi-entry? : ' + myForm.multiEntry)          
           let question = store.createRecord('question', {
             question: questionTemplate.question,
             response: '',
             rep: 1,
             multiEntry: myForm.multiEntry,
             type: questionTemplate.type,
+            pos: questionTemplate.pos,
             form: myForm
           })
           question.save()
@@ -143,14 +146,18 @@ export default class EditFormComponent extends Component {
   addQuestion() {
     let formTemplateId = this.args.formTemplate.id
     console.log(formTemplateId)
-    let formTemplate = this.store.peekRecord('form-template', formTemplateId)
+    let formTemplate = this.store.peekRecord('form-template', formTemplateId)    
+    let questions = formTemplate.questionTemplates    
+    let position = questions.length + 1
+    
     let newQuestion = this.store.createRecord('question-template', {
       multiEntry: false,
-      formTemplate: formTemplate
+      pos: position,
+      formTemplate: formTemplate      
     })
 
     
-    newQuestion.save().then(console.log(newQuestion.question))
+    newQuestion.save().then(console.log('question?' + newQuestion.question))
   }
 
   @action

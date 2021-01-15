@@ -13,7 +13,6 @@
 
 <CreateCard @list={{this.list}} @label="Create New Project"/>
 {{#each model as |project|}}
-
 <Card @route="project" @model={{project.id}} @title={{project.title}}/>
 
 {{/each}}

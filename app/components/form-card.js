@@ -110,10 +110,9 @@ export default class CounterComponent extends Component {
      let update = event.target.attributes.update.value
      console.log('update: ' + update)
      console.log('rep: ' +  currentForm.rep)
-    console.log('update ' + update)
     if(currentForm.multiEntry
-       && update === "false" &&
-       currentForm.rep != 1
+       && currentForm.display == true  
+       && update === "false"
 
        ) {
     store.createRecord('form', {
@@ -122,7 +121,8 @@ export default class CounterComponent extends Component {
        templateId: currentForm.templateId,
        multiEntry: currentForm.multiEntry,
        rep: 2,
-       task: currentForm.task      
+       task: currentForm.task,
+       display: true
     }).save().then(function(newForm) {   
     selectedOptions.map(function (select) {
       console.log('question id: ' + select.id)
@@ -150,6 +150,7 @@ export default class CounterComponent extends Component {
    store.findRecord('form', formid)
        .then(function(form) {
         form.rep = 2
+        form.display = true
         form.save()
        })
    
@@ -164,11 +165,12 @@ export default class CounterComponent extends Component {
     })      
   }
   console.log(this.selectedOptions)
-  this.hideEditQuestion = false
-  console.log('hideEditQuestion: ' + this.hideEditQuestion)
+    this.hideEditQuestion = false
+  console.log('hideEditQuestion2: ' + this.hideEditQuestion)
     // this.showQuestion() 
+     this.showInput() 
     this.showInput() 
-   this.showInput() 
+    console.log('shouwINput' + this.input)
   }
 
   @tracked input = true
@@ -176,6 +178,17 @@ export default class CounterComponent extends Component {
   showInput(){
     this.input = !this.input
     console.log(this.input)
+  }
+
+  get orderByPosition(){    
+    let questions = this.args.questions  
+    questions.map(item => console.log('question order?' + item.pos))
+    
+    let sorted = questions.sortBy('pos') 
+
+    sorted.map(item => console.log('sorted order?' + item.pos))
+    return(sorted)
+
   }
 
 }
