@@ -164,12 +164,11 @@ export default class CreateCardComponent extends Component {
       .save()
       .then(function(form) {
       console.log('form id:' + form.templateId)
-      store.findRecord('form-template', id).then(function(formTemplate){
-      console.log('template questions:' + formTemplate.questionTemplates )
-      console.log('template questions:' + formTemplate.questionTemplates.length )
-      let questionTemplates = formTemplate.questionTemplates 
-      questionTemplates.map(function(questionTemplate) {
-        console.log('question: ' + questionTemplate.question)
+      store.findRecord('form-template', id, { include: 'questionTemplates' }).then(async function(formTemplate){
+      console.log('template questions length:' + formTemplate.questionTemplates.length + ' ' + formTemplate.title)
+      let questionTemplates = await formTemplate.questionTemplates 
+      questionTemplates.map(async function(questionTemplate) {
+        console.log('question: ' + await questionTemplate.question)
         console.log('multi-entry? : ' + questionTemplate.multiEntry)
         let question = store.createRecord('question', {
           question: questionTemplate.question,
