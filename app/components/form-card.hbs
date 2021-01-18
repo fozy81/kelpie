@@ -41,13 +41,16 @@
 
 {{#let this.orderByPosition as | orderedquestions|}}
 {{#each orderedquestions as |question index|}}
+{{!-- include order Position within FormQuestion hbs? i.e FormQuestion takes in multiple questions and orders them and renders them? 
+      Provider Component needed!!!--}}
 <FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
               @index={{index}} 
               @hideEditQuestion={{this.hideEditQuestion}}              
               @display={{false}}    
-              @update={{index}}      
+              @update={{index}}     
+              @hideEditingQuestion={{this.hideEditingQuestion}}
               />
 
 {{/each}}
@@ -69,8 +72,8 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
  Display multi-entry responses
 (from all forms with matching templateId)
 --}}
-{{#let this.orderFormQuestionsByPosition as |forms|}}
-{{#each forms as |form index|}}
+{{!-- {{#let this.orderFormQuestionsByPosition as |forms|}} --}}
+{{#each @allforms as |form index|}}
 {{#if form.multiEntry}}
 {{#if (eq form.templateId  @model.templateId) }}
 {{#if form.display}}
@@ -80,22 +83,24 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 <button class="w-full text-left block"  {{on "click" (fn this.showMenu index)}}>
  <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}>   
-
-{{#each form.questions as |question index|}}
+<FormQuestion::Filter @questions={{form.questions}} as |questions|>
+{{#each questions as |question index|}}
 {{#if question.response}}
 <FormQuestion @form={{@model}}                         
               @question={{question}}  
               @input={{this.input}}
+              @hideEditQuestion={{this.hideEditQuestion}}   
               @index={{index}}
               @display={{true}}   
               @addSelections={{this.addSelections}}
               @update={{true}}
-              @hideEditQuestion={{this.hideEditQuestion}}
+              @hideEditingQuestion={{this.hideEditingQuestion}}            
               />
 
 <p></p>
 {{/if}}
 {{/each}}
+</FormQuestion::Filter> 
 </div>
 </button>
       {{#if (eq this.menu index)}}
@@ -114,7 +119,7 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
 {{/if}}
 {{/if}}
 {{/each}}
-{{/let}}
+{{!-- {{/let}} --}}
 {{/if}}
 </div>   
 </div>

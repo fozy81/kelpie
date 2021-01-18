@@ -1,4 +1,3 @@
-
 {{!--  ######## MULTIENTRY QUESTION ################################  --}}
 {{#if @question.multiEntry}}
   {{!--  ### Index 1 (first form in task) ###  --}}
@@ -31,11 +30,12 @@
     {{/if}}
     {{!-- If @display true then rendered button --}}
   {{else}}
-   {{#if (and @display this.showField)}}    
+  {{@hideEditQuestion}}
+   {{#if (or (and @display this.showField) (and @display (eq @hideEditQuestion true)))}}    
      {{@question.question}}:
      <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
-     {{on "click" (fn this.showInput value=@question.response)}}>
+     {{on "click" (fn this.showInput)}}>
      {{@question.response}}  
     </button>
     <p></p> 
@@ -61,10 +61,13 @@
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
       @formid={{true}}      
-      @value={{if @question.multiEntry "" this.value}}       
+      @value={{@question.response}} 
       @type={{@question.type}}
       {{did-insert this.focus}}
-      /></span>
+      /></span> 
+      <button class="p-2 font-bold"
+      {{on "click" (fn this.showInput )}}>X
+      </button>
       
     {{/if}}
       <button class="place-content-center m-2 p-1 rounded-md text-indigo-800 font-bold border-2 border-indigo-800"
@@ -72,7 +75,7 @@
       update="true"         
       type="submit"
       form="false"
-      {{on "click" (fn @addSelections)}}>Update
+      {{on "click" (fn this.save)}}>Update
       </button>
       <p></p>
     {{/if}}
@@ -81,9 +84,8 @@
 
 <!-- ############ SINGLE ENTRY QUESTION ####################### -->
 <!-- ### On first entry ### -->
-{{#if (eq @question.multiEntry false)}}
-   showField: {{this.showField}}
-  {{#if this.showField}}  
+{{#if (eq @question.multiEntry false)}}   
+   {{#if (eq @hideEditQuestion false)}}   
    
     {{#if (eq @question.response '')}}               
       {{#if (eq @question.type "select")}}
@@ -113,19 +115,21 @@
         <p></p>
       {{/if}}
     {{/if}}   
-    {{#if @question.response}}     
+    {{#if @question.response}}  
+   
     <!-- ### If response entered #### -->
     {{@question.question}}:
     <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
-     {{on "click" (fn this.showInput value=@question.response)}}>
+     {{on "click" (fn @hideEditingQuestion)}}>
      {{@question.response}}  
     </button>
     <p></p>    
     {{/if}}
-  {{/if}}
+   {{/if}} 
   <!-- ### On update #### -->
-  {{#if (eq this.showField false)}} 
+  {{!-- {{#if (eq this.showField false)}}    --}}
+  
     {{#if @hideEditQuestion}}
       {{#if (eq @question.type "select")}} 
        <label for={{@question.question}}>{{@question.question}}</label>
@@ -138,7 +142,7 @@
         <option value="Hedgehog">Hedgehog</option>  
         </select> 
         <button class="p-2 font-bold"
-          {{on "click" (fn this.showInput )}}>X
+          {{on "click" (fn @hideEditingQuestion)}}>X
         </button>
       {{else}}     
       <p></p>
@@ -152,12 +156,12 @@
       {{did-insert this.focus}}
       /> </span>
        <button class="p-2 font-bold"
-      {{on "click" (fn this.showInput )}}>X
+      {{on "click" (fn @hideEditingQuestion)}}>X
       </button>    
       <p></p>
       {{/if}}  
     {{/if}}
-  {{/if}}
+  {{!-- {{/if}} --}}
 {{/if}}
 
 {{yield}}

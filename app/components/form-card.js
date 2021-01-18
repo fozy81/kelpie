@@ -33,6 +33,7 @@ export default class CounterComponent extends Component {
     event.preventDefault()
     this.shows = !this.shows
     console.log("show: " + this.shows)
+  
 
   }
 
@@ -59,9 +60,16 @@ export default class CounterComponent extends Component {
     console.log(event)
   }
 
+  @tracked hideEditQuestion = false;
+  @action
+  hideEditingQuestion() {
+    this.hideEditQuestion = !this.hideEditQuestion
+    console.log("hideEditQuestion: " + this.hideEditQuestion)
+  }
+
 
   @tracked selectedOptions = [];
-  @tracked hideEditQuestion = true;
+
   @action
   formChange(event) {
 
@@ -91,7 +99,8 @@ export default class CounterComponent extends Component {
 
     }
           console.log(this.selectedOptions)
-          this.hideEditQuestion !=  this.hideEditQuestion
+          //this.hideEditingQuestion()
+     
           console.log('hideEditQuestion: ' + this.hideEditQuestion)
   }
 
@@ -137,7 +146,8 @@ export default class CounterComponent extends Component {
             rep: true,            
             question: question.question,
             form: newForm,
-            type: question.type,
+            type: question.type,   
+            pos: question.pos,         
             multiEntry: question.multiEntry
           }).save()
       
@@ -166,11 +176,15 @@ export default class CounterComponent extends Component {
     })      
   }
   console.log('selectOptions: '  + this.selectedOptions)
-    this.hideEditQuestion = false
-  console.log('hideEditQuestion2: ' + this.hideEditQuestion)
-    // this.showQuestion() 
-     this.showInput() 
-    this.showInput() 
+  
+  //this.showInput() 
+  if(this.hideEditQuestion === true) {
+   this.hideEditingQuestion()  
+  }
+  //   this.showQuestion() 
+   
+    // this.showInput() 
+    //this.hideEditQuestion()
     console.log('shouwINput' + this.input)
   }
 

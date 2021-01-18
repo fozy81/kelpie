@@ -6,10 +6,21 @@ export default class FormQuestionComponent extends Component {
 
   @tracked showField = true;
   @action
-  showInput() {
+  showInput() {      
+        
         this.showField = !this.showField    
         console.log(this.showField)
+
   }
+
+  @action
+  save(event) {      
+        
+    this.args.addSelections(event)
+    this.showInput()
+
+  }
+
 
 
   @tracked value = this.args.value; 
