@@ -30,7 +30,6 @@
     {{/if}}
     {{!-- If @display true then rendered button --}}
   {{else}}
-  {{@hideEditQuestion}}
    {{#if (or (and @display this.showField) (and @display (eq @hideEditQuestion true)))}}    
      {{@question.question}}:
      <button 

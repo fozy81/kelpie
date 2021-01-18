@@ -105,6 +105,7 @@ export default class EditFormComponent extends Component {
         rep: 1,
         edit: false, 
         multiEntry: formTemplate.multiEntry,    
+        dateCreated: new Date(),
         templateId: formTemplate.id,
         task: myTask,
         display: false

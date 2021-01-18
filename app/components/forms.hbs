@@ -1,13 +1,14 @@
 
 {{#let this.uniqueForms as |uniqueforms|}}
+{{#let this.dateOrderForms as |allforms|}}
   {{#each uniqueforms as |form|}}   
     <FormCard
       @model={{form}}
       @questions={{form.questions}}
-      @allforms={{@forms}}      
+      @allforms={{allforms}}      
       @formTemplates={{@formTemplates}}
     />
   {{/each}}
 {{/let}}
-
+{{/let}}
 {{yield}}

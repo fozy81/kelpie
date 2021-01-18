@@ -84,6 +84,7 @@ export default class ApplicationRoute extends Route {
             rep: 1,
             edit: false,
             multiEntry: true,
+            dateCreated: new Date(),
             templateId: formTemplate.id,
             display: true
           })

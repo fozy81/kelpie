@@ -10,6 +10,7 @@ export default class FormModel extends Model {
     @attr templateId;
     @attr display;
     @attr pos;
+    @attr('date') dateCreated;
     @belongsTo task;
     @hasMany questions;
     @attr('string') rev;  

@@ -123,7 +123,8 @@ export default class CreateCardComponent extends Component {
           task: myTask,
           rep: 1,
           edit: true,
-          multiEntry: false,        
+          multiEntry: false,    
+          dateCreated: new Date(),
           templateId: formTemplate.id
         })
         form
@@ -155,6 +156,7 @@ export default class CreateCardComponent extends Component {
       edit: false,    
       multiEntry: formTemplate.multiEntry, 
       templateId: formTemplate.id,
+      dateCreated: new Date(),
       display: false,  
       task: myTask
     }
