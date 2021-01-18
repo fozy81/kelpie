@@ -60,7 +60,7 @@
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
       @formid={{true}}      
-      @value={{@question.response}} 
+      @placeholder={{@question.response}}
       @type={{@question.type}}
       {{did-insert this.focus}}
       /></span> 
@@ -150,7 +150,7 @@
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
       @formid={{false}}      
-      @value={{@question.response}}       
+      @placeholder={{@question.response}}    
       @type={{@question.type}}
       {{did-insert this.focus}}
       /> </span>

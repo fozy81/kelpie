@@ -19,6 +19,14 @@ export default class EditFormComponent extends Component {
     this.args.edit()
   }
 
+
+ @tracked selecting = false;
+ @action
+ select() {
+   this.selecting = !this.selecting
+   console.log(this.selecting)
+ }
+
   @tracked selectedOptions = [];
   @action
   formChange(event) {
@@ -48,7 +56,10 @@ export default class EditFormComponent extends Component {
       this.selectedOptions = selectedOptions
 
     }
-          console.log(this.selectedOptions)
+          console.log(this.selectedOptions[0].value)
+          if(this.selectedOptions[0].value === 'select') {
+            this.select()
+          }
         
   }
 
