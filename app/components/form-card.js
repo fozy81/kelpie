@@ -72,7 +72,7 @@ export default class CounterComponent extends Component {
 
   @action
   formChange(event) {
-
+     console.log( event)
     let selection = { id: event.target.id, value: event.target.value }   
     if (this.selectedOptions.length === 0 ) {
       this.selectedOptions.push(selection)
@@ -133,6 +133,7 @@ export default class CounterComponent extends Component {
        task: currentForm.task,
        display: true
     }).save().then(function(newForm) {   
+      // check if any required questions not entered by matching question.id to select.id???
     selectedOptions.map(function (select) {
       console.log('question id: ' + select.id)
       store.findRecord('question', select.id)
@@ -147,7 +148,9 @@ export default class CounterComponent extends Component {
             question: question.question,
             form: newForm,
             type: question.type,   
-            pos: question.pos,         
+            pos: question.pos,   
+            options: question.options,
+            required: question.required,           
             multiEntry: question.multiEntry
           }).save()
       
@@ -166,7 +169,7 @@ export default class CounterComponent extends Component {
        })
    
     selectedOptions.map(function (select) {
-      console.log(select.value)
+      console.log('SELECTED VALUE' + select.value)
       console.log('selectid' + select.id)
       store.findRecord('question', select.id)
       .then(function (question) {

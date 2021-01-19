@@ -20,12 +20,7 @@ export default class EditFormComponent extends Component {
   }
 
 
- @tracked selecting = false;
- @action
- select() {
-   this.selecting = !this.selecting
-   console.log(this.selecting)
- }
+
 
   @tracked selectedOptions = [];
   @action
@@ -57,9 +52,7 @@ export default class EditFormComponent extends Component {
 
     }
           console.log(this.selectedOptions[0].value)
-          if(this.selectedOptions[0].value === 'select') {
-            this.select()
-          }
+        
         
   }
 
@@ -136,6 +129,8 @@ export default class EditFormComponent extends Component {
             multiEntry: myForm.multiEntry,
             type: questionTemplate.type,
             pos: questionTemplate.pos,
+            options: questionTemplate.options,
+            required: questionTemplate.required,
             form: myForm
           })
           question.save()
@@ -152,7 +147,7 @@ export default class EditFormComponent extends Component {
     //this.args.edit()
   }
 
-
+  @tracked showthis = false
   @tracked count = 0
   @action
   addQuestion() {
@@ -170,6 +165,7 @@ export default class EditFormComponent extends Component {
 
     
     newQuestion.save().then(console.log('question?' + newQuestion.question))
+    this.showthis = true
   }
 
   @action

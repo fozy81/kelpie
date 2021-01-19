@@ -171,6 +171,7 @@ export default class CreateCardComponent extends Component {
       let questionTemplates = await formTemplate.questionTemplates 
       questionTemplates.map(async function(questionTemplate) {
         console.log('question: ' + await questionTemplate.question)
+        //console.log('question: ' + await questionTemplate.options)
         console.log('multi-entry? : ' + questionTemplate.multiEntry)
         let question = store.createRecord('question', {
           question: questionTemplate.question,
@@ -179,6 +180,8 @@ export default class CreateCardComponent extends Component {
           multiEntry: questionTemplate.multiEntry,
           type: questionTemplate.type,
           pos: questionTemplate.pos,
+          options: questionTemplate.options,
+          required: questionTemplate.required,
           form: form
         })
         question

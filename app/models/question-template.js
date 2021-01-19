@@ -9,6 +9,8 @@ export default class QuestionTemplateModel extends Model {
     @attr rep;
     @attr('number') pos;
     @attr('string') rev;  
+    @attr options;
+    @attr required;
     @belongsTo formTemplate;
 
 }

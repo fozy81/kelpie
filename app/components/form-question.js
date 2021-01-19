@@ -46,4 +46,13 @@ export default class FormQuestionComponent extends Component {
     }
   }
 
+  get options(){
+
+    let optionString = this.args.question
+    console.log(optionString.options)
+
+     optionString = optionString.options.split(',')
+    
+    return optionString
+  }
 }

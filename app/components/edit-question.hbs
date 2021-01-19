@@ -1,0 +1,65 @@
+
+
+<div class="font-bold p-2">
+Question<span class="ml-2">
+<Input class="m-2 w-30 border-b border-gray-400" 
+@value={{@question.question}}
+ {{did-insert this.focus}}
+/></span><span><button class="border-gray-400 border p-1 rounded-md">Remove</button></span>
+<p></p>
+Required <span class="ml-2"> 
+<Input class="m-2 w-30 border-b border-gray-400" 
+@type="checkbox"
+name="required"
+@checked={{@question.required}}
+/>
+</span>
+<p></p>
+{{#if (and @question.type (eq this.showField false))}}
+Type: 
+<button 
+ class="ml-2 p-1 border border-gray-400"
+ {{on "click" (fn this.showInput @question.type)}}>
+ {{@question.type}}  
+</button>
+{{/if}}
+{{#if (and (eq @question.type "select") (eq this.showField false))}}
+<p></p>Comma seperate options: 
+<button
+ class="ml-2 p-1 border border-gray-400"
+ {{on "click" (fn this.showInput @question.type)}}>
+ {{@question.options}}
+</button>
+{{/if}}
+
+{{#if (or showField @show)}}
+<div  
+     {{on "change" this.select}} 
+     {{ref this "formElement"}}
+    >
+
+<label for={{@question.type}}>Type</label>
+<select id={{@question.id}} >
+    {{#if @question.type}} 
+  <option selected="true" value="{{@question.type}}">{{@question.type}} </option>  
+    {{else}}
+  <option selected="true" value="">--pick--</option>
+  {{/if}}
+  <option value="text">text</option>
+  <option value="number">number</option>
+  <option value="date">date</option>
+  <option value="time">time</option>  
+  <option value="select">select</option>  
+</select> 
+</div>
+{{/if}}
+
+</div>
+{{#if this.selecting}}
+Comma seperate options: 
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.options}}/>
+{{/if}}
+{{yield}}

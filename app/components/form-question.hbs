@@ -3,17 +3,19 @@
   {{!--  ### Index 1 (first form in task) ###  --}}
   {{#if   (eq @display false)}}
     {{#if (eq @question.type "select")}}
-      <p></p>
-      <label for={{@question.question}}>{{@question.question}}</label>
-      <select multientry={{@question.multiEntry}}
-              id={{@question.id}} >
-        <option selected="true" value="">--- pick ---</option>
-        <option value="Robin">Robin</option>
-        <option value="Fox">Fox</option>
-        <option value="Badger">Badger</option>
-        <option value="Hedgehog">Hedgehog</option>  
-      </select> 
-      <p></p>
+      {{#let this.options as |options|}}      
+        <p></p>
+        <label for={{@question.question}}>{{@question.question}}</label>
+        <select multientry={{@question.multiEntry}}
+                id={{@question.id}}
+                >
+        <option selected="true" value="">--- pick ---</option>     
+        {{#each options as |op|}}      
+          <option value={{op}}>{{op}}</option>   
+        {{/each}}     
+        </select> 
+        <p></p>
+     {{/let}}
     {{!-- If mulitEntry question type not 'select': --}}
     {{else}}
       <p></p>
@@ -25,6 +27,7 @@
       @value={{if @question.multiEntry "" this.value}}       
       @type={{@question.type}}
       {{did-insert this.focus}}
+      @required={{@question.required}}
       /></span>
       <p></p>    
     {{/if}}
@@ -41,15 +44,16 @@
    {{/if}}  
    {{#if (and @display (eq this.showField false))}}        
     {{#if (eq @question.type "select")}} 
-     <label for={{@question.question}}>{{@question.question}}</label>
-     <select multientry={{@question.multiEntry}}
-             id={{@question.id}} >
-      <option selected="true" value="">--- pick ---</option>
-      <option value="Robin">Robin</option>
-      <option value="Fox">Fox</option>
-      <option value="Badger">Badger</option>
-      <option value="Hedgehog">Hedgehog</option>  
-      </select> 
+          {{#let this.options as |options|}}            
+          <p></p>
+        <label for={{@question.question}}>{{@question.question}}</label>
+        <select multientry={{@question.multiEntry}}
+                id={{@question.id}} >            
+      {{#each options as |op|}}      
+          <option selected={{if (eq @question.response op) true}} value={{op}}>{{op}}</option>   
+      {{/each}}     
+        </select>        
+  {{/let}}
       <button class="p-2 font-bold"
       {{on "click" (fn this.showInput )}}>X
       </button>
@@ -62,6 +66,7 @@
       @formid={{true}}      
       @placeholder={{@question.response}}
       @type={{@question.type}}
+      @required={{@question.required}}
       {{did-insert this.focus}}
       /></span> 
       <button class="p-2 font-bold"
@@ -87,18 +92,19 @@
    {{#if (eq @hideEditQuestion false)}}   
    
     {{#if (eq @question.response '')}}               
-      {{#if (eq @question.type "select")}}
-        <p></p>
-        <label for={{@question.question}}>{{@question.question}}</label>
-        <select multientry={{@question.multiEntry}}
-              id={{@question.id}} >
-          <option selected="true" value="">--- pick ---</option>
-          <option value="Robin">Robin</option>
-          <option value="Fox">Fox</option>
-          <option value="Badger">Badger</option>
-          <option value="Hedgehog">Hedgehog</option>   
+      {{#if (eq @question.type "select")}}        
+      {{#let this.options as |options|}}      
+          <p></p>
+          <label for={{@question.question}}>{{@question.question}}</label>
+          <select multientry={{@question.multiEntry}}
+                 id={{@question.id}} >
+          <option selected="true" value="">--- pick ---</option>     
+        {{#each options as |op|}}      
+          <option value={{op}}>{{op}}</option>   
+        {{/each}}     
         </select> 
         <p></p>
+      {{/let}}
       {{else}}
         <p></p>
         <label>{{@question.question}} <span class="ml-2"> 
@@ -108,6 +114,7 @@
         @formid={{@form.id}}        
         @value={{if @question.multiEntry "" this.value}}         
         @type={{@question.type}}
+        @required={{@question.required}}
         {{did-insert this.focus}}
         /></span>
         </label>
@@ -131,18 +138,17 @@
   
     {{#if @hideEditQuestion}}
       {{#if (eq @question.type "select")}} 
-       <label for={{@question.question}}>{{@question.question}}</label>
-       <select multientry={{@question.multiEntry}}
-               id={{@question.id}} >
-        <option selected="true" value="">--- pick ---</option>
-        <option value="Robin">Robin</option>
-        <option value="Fox">Fox</option>
-        <option value="Badger">Badger</option>
-        <option value="Hedgehog">Hedgehog</option>  
+      {{#let this.options as |options|}}      
+          <p></p>
+        <label for={{@question.question}}>{{@question.question}}</label>
+        <select multientry={{@question.multiEntry}}
+                id={{@question.id}} >            
+      {{#each options as |op|}}      
+          <option selected={{if (eq @question.response op) true}} value={{op}}>{{op}}</option>   
+      {{/each}}     
         </select> 
-        <button class="p-2 font-bold"
-          {{on "click" (fn @hideEditingQuestion)}}>X
-        </button>
+        <p></p>
+  {{/let}}
       {{else}}     
       <p></p>
       {{@question.question}} <span class="ml-2"> 
@@ -152,6 +158,7 @@
       @formid={{false}}      
       @placeholder={{@question.response}}    
       @type={{@question.type}}
+      @required={{@question.required}}
       {{did-insert this.focus}}
       /> </span>
        <button class="p-2 font-bold"

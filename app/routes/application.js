@@ -35,6 +35,7 @@ export default class ApplicationRoute extends Route {
             type: 'select',
             rep: 1,
             pos: 1,
+            options: 'fox,badger,hedgehog,squirrel',
             formTemplate: formTemplate
           })
           questionTemplate
@@ -102,7 +103,8 @@ export default class ApplicationRoute extends Route {
             multiEntry: true,
             type: 'select',
             rep: 1,
-            pos: 1,            
+            pos: 1,  
+            options: 'fox,badger,hedgehog,squirrel',          
             form: form
           })
           question
