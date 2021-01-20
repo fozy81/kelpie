@@ -9,18 +9,20 @@ export default class FormQuestionComponent extends Component {
   showInput() {      
         
         this.showField = !this.showField    
-        console.log(this.showField)
+        console.log('showField: ' + this.showField)
 
   }
 
   @action
-  save(event) {      
-        
+  save(event) {   
     this.args.addSelections(event)
     this.showInput()
 
   }
 
+  get displayValue() {
+    return this.args.value
+  }
 
 
   @tracked value = this.args.value; 
@@ -46,13 +48,21 @@ export default class FormQuestionComponent extends Component {
     }
   }
 
-  get options(){
+  @tracked optionsEntered = []
+  @action
+  optionsEnter() {
 
+     // Need @questions and @responses and build list of previously entered responses
+     // If @questoins supplied to form-question as attribute?
+  }
+
+  get options(){
     let optionString = this.args.question
     console.log(optionString.options)
+     
+    optionString = optionString.options.split(',')
 
-     optionString = optionString.options.split(',')
-    
+    //console.log('options - recalculated>:' + this.optionsEntered)
     return optionString
   }
 }

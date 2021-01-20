@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service'
+import { system } from 'faker';
 
 export default class CounterComponent extends Component {
 
@@ -9,12 +10,12 @@ export default class CounterComponent extends Component {
 
   @service store;
   @action
-  editForm(){ 
-     let id = this.args.model.id
-     this.store.findRecord('form', id).then(function(form) {
-     form.edit = !form.edit;
-     form.save()
-  }) 
+  editForm() {
+    let id = this.args.model.id
+    this.store.findRecord('form', id).then(function (form) {
+      form.edit = !form.edit;
+      form.save()
+    })
 
   }
 
@@ -33,7 +34,7 @@ export default class CounterComponent extends Component {
     event.preventDefault()
     this.shows = !this.shows
     console.log("show: " + this.shows)
-  
+
 
   }
 
@@ -72,9 +73,10 @@ export default class CounterComponent extends Component {
 
   @action
   formChange(event) {
-     console.log( event)
-    let selection = { id: event.target.id, value: event.target.value }   
-    if (this.selectedOptions.length === 0 ) {
+    //event.preventDefault()
+    console.log('event: ' + event)
+    let selection = { id: event.target.id, value: event.target.value }
+    if (this.selectedOptions.length === 0) {
       this.selectedOptions.push(selection)
     } else {
       // eslint-disable-next-line no-inner-declarations
@@ -98,125 +100,166 @@ export default class CounterComponent extends Component {
       this.selectedOptions = selectedOptions
 
     }
-          console.log(this.selectedOptions)
-          //this.hideEditingQuestion()
-     
-          console.log('hideEditQuestion: ' + this.hideEditQuestion)
+    console.log(this.selectedOptions)
+    //this.hideEditingQuestion()
+
+    console.log('hideEditQuestion: ' + this.hideEditQuestion)
   }
 
   @action
-  addSelections(event) {   
-    event.preventDefault();  
-    console.log(event)  
-    console.log(this.formElement.childNodes)    
-    console.log('select options: ' + this.selectedOptions)
+  addSelections(event) {
+    //event.preventDefault();  
+    console.log(event)
+    console.log(this.formElement.childNodes)
+    console.log('select options length: ' + this.selectedOptions.length)
     let selectedOptions = this.selectedOptions
     console.log("save data")
-    console.log('formid:' + event.target.attributes.formid.value)    
+    console.log('formid:' + event.target.attributes.formid.value)
     let formid = event.target.attributes.formid.value
     let store = this.store
-    let currentForm = store.peekRecord('form', formid) 
-     let update = event.target.attributes.update.value
-     console.log('update: ' + update)
-     console.log('rep: ' +  currentForm.rep)
-    if(currentForm.multiEntry
-       && currentForm.display == true  
-       && update === "false"
+    let currentForm = store.peekRecord('form', formid, { include: 'questions' })
+    let update = event.target.attributes.update.value
+    console.log('update: ' + update)
+    console.log('rep: ' + currentForm.rep)
+    if (currentForm.multiEntry
+      && currentForm.display == true
+      && update === "false"
+      && selectedOptions.length > 0
+    ) {
+      let questions = currentForm.questions
+      let requiredId = []
+      questions.map(function (question) {
+        if (question.required != undefined && question.required === true) {
+          requiredId.push(question.id)
+        }
+      })
+      let selectedId =  selectedOptions.map(function(item){
+         return item.id
+      })
+      console.log('selectId: ' + selectedId)
+      console.log('requiredId: ' + requiredId)
+      const found = requiredId.filter(id => selectedId.includes(id));
+      console.log('found: ' + found)
+      if (found.length >= requiredId.length) {
+      store.createRecord('form', {
+        title: currentForm.title,
+        description: currentForm.description,
+        templateId: currentForm.templateId,
+        multiEntry: currentForm.multiEntry,
+        rep: 2,
+        task: currentForm.task,
+        display: true
+      }).save().then(function (newForm) {
+        // check if any required questions not entered by matching question.id to select.id???
+        selectedOptions.map(function (select) {
+          console.log('question id: ' + select.id)
+          store.findRecord('question', select.id)
+            .then(function (question) {
+              // if multiEntry
+              console.log('multi-entry: ' + question.multiEntry)
+              console.log(newForm.title)
 
-       ) {
-    store.createRecord('form', {
-       title: currentForm.title,
-       description: currentForm.description,
-       templateId: currentForm.templateId,
-       multiEntry: currentForm.multiEntry,
-       rep: 2,
-       task: currentForm.task,
-       display: true
-    }).save().then(function(newForm) {   
-      // check if any required questions not entered by matching question.id to select.id???
-    selectedOptions.map(function (select) {
-      console.log('question id: ' + select.id)
-      store.findRecord('question', select.id)
-      .then(function (question) {
-        // if multiEntry
-        console.log('multi-entry: ' + question.multiEntry)
-        console.log(newForm.title)
-                         
-          store.createRecord('question', {
-            response: select.value,
-            rep: true,            
-            question: question.question,
-            form: newForm,
-            type: question.type,   
-            pos: question.pos,   
-            options: question.options,
-            required: question.required,           
-            multiEntry: question.multiEntry
-          }).save()
-      
-        }) 
+              store.createRecord('question', {
+                response: select.value,
+                rep: true,
+                question: question.question,
+                form: newForm,
+                type: question.type,
+                pos: question.pos,
+                options: question.options,
+                required: question.required,
+                multiEntry: question.multiEntry
+              }).save()
+             
+            })
+        })
       })
-    })
-  }      
-   else {    
-   // update form (don't create new form)
-   console.log('updating response')
-   store.findRecord('form', formid)
-       .then(function(form) {
-        form.rep = 2
-        form.display = true
-        form.save()
-       })
+      this.selectedOptions = []
+    } else { return }
+    }
+    else {
+      // update form (don't create new form)
+      console.log('updating response')
+      if (selectedOptions.length > 0) {
+        let questions = currentForm.questions
+        let requiredId = []
+        let questionEntered = []
+        questions.map(function (question) {
+          if (question.required != undefined && question.required === true) {
+            requiredId.push(question.id)
+          }
+          if (question.response != '') {
+            questionEntered.push(question.id)
+          }
+
+        })
+        let selectedId =  selectedOptions.map(function(item){
+           return item.id
+        })
+        console.log('selectId: ' + selectedId)
+        console.log('requiredId: ' + requiredId)
+        const found = requiredId.filter(id => selectedId.includes(id));
+        console.log('found: ' + found)       
+        if (found.length >= requiredId.length || questionEntered.length > 0) {
+          currentForm.rep = 2
+          currentForm.display = true
+          currentForm.save()
+          selectedOptions.map(function (select) {
+            console.log('SELECTED VALUE' + select.value)
+            console.log('selectid' + select.id)
+            store.findRecord('question', select.id)
+              .then(function (question) {
+                question.response = select.value
+                question.save()
+              })
+              
+          })
+          this.selectedOptions = []
+        
+        } else {
+          console.log('fail')
+          return
+        }
+      } else {
+        return
+      }
+     
+    }
+ 
+    if (this.hideEditQuestion === true) {
+      this.hideEditingQuestion()
+    }
+    console.log('showInput: ' + this.input)    
    
-    selectedOptions.map(function (select) {
-      console.log('SELECTED VALUE' + select.value)
-      console.log('selectid' + select.id)
-      store.findRecord('question', select.id)
-      .then(function (question) {
-        question.response = select.value
-        question.save()
-      })
-    })      
-  }
-  console.log('selectOptions: '  + this.selectedOptions)
-  
-  //this.showInput() 
-  if(this.hideEditQuestion === true) {
-   this.hideEditingQuestion()  
-  }
-  //   this.showQuestion() 
-   
-    // this.showInput() 
-    //this.hideEditQuestion()
-    console.log('shouwINput' + this.input)
   }
 
   @tracked input = true
   @action
-  showInput(){
+  showInput() {
     this.input = !this.input
     console.log(this.input)
+
   }
 
-  get orderByPosition(){    
-    let questions = this.args.questions  
+  get orderByPosition() {
+    let questions = this.args.questions
     questions.map(item => console.log('question order?' + item.pos))
-    
-    let sorted = questions.sortBy('pos') 
+
+    let sorted = questions.sortBy('pos')
 
     sorted.map(item => console.log('sorted order?' + item.pos))
     return sorted
 
   }
 
-  get orderFormQuestionsByPosition(){   
-     console.log('order question in forms')
-    let forms = this.args.allforms  
-   
-  //  let sorted = forms.map(function(form){      
-  //    form.questions.sortBy('pos')    
-      
-  //   })
+  get orderFormQuestionsByPosition() {
+    console.log('order question in forms')
+    let forms = this.args.allforms
+
+    //  let sorted = forms.map(function(form){      
+    //    form.questions.sortBy('pos')    
+
+    //   })
 
     return forms
 

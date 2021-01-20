@@ -59,7 +59,7 @@ export default class EditFormComponent extends Component {
   @service router;
   @action
   saveReplaceForm(event) { 
-
+    console.log('saveReplaceForm: ')
     event.preventDefault()
     let store = this.store
     let args = this.args
@@ -81,12 +81,14 @@ export default class EditFormComponent extends Component {
 
       // For question type 'dropdown' select options:
      let questionTemplates = formTemplates.questionTemplates;
-        questionTemplates.map(function(question, index) {       
+        questionTemplates.map(function(question, index) {   
+          console.log('questiont mpa')    
         store.findRecord('question-template', question.id).then( 
         function(questionTemplate) {
           console.log('questiontemplate question: ' + questionTemplate.question)
+          if(selectedOptions[index].value   !== undefined) {
           questionTemplate.type = selectedOptions[index].value   
-
+          }
           questionTemplate.response = ''       
           questionTemplate.save()
         })
