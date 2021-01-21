@@ -20,8 +20,16 @@
 <button type="button" class="w-full text-left"
             {{on "click" this.showQuestion}}
             > 
-<div class="font-bold">{{@model.title}}</div>
+<div class="font-bold">{{@model.title}} 
+{{#let this.questionNumber as |stat|}}
+<span class="text-sm  {{if stat.complete "text-lg text-teal-600" "text-orange-600"}}">
+{{if stat.complete "✓" stat.text}}
+</span>
+{{/let}}
+
+</div>
 {{@model.description}}
+
 </button>
 {{!-- Open form menu --}}
 {{#if this.shows}}

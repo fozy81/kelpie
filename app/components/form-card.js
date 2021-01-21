@@ -265,5 +265,32 @@ export default class CounterComponent extends Component {
 
   }
 
+  get questionNumber() {
 
+    let questions = this.args.questions
+   console.log('ql: ' + questions.length)
+   let responses = []
+   questions.map(function(question) {
+      if(question.response != '') {
+        responses.push(question.response)
+      }
+   })
+   let percentage = (responses.length / questions.length) * 100
+   let complete = false
+   let text = `${responses.length}/${questions.length}`
+   if(percentage == 100) {
+     complete = true
+   } 
+
+
+   let stats = {
+     total: questions.length,
+     responses: responses.length,    
+     percentage: percentage,
+     complete: complete,
+     text: text
+    }
+    return stats
+
+  }
 }
