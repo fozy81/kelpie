@@ -1,11 +1,15 @@
-
-
 <div class="font-bold p-2">
 Question<span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @value={{@question.question}}
  {{did-insert this.focus}}
-/></span><span><button class="border-gray-400 border p-1 rounded-md">Remove</button></span>
+/></span>
+<span>
+ <button class="border-gray-400 border p-1 rounded-md"
+ {{on "click" (fn this.removeQuestion @question.id)}}
+ >Remove
+ </button>
+ </span>
 <p></p>
 Required <span class="ml-2"> 
 <Input class="m-2 w-30 border-b border-gray-400" 
@@ -23,6 +27,7 @@ Type:
  {{@question.type}}  
 </button>
 {{/if}}
+
 {{#if (and (eq @question.type "select") (eq this.showField false))}}
 <p></p>Comma seperate options: 
 <button
@@ -31,6 +36,16 @@ Type:
  {{@question.options}}
 </button>
 {{/if}}
+
+{{#if (and (eq @question.type "number") (eq this.showField false))}}
+<p></p>Number options 
+<button
+ class="ml-2 p-1 border border-gray-400"
+{{on "click" (fn this.showInput @question.type)}}>
+ Max {{@question.max}}  Min {{@question.min}}
+</button>
+{{/if}}
+
 
 {{#if (or showField @show)}}
 <div  
@@ -55,11 +70,25 @@ Type:
 {{/if}}
 
 </div>
-{{#if this.selecting}}
+{{#if (eq this.selecting "select")}}
 Comma seperate options: 
 <Input 
  class="m-2 w-30 border-b border-gray-400"
  @type="text"
  @value={{@question.options}}/>
 {{/if}}
+{{#if (eq this.selecting "number")}}
+Max
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.max}}/>
+ Min
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.min}}/>
+{{/if}}
+
+
 {{yield}}

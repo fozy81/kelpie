@@ -1,3 +1,4 @@
+
 {{!--  ######## MULTIENTRY QUESTION ################################  --}}
 {{#if @question.multiEntry}}
   {{!--  ### Index 1 (first form in task) ###  --}}
@@ -89,8 +90,7 @@
 <!-- ############ SINGLE ENTRY QUESTION ####################### -->
 <!-- ### On first entry ### -->
 {{#if (eq @question.multiEntry false)}}   
-   {{#if (eq @hideEditQuestion false)}}   
-   
+   {{#if (eq @hideEditQuestion false)}}  
     {{#if (eq @question.response '')}}               
       {{#if (eq @question.type "select")}}        
       {{#let this.options as |options|}}      
@@ -106,14 +106,16 @@
         <p></p>
       {{/let}}
       {{else}}
-        <p></p>
-        <label>{{@question.question}} <span class="ml-2"> 
+        <p></p>        
+        <label>{{@question.question}} <span class="ml-2">     
         <Input class="m-2 border-b border-gray-400"         
         id={{@question.id}}
         response={{if @question.multiEntry "" @question.response}}
         @formid={{@form.id}}        
         @value={{if @question.multiEntry "" this.value}}         
         @type={{@question.type}}
+        max={{@question.max}}
+        min={{@question.min}}
         @required={{@question.required}}
         {{did-insert this.focus}}
         /></span>
@@ -136,7 +138,7 @@
   <!-- ### On update #### -->
   {{!-- {{#if (eq this.showField false)}}    --}}
   
-    {{#if @hideEditQuestion}}
+    {{#if @hideEditQuestion}}   
       {{#if (eq @question.type "select")}} 
       {{#let this.options as |options|}}      
           <p></p>
@@ -151,16 +153,22 @@
   {{/let}}
       {{else}}     
       <p></p>
+
       {{@question.question}} <span class="ml-2"> 
-      <Input class="m-2 border-b border-gray-400" 
+       
+      <input class="m-2 border-b border-gray-400" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
-      @formid={{false}}      
-      @placeholder={{@question.response}}    
-      @type={{@question.type}}
-      @required={{@question.required}}
+      formid={{true}}      
+      value={{@question.response}}
+      type={{@question.type}}
+      max={{@question.max}}
+      min={{@question.min}}     
+      required={{@question.required}}
       {{did-insert this.focus}}
-      /> </span>
+      /></span> 
+
+
        <button class="p-2 font-bold"
       {{on "click" (fn @hideEditingQuestion)}}>X
       </button>    

@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class EditQuestionComponent extends Component {
 
@@ -8,48 +9,59 @@ export default class EditQuestionComponent extends Component {
     @tracked showField = false;
     @action
     showInput(select) {
-          this.showField = !this.showField 
-          console.log(this.showField)
-          this.selectOptions(select)
+        this.showField = !this.showField
+        console.log('showField: ' + this.showField)
+        this.selectOptions(select)
     }
 
     @action
     focus(element) {
-      element.focus();
+        element.focus();
     }
 
-    @tracked selecting = false;
+
     @action
     selectOptions(selected) {
-        console.log('selectedOptions')
-        console.log(selected)
-        if(selected && selected === 'select'){
-            this.selecting = !this.selecting
-        } else if (selected){
-            this.selecting == false
-        } else {
-            console.log('no parameter')
-        this.selecting = !this.selecting
+        if (selected === 'select') {
+            this.selecting = 'select'
+            console.log('option this.selecting: ' + this.selecting)
+        }
+        if (selected === 'number') {
+            this.selecting = 'number'
+            console.log('option this.selecting: ' + this.selecting)
         }
     }
 
 
- @tracked selecting = false;
- @action
- select(event) {
-    if(event.target.value === 'select') {
-   this.selecting = !this.selecting
-   console.log('selecting' + this.selecting)
-    } else {
-        this.selecting = false
+    @tracked selecting = false;
+    @action
+    select(event) {
+
+        console.log('event target value: ' + event.target.value)
+        if (event.target.value === 'select') {
+            this.selecting = 'select'
+            console.log('option this.selecting: ' + this.selecting)
+        }
+        else if (event.target.value === 'number') {
+            this.selecting = 'number'
+        } else {
+            this.selecting = false
+        }
+
+        this.args.formChange(event)
     }
 
-   this.args.formChange(event)
- }
+    @service store;
+    @action
+    removeQuestion(id) {
 
+        console.log('remove question!' + id)
 
+        let question = this.store.peekRecord('question-template', id);
+        console.log('remove question!' + question)
+        question.destroyRecord()
+    }
 
-  
 
 }
 

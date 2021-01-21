@@ -3,7 +3,21 @@
             border-teal-300 text-left">
         
 
-<div class="font-bold p-2 text-gray-600">Editing Form Template...</div>
+<div class="wrap flex">
+<div class="font-bold p-2 text-gray-600 w-3/4">Editing Form Template...</div>
+{{#if (or (eq @formTemplate.archive false) (eq @formTemplate.archive undefined))}}
+<button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
+ {{on "click" (fn this.removeFormTemplate @formTemplate.id)}}>
+ Archive
+ </button>
+{{/if}}
+{{#if (eq @formTemplate.archive true)}}
+<button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
+ {{on "click" (fn this.removeFormTemplate @formTemplate.id)}}>
+ Re-Activate
+ </button>
+{{/if}}
+</div>
 <hr class="border-t-2 border-gray-400">
 <div class="font-bold p-2">
 Title <span class="ml-2"> 

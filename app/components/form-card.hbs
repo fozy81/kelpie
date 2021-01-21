@@ -49,8 +49,7 @@
 
 {{#let this.orderByPosition as | orderedquestions|}}
 {{#each orderedquestions as |question index|}}
-{{!-- include order Position within FormQuestion hbs? i.e FormQuestion takes in multiple questions and orders them and renders them? 
-      Provider Component needed!!!--}}
+{{!-- this.orderByPosition takes in multiple questions and orders them --}}
 <FormQuestion @form={{@model}}              
               @question={{question}}  
               @input={{this.input}}
@@ -64,7 +63,9 @@
 {{/each}}
 {{/let}}
 <div class="grid grid-cols-1">
- {{!-- Submit form --}}     
+ {{!-- Submit form --}}  
+ {{#let this.questionNumber as |stat|}}
+ {{#if (or this.hideEditQuestion (eq stat.complete false) @model.multiEntry)}}  
 <button
 class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"
  formid={{@model.id}}  
@@ -72,6 +73,8 @@ class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bol
  type="submit" 
  {{on "click" this.addSelections}}>Submit Form
 </button>
+{{/if}}
+{{/let}}
 </div>
 <p></p>
 </div>

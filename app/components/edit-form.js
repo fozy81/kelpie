@@ -133,6 +133,8 @@ export default class EditFormComponent extends Component {
             pos: questionTemplate.pos,
             options: questionTemplate.options,
             required: questionTemplate.required,
+            min: questionTemplate.min,
+            max: questionTemplate.max,
             form: myForm
           })
           question.save()
@@ -181,4 +183,24 @@ export default class EditFormComponent extends Component {
         this.showField = index    
         console.log(this.showField)
   }
+
+  @action
+  removeFormTemplate(id){
+ 
+   console.log('remove question!' + id)
+ 
+   let form = this.store.peekRecord('form-template', id);
+   console.log('remove question!' + form)
+   if(form.archive === true) {
+    form.archive = false
+   } else {
+   form.archive = true
+   }
+   form.save()
+   this.args.edit()
+  }
+
+
+
+  
 }
