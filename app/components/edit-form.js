@@ -123,10 +123,14 @@ export default class EditFormComponent extends Component {
         let myForm = store.peekRecord('form', form.id);
         questionTemplates.map(function(questionTemplate) {
           console.log('question: ' + questionTemplate.question)
-          console.log('multi-entry? : ' + myForm.multiEntry)          
+          console.log('multi-entry? : ' + myForm.multiEntry) 
+          let response = ''
+             if(questionTemplate.default) {
+              response = questionTemplate.default
+             }            
           let question = store.createRecord('question', {
             question: questionTemplate.question,
-            response: '',
+            response: response,
             rep: 1,
             multiEntry: myForm.multiEntry,
             type: questionTemplate.type,
@@ -136,6 +140,7 @@ export default class EditFormComponent extends Component {
             min: questionTemplate.min,
             max: questionTemplate.max,
             step: questionTemplate.step,
+            default: questionTemplate.default,
             form: myForm
           })
           question.save()

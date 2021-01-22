@@ -11,6 +11,7 @@ export default class QuestionTemplateModel extends Model {
     @attr('number') max;
     @attr('number') min;
     @attr('number') step;
+    @attr default;
     @attr('string') rev;  
     @attr options;
     @attr required;

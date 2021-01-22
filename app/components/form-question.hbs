@@ -108,8 +108,14 @@
           </select> 
           <p></p>
         {{/let}}
-      {{else}}
-      {{#if (not-eq @question.type "checkbox")}} 
+      {{else}}     
+           {{#if @question.default}}
+         <p></p>        
+        <label>{{@question.question}}: <span class="ml-2">    
+          {{@question.default}} </span>
+          </label>
+             <p></p>    
+      {{else if (not-eq @question.type "checkbox")}} 
         <p></p>        
         <label>{{@question.question}} <span class="ml-2">     
         <Input class="m-2 border-b border-gray-400"         
@@ -125,8 +131,9 @@
         {{did-insert this.focus}}
         /></span>
         </label>
-        <p></p>
-        {{else}}
+        <p></p>   
+   
+        {{else}}     
         <p></p>        
         <label>{{@question.question}} <span class="ml-2">     
         <Input class="m-2 border-b border-gray-400"         
@@ -175,7 +182,13 @@
         <p></p>
    {{/let}}
       {{else}}  
-      {{#if (not-eq @question.type "checkbox")}}   
+           {{#if @question.default}}
+         <p></p>        
+        <label>{{@question.question}}: <span class="ml-2">    
+          {{@question.default}} </span>
+          </label>
+             <p></p>  
+      {{else if (not-eq @question.type "checkbox")}}   
       <p></p>
       {{@question.question}} <span class="ml-2">        
       <input class="m-2 border-b border-gray-400" 

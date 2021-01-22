@@ -46,6 +46,15 @@ Type:
 </button>
 {{/if}}
 
+{{#if (and (eq @question.type "text") (eq this.showField false))}}
+<p></p>Text options 
+<button
+ class="ml-2 p-1 border border-gray-400"
+{{on "click" (fn this.showInput @question.type)}}>
+ Uneditable response: {{@question.default}}
+</button>
+{{/if}}
+
 
 {{#if (or showField @show)}}
 <div  
@@ -78,6 +87,15 @@ Comma seperate options:
  @type="text"
  @value={{@question.options}}/>
 {{/if}}
+
+{{#if (eq this.selecting "text")}}
+Uneditable default response: 
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.default}}/>
+{{/if}}
+
 {{#if (eq this.selecting "number")}}
  Min
 <Input 
