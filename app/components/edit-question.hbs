@@ -64,7 +64,8 @@ Type:
   <option value="number">number</option>
   <option value="date">date</option>
   <option value="time">time</option>  
-  <option value="select">select</option>  
+  <option value="select">select</option>
+  <option value="checkbox">checkbox</option>  
 </select> 
 </div>
 {{/if}}
@@ -78,16 +79,21 @@ Comma seperate options:
  @value={{@question.options}}/>
 {{/if}}
 {{#if (eq this.selecting "number")}}
-Max
-<Input 
- class="m-2 w-30 border-b border-gray-400"
- @type="text"
- @value={{@question.max}}/>
  Min
 <Input 
  class="m-2 w-30 border-b border-gray-400"
  @type="text"
  @value={{@question.min}}/>
+Max
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.max}}/>
+Step
+<Input 
+ class="m-2 w-30 border-b border-gray-400"
+ @type="text"
+ @value={{@question.step}}/>
 {{/if}}
 
 

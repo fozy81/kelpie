@@ -61,7 +61,8 @@ export default class CreateCardComponent extends Component {
 
     if (model == "project") {
       this.store.createRecord(model, {
-        title: this.newName
+        title: this.newName,
+        projectId: '121'
       }).save().then(function (record) {
         const path = '/' + router.currentRoute.name + '/' + record.id
         router.transitionTo(path);

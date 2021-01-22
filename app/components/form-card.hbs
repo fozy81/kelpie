@@ -28,21 +28,23 @@
 {{/let}}
 
 </div>
-{{@model.description}}
+
 
 </button>
 {{!-- Open form menu --}}
 {{#if this.shows}}
+
 <div class="w-8 text-right block"> 
 <Menu @id={{@model.id}}
       @label="form" 
       @title="..."
       @edit={{this.editForm}}/>
 </div>
-
 {{/if}}
 </div>
+
 {{#if this.shows}}
+<div>{{@model.description}}</div>
 {{!-- Open form questions --}}
 <div {{on "change" this.formChange}} 
      {{ref this "formElement"}}> 
@@ -66,13 +68,24 @@
  {{!-- Submit form --}}  
  {{#let this.questionNumber as |stat|}}
  {{#if (or this.hideEditQuestion (eq stat.complete false) @model.multiEntry)}}  
+
 <button
 class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"
  formid={{@model.id}}  
  update="false"
  type="submit" 
- {{on "click" this.addSelections}}>Submit Form
+ {{on "click" this.addSelections}}>Submit
 </button>
+
+
+<button
+class="place-content-center m-2 p-1 border-1 border-gray-800 rounded-md bg-gray-400"
+ formid={{@model.id}}  
+ update="false"
+ type="submit" 
+ {{on "click" this.showQuestion}}>Cancel
+</button>
+
 {{/if}}
 {{/let}}
 </div>

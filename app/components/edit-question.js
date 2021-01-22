@@ -30,6 +30,10 @@ export default class EditQuestionComponent extends Component {
             this.selecting = 'number'
             console.log('option this.selecting: ' + this.selecting)
         }
+        if (selected === 'checkbox') {
+            this.selecting = 'checkbox'
+            console.log('option this.selecting: ' + this.selecting)
+        }
     }
 
 
@@ -44,6 +48,9 @@ export default class EditQuestionComponent extends Component {
         }
         else if (event.target.value === 'number') {
             this.selecting = 'number'
+        } 
+        else if (event.target.value === 'checkbox') {
+            this.selecting = 'checkbox'
         } else {
             this.selecting = false
         }

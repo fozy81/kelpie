@@ -66,6 +66,7 @@ export default class CounterComponent extends Component {
   hideEditingQuestion() {
     this.hideEditQuestion = !this.hideEditQuestion
     console.log("hideEditQuestion: " + this.hideEditQuestion)
+
   }
 
 
@@ -74,7 +75,14 @@ export default class CounterComponent extends Component {
   @action
   formChange(event) {
     //event.preventDefault()
-    console.log('event: ' + event)
+   
+
+    if(event.target.type === "checkbox" &&
+      typeof event.target.attributes.response.value !== "undefined" &&
+       event.target.attributes.response.value === "on" 
+       ) {
+      event.target.value = ''
+    }
     let selection = { id: event.target.id, value: event.target.value }
     if (this.selectedOptions.length === 0) {
       this.selectedOptions.push(selection)
@@ -108,11 +116,13 @@ export default class CounterComponent extends Component {
 
   @action
   addSelections(event) {
+    console.log('save addSelecitons hellO!')
     //event.preventDefault();  
     console.log(event)
     console.log(this.formElement.childNodes)
     console.log('select options length: ' + this.selectedOptions.length)
     let selectedOptions = this.selectedOptions
+    console.log(selectedOptions)
     console.log("save data")
     console.log('formid:' + event.target.attributes.formid.value)
     let formid = event.target.attributes.formid.value

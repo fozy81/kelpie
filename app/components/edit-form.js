@@ -135,6 +135,7 @@ export default class EditFormComponent extends Component {
             required: questionTemplate.required,
             min: questionTemplate.min,
             max: questionTemplate.max,
+            step: questionTemplate.step,
             form: myForm
           })
           question.save()

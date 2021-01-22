@@ -12,6 +12,7 @@ export default class QuestionModel extends Model {
     @attr('number') pos;
     @attr('number') min;
     @attr('number') max;
+    @attr('number') step;
     @attr('string') rev;  
     @belongsTo form;
   
