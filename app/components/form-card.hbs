@@ -23,7 +23,7 @@
 <div class="font-bold">{{@model.title}} 
 {{#let this.questionNumber as |stat|}}
 <span class="text-sm  {{if stat.complete "text-lg text-teal-600" "text-orange-600"}}">
-{{if stat.complete "✓" stat.text}}
+{{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}
 </span>
 {{/let}}
 
@@ -36,7 +36,8 @@
 
 <div class="w-8 text-right block"> 
 <Menu @id={{@model.id}}
-      @label="form" 
+      @label="form"   
+      @model={{@model}}
       @title="..."
       @edit={{this.editForm}}/>
 </div>
