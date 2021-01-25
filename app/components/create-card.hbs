@@ -1,20 +1,32 @@
 {{#if this.show}}
-
 <div class="m-2 p-2
             shadow-md border-gray-400
             bg-gray-200">
 
-Title 
+Title
 <Input class="shadow-md border-2 border-gray-400" 
 @placeholder="Name"
-{{did-insert this.focus}}
+{{did-insert this.resetForm}}
 @modelName = {{@modelname}}
 @value={{this.newName}}
 {{on "keyup" this.searchMatches}}
 @insert-newline={{fn this.createCard}} />
- <button class="p-2 font-bold"
-      {{on "click" this.showCard}}>X</button>
-
+<button class="p-2 font-bold"
+  {{on "click" this.showCard}}> X
+   </button>
+  {{#if (eq @modelName "form")}}
+     Add:
+     <label for={{@question.question}}>{{@question.question}}</label>
+        <select id="test" {{on "change" this.updateModel}}>        
+         <option value="form-template">Form</option>
+         <option value="method">Method</option>
+        </select>  
+     {{/if}}
+{{!-- {{#let  as |result|}} --}}
+  {{!-- {{#each this.query as |item|}}
+    {{item.title}}
+  {{/each}} --}}
+{{!-- {{/let}} --}}
 {{#if @list}}
 
  {{#each @list as |item|}}
@@ -22,13 +34,27 @@ Title
      <div>
        <button 
         {{on "click" (fn this.addFormTemplate item.id)}}>
-        {{item.title}}
+        {{item.title}} 
         </button>
      </div>
      {{/if}}
 {{/each}}
-{{ else }}
-  
+{{ else }} 
+   {{#each this.query as |item|}}
+   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
+     <div>
+    
+       <button 
+        {{on "click" (fn this.addFormTemplate item.id)}}>
+        {{item.title}}
+        </button>
+     </div>
+     {{/if}}
+     {{else}}
+     <div>
+        <button type="submit" {{on "click" this.createCard}} >Create!</button>
+        </div>
+{{/each}}
 {{/if}}
 
 </div>

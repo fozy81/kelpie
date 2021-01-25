@@ -1,4 +1,7 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 
 export default class FormsComponent extends Component {
 
@@ -30,6 +33,16 @@ export default class FormsComponent extends Component {
     let sorted = forms.sortBy(toString('dateCreated')).reverse()    
     return sorted     
     }
+
+   @tracked editMethodTemplate = false
+   @tracked methodTemplateId = false
+   @action
+   editingTemplate(id) {
+     this.editMethodTemplate = !this.editMethodTemplate 
+    console.log('editing action status: ' + this.editMethodTemplate)
+    this.methodTemplateId = id
+    console.log('editing action method TemplateId: ' + this.methodTemplateId)
+   }
 
   
  }

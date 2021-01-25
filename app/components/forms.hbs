@@ -6,9 +6,24 @@
       @model={{form}}
       @questions={{form.questions}}
       @allforms={{allforms}}      
-      @formTemplates={{@formTemplates}}
+      @formTemplates={{@formTemplates}}     
     />
   {{/each}}
 {{/let}}
 {{/let}}
+
+<CreateCard @modelName="form" @label="Add More..." @editing={{this.editingTemplate}} 
+ />
+
+{{#if this.editMethodTemplate}}
+
+Work in progress...
+Create Method (aka a lists of forms)
+<p></p>
+{{this.methodTemplateId}}
+
+
+
+{{/if}}
+
 {{yield}}

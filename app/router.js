@@ -17,4 +17,5 @@ Router.map(function() {
     path: 'task/:task_id'
   });
   this.route('responses');
+  this.route('login');
 });
