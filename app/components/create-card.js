@@ -70,7 +70,7 @@ export default class CreateCardComponent extends Component {
   
 
   getRandomColor() {
-    return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 1)';
+    return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 0.5)';
   }
   
 
