@@ -15,6 +15,8 @@ export default class ApplicationRoute extends Route {
           title: 'Welcome Project',
           description: 'Demo example project',
           startDate: new Date(),
+          createdDate: new Date(),
+          dueDate: new Date(),
           projectId: shortlink.generate(8)  
         })
 

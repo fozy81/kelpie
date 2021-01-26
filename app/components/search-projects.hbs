@@ -7,14 +7,14 @@
 </div>
 <div {{did-insert this.recentFilter}}>
 {{#each this.recent as |project|}}
-<Card @route="project" @model={{project.id}} @title={{project.title}} />
+<Card @route="project" @model={{project.id}} @title={{project.title}} @due={{project.dueDate}}/>
 {{/each}}
 </div>
 <br>
-<h2 class="m-1 w-1/2">👤 Personal Projects</h2>
+<h2 class="m-1 w-1/2">👤 Personal Projects
 
 {{#if this.show}}
-<div class="m-2">Search 
+<div class="m-2"> 
 <Input class="border border-gray-400" 
       placeholder="Project name"
        @value={{this.search}} 
@@ -23,22 +23,22 @@
        /> 
  <button {{on "click" this.showSearch}} class="font-bold px-2">X</button>
 <div class="py-2">
- Due date before <Input type="date" @value={{this.date}} class="border border-gray-400"
+ 'Due Date' less than <Input type="date" @value={{this.date}} class="border border-gray-400"
     {{did-insert this.defaultDate}}  {{on "change" this.filter}}/> 
 </div>
 
 </div>
 {{else}}
-<button 
-class="border-2 bg-gray-200 border-gray-400 px-2 m-2 rounded" 
+<span><button 
+class="m-2" 
 {{on "click" this.showSearch}} 
 {{did-insert this.filter}}>
-Search
-</button>
+🔍
+</button></span>
 {{/if}}
-
+</h2>
 {{#each this.results as |project|}}
-<Card @route="project" @model={{project.id}} @title={{project.title}} />
+<Card @route="project" @model={{project.id}} @title={{project.title}} @due={{project.dueDate}}/>
 {{else}}
 <div class="px-2"><em>No search results</em></div>
 {{/each}}

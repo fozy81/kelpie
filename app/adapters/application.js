@@ -47,7 +47,7 @@ db.sync(remote, {
  
 db.createIndex({
     index: {
-      fields: ['data.projectId','data.title']
+      fields: ['data.createdDate']
     }
   })
 

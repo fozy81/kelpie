@@ -1,0 +1,16 @@
+{{#if (and @due (eq this.showDatePicker false))}}
+<button {{on "click" this.showDate}}>Due Date: {{date @due}}</button>
+
+{{else if (eq this.showDatePicker false)}}
+<button type="button" class="border border-gray-400 bg-gray-200 m-1 p-1 rounded text-sm" {{on "click" this.showDate}}>
+    Add Due Date
+</button>
+
+{{else}}
+<input class="border border-gray-200" id={{@id}} type="date" value={{@due}}
+ {{on "change" this.save}}
+/>
+<span><button type="button" class="font-bold px-2" {{on "click" this.showDate}}> X</button></span>
+
+{{/if}}
+{{yield}}

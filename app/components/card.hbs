@@ -4,7 +4,11 @@
         @model={{@model}}> 
   <div class="m-2 p-2
               shadow-md border-gray-400">
-    {{@title}}
+  <div class="flex wrap">    
+  <div class="flex-1 w-full" >  {{@title}} </div> 
+  <div class=" text-gray-500 text-sm font-bold" ><em>{{date @due}}</em>  </div> 
+  </div>  
+
     <p></p>
     {{@description}}
   </div>

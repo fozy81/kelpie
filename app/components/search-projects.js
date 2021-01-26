@@ -45,21 +45,23 @@ export default class SearchProjectsComponent extends Component {
         if (this.date === '') {
             let now = new Date();
             let day = ("0" + now.getDate()).slice(-2);
-            let month = ("0" + (now.getMonth() + 2)).slice(-2);
-            let today = now.getFullYear() + "-" + (month) + "-" + (day);
-            this.date = today
+            let monthplusone = ("0" + (now.getMonth() + 2)).slice(-2);
+            let todayplusmonth = now.getFullYear() + "-" + (monthplusone) + "-" + (day);
+            this.date = todayplusmonth
         }
-        console.log(this.search)
 
+        let date = new Date(this.date);
+        console.log('searh term: ' + this.search)
+        console.log('search date: ' + date)
         let regexp = new RegExp(this.search, 'i');
       
         let result = this.store.query('project', {
             filter: {
                 title: { '$regex': regexp }, 
-                startDate: { '$lte': this.date },
+                startDate: { '$lte': date },
                 projectId: { '$gte': null }
             },
-            limit: 20
+            limit: 10
         })
         this.results = result
 
@@ -70,12 +72,13 @@ export default class SearchProjectsComponent extends Component {
     recentFilter() {
 
         let recent = this.store.query('project', {
-            filter: {
+            filter: {               
                 title: { '$gte': null },
-                projectId: { '$gte': null }
+                projectId: { '$gte': null },
+                createdDate: { '$gte': null },
             },
             sort: [
-                { projectId: 'asc' }
+                { createdDate: 'asc' }
             ],
             limit: 3
         })
