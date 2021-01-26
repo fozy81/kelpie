@@ -14,6 +14,7 @@ export default class ApplicationRoute extends Route {
         let project = store.createRecord('project', {
           title: 'Welcome Project',
           description: 'Demo example project',
+          startDate: new Date(),
           projectId: shortlink.generate(8)  
         })
 

@@ -6,6 +6,7 @@ export default class ProjectModel extends Model {
     @attr description;
     @attr projectId;
     @attr('date') startDate;
+    @attr('date') dueDate;
     @attr('string') rev;  
     @hasMany tasks;
 

@@ -1,0 +1,46 @@
+
+<div class="flex wrap">
+    <h2 class="py-2 m-1 flex-1">Recently Created</h2>
+    <div class="relative">
+        <Menu @label="projects" class="flex-1" @title="...Show menu" />
+    </div>
+</div>
+<div {{did-insert this.recentFilter}}>
+{{#each this.recent as |project|}}
+<Card @route="project" @model={{project.id}} @title={{project.title}} />
+{{/each}}
+</div>
+<br>
+<h2 class="m-1 w-1/2">👤 Personal Projects</h2>
+
+{{#if this.show}}
+<div class="m-2">Search 
+<Input class="border border-gray-400" 
+      placeholder="Project name"
+       @value={{this.search}} 
+       {{on "change" this.filter}}
+       {{did-insert this.focus}}
+       /> 
+ <button {{on "click" this.showSearch}} class="font-bold px-2">X</button>
+<div class="py-2">
+ Due date before <Input type="date" @value={{this.date}} class="border border-gray-400"
+    {{did-insert this.defaultDate}}  {{on "change" this.filter}}/> 
+</div>
+
+</div>
+{{else}}
+<button 
+class="border-2 bg-gray-200 border-gray-400 px-2 m-2 rounded" 
+{{on "click" this.showSearch}} 
+{{did-insert this.filter}}>
+Search
+</button>
+{{/if}}
+
+{{#each this.results as |project|}}
+<Card @route="project" @model={{project.id}} @title={{project.title}} />
+{{else}}
+<div class="px-2"><em>No search results</em></div>
+{{/each}}
+
+{{yield}}

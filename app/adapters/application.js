@@ -44,6 +44,13 @@ db.sync(remote, {
    retry: true   // retry if the connection is lost
 });
 
+ 
+db.createIndex({
+    index: {
+      fields: ['data.projectId','data.title']
+    }
+  })
+
 export default class ApplicationAdapter extends Adapter {
   db = db;
 }

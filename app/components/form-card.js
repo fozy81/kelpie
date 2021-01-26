@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service'
-import { system } from 'faker';
+
 
 export default class CounterComponent extends Component {
 
