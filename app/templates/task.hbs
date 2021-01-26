@@ -1,9 +1,9 @@
 
 
 <div class="m-2">
-    <div class="flex wrap">
-<LinkTo class="py-2 flex-1 text-blue-600" @route="project" @model={{@model.task.project.id}}>
-  ᐸ Back to {{@model.task.project.title}}
+  <div class="flex wrap">
+<LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
+  <div  style="background-color:{{@model.task.project.colour}};" class="border border-gray-200 w-4/5 p-2 rounded-lg m-2"> ᐸ Back to {{@model.task.project.title}}</div>
 </LinkTo>
 <div class="relative">
 <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" />

@@ -17,7 +17,8 @@ export default class ApplicationRoute extends Route {
           startDate: new Date(),
           createdDate: new Date(),
           dueDate: new Date(),
-          projectId: shortlink.generate(8)  
+          projectId: shortlink.generate(8),
+          colour: '#FFFFFF'
         })
 
         let formTemplate = store.createRecord('form-template', {

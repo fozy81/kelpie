@@ -68,6 +68,13 @@ export default class CreateCardComponent extends Component {
 
   }
   
+
+  getRandomColor() {
+    return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 1)';
+  }
+  
+
+
   @tracked newName;
 
   @service router;
@@ -88,10 +95,12 @@ export default class CreateCardComponent extends Component {
       }
 
       if (model == "project") {
+        let colour = this.getRandomColor()
         this.store.createRecord(model, {
           title: this.newName,
           projectId: '121',
-          createdDate: new Date()
+          createdDate: new Date(),
+          colour: colour
         }).save().then(function (record) {
           const path = '/' + router.currentRoute.name + '/' + record.id
           router.transitionTo(path);
