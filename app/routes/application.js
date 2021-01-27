@@ -9,14 +9,16 @@ export default class ApplicationRoute extends Route {
       filter: { title: 'Welcome Project' }
     }).then(function (project) {
       console.log(project.content[0])
-
+      let date = new Date()
       if (typeof project.content[0] === "undefined") {
         let project = store.createRecord('project', {
           title: 'Welcome Project',
           description: 'Demo example project',
-          startDate: new Date(),
-          createdDate: new Date(),
-          dueDate: new Date(),
+          startDate: date,
+          createdDate: date,
+          dueDate: date,
+          createdDateValue: date.valueOf(),
+          dueDateValue: date.valueOf(),
           projectId: shortlink.generate(8),
           colour: '#FFFFFF'
         })

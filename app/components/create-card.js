@@ -100,6 +100,7 @@ export default class CreateCardComponent extends Component {
           title: this.newName,
           projectId: '121',
           createdDate: new Date(),
+          createDateValue: new Date().valueOf(),
           colour: colour
         }).save().then(function (record) {
           const path = '/' + router.currentRoute.name + '/' + record.id

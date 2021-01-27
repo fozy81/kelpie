@@ -51,6 +51,7 @@ export default class SearchProjectsComponent extends Component {
         }
 
         let date = new Date(this.date);
+        date = date.valueOf()
         console.log('searh term: ' + this.search)
         console.log('search date: ' + date)
         let regexp = new RegExp(this.search, 'i');
@@ -58,9 +59,11 @@ export default class SearchProjectsComponent extends Component {
         let result = this.store.query('project', {
             filter: {
                 title: { '$regex': regexp }, 
-                startDate: { '$lte': date },
-                projectId: { '$gte': null }
+                dueDateValue: { '$lte': date }          
             },
+            sort: [
+                { dueDateValue: 'desc' }
+            ],
             limit: 10
         })
         this.results = result
@@ -75,10 +78,10 @@ export default class SearchProjectsComponent extends Component {
             filter: {               
                 title: { '$gte': null },
                 projectId: { '$gte': null },
-                createdDate: { '$gte': null },
+                createdDateValue: { '$gte': null },
             },
             sort: [
-                { createdDate: 'asc' }
+                { createdDateValue: 'asc' }
             ],
             limit: 3
         })

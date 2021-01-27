@@ -10,8 +10,10 @@
 <Card @route="project" @model={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{/each}}
 </div>
-<br>
-<h2 class="m-1 w-1/2">👤 Personal Projects
+<div class="py-1">
+<CreateCard @list={{this.list}} @label="Create New Project" />
+</div>
+<h2 class="py-1 m-1 w-1/2">👤 Personal Projects
 
 {{#if this.show}}
 <div class="m-2"> 

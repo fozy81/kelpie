@@ -22,10 +22,12 @@ save(event) {
           return
       }
     let dateTest = new Date(date)
+    let dateValue = dateTest.valueOf()
     let id = this.args.id
     this.store.findRecord('project', id).then(function(project) {  
 
-        project.dueDate = dateTest;    
+        project.dueDate = dateTest; 
+        project.dueDateValue = dateValue;       
         project.save();
       });
 

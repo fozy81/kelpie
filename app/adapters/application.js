@@ -47,7 +47,13 @@ db.sync(remote, {
  
 db.createIndex({
     index: {
-      fields: ['data.createdDate']
+      fields: ['data.createdDateValue']
+    }
+  })
+
+  db.createIndex({
+    index: {
+      fields: ['data.dueDateValue']
     }
   })
 
