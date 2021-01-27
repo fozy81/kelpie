@@ -39,11 +39,15 @@
     </button>
   </div>
   {{/if}}
-  {{else}}
+ 
+  {{/each}}
+ 
+  {{#if (and (not-eq this.newName "") (eq this.query ""))}}
   <div>
     <button type="submit" {{on "click" this.createCard}}>Create!</button>
   </div>
-  {{/each}}
+  {{/if}}
+
   {{/if}}
 
 </div>

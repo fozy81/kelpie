@@ -43,17 +43,18 @@ export default class CreateCardComponent extends Component {
     if (this.newName) {
       const router = this.router
       let model = this.model
+      let regexp = new RegExp(this.newName, 'i');
 
       let search = this.store.query(model, {
         filter: {
-          title: { '$regex': this.newName },
+          title: { '$regex': regexp },
           archive: { '$gte': null }
         }
       })
       this.query = search
-    } else
+    } else {
       this.query = ['']
-
+    }
   }
 
   @tracked methodId = ''
@@ -67,12 +68,12 @@ export default class CreateCardComponent extends Component {
     this.newName = ""
 
   }
-  
+
 
   getRandomColor() {
     return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 0.5)';
   }
-  
+
 
 
   @tracked newName;
@@ -182,8 +183,8 @@ export default class CreateCardComponent extends Component {
       this.newName = ""
     } else {
       // New Method
-     
-      this.show = !this.show   
+
+      this.show = !this.show
       let methodId = this.methodId
       let updateMethodId = this.updateMethodId
       let method = this.store.createRecord('method', {
@@ -191,22 +192,22 @@ export default class CreateCardComponent extends Component {
       })
       method
         .save()
-        .then(function(method){
-          updateMethodId(method.id)       
+        .then(function (method) {
+          updateMethodId(method.id)
 
         })
         .catch((reason) => console.log('error detected'));
 
-  
+
     }
 
-  
+
   }
 
 
   @action
   addFormTemplate(id) {
-    console.log('add template form')    
+    console.log('add template form')
     const router = this.router
     const store = this.store
     const taskId = router.currentRoute.params.task_id

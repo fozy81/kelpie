@@ -4,6 +4,7 @@ export default class TaskModel extends Model {
 
     @attr title;
     @attr description;
+    @attr taskTemplateId;
     @attr('string') rev;  
     @belongsTo project;   
     @hasMany forms; 
