@@ -3,59 +3,48 @@
             shadow-md border-gray-400
             bg-gray-200">
 
-Title
-<Input class="shadow-md border-2 border-gray-400" 
-@placeholder="Name"
-{{did-insert this.resetForm}}
-@modelName = {{@modelname}}
-@value={{this.newName}}
-{{on "keyup" this.searchMatches}}
-@insert-newline={{fn this.createCard}} />
-<button class="p-2 font-bold"
-  {{on "click" this.showCard}}> X
-   </button>
+  Title
+  <Input class="shadow-md border-2 border-gray-400" @placeholder="Name" {{did-insert this.resetForm}}
+    @modelName={{@modelname}} @value={{this.newName}} {{on "keyup" this.searchMatches}} @insert-newline={{fn
+    this.createCard}} />
+  <button class="p-2 font-bold" {{on "click" this.showCard}}> X
+  </button>
   {{#if (eq @modelName "form")}}
-     Add:
-     <label for={{@question.question}}>{{@question.question}}</label>
-        <select id="test" {{on "change" this.updateModel}}>        
-         <option value="form-template">Form</option>
-         <option value="method">Method</option>
-        </select>  
-     {{/if}}
-{{!-- {{#let  as |result|}} --}}
-  {{!-- {{#each this.query as |item|}}
-    {{item.title}}
-  {{/each}} --}}
-{{!-- {{/let}} --}}
-{{#if @list}}
+  Add:
+  <label for={{@question.question}}>{{@question.question}}</label>
+  <select id="test" {{on "change" this.updateModel}}>
+    <option value="form-template">Form</option>
+    <option value="method">Method</option>
+  </select>
+  {{/if}}
 
- {{#each @list as |item|}}
-   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
-     <div>
-       <button 
-        {{on "click" (fn this.addFormTemplate item.id)}}>
-        {{item.title}} 
-        </button>
-     </div>
-     {{/if}}
-{{/each}}
-{{ else }} 
-   {{#each this.query as |item|}}
-   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
-     <div>
-    
-       <button 
-        {{on "click" (fn this.addFormTemplate item.id)}}>
-        {{item.title}}
-        </button>
-     </div>
-     {{/if}}
-     {{else}}
-     <div>
-        <button type="submit" {{on "click" this.createCard}} >Create!</button>
-        </div>
-{{/each}}
-{{/if}}
+  {{#if @list}}
+
+  {{#each @list as |item|}}
+  {{#if (or (eq item.archive false) (eq item.archive undefined))}}
+  <div>
+    <button {{on "click" (fn this.addFormTemplate item.id)}}>
+      {{item.title}}
+    </button>
+  </div>
+  {{/if}}
+  {{/each}}
+  {{ else }}
+  {{#each this.query as |item|}}
+  {{#if (or (eq item.archive false) (eq item.archive undefined))}}
+  <div>
+
+    <button {{on "click" (fn this.addFormTemplate item.id)}}>
+      {{item.title}}
+    </button>
+  </div>
+  {{/if}}
+  {{else}}
+  <div>
+    <button type="submit" {{on "click" this.createCard}}>Create!</button>
+  </div>
+  {{/each}}
+  {{/if}}
 
 </div>
 
@@ -64,10 +53,8 @@ Title
 <div class="m-2 p-2
             shadow-md border-gray-400
             bg-gray-200">
-  <button class="w-full text-left"
-          {{on "click" this.showCard}} 
-  > 
-   {{@label}}
+  <button class="w-full text-left" {{on "click" this.showCard}}>
+    {{@label}}
   </button>
 </div>
 {{/if}}

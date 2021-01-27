@@ -2,12 +2,14 @@
 <div {{on-click-outside this.removeMenuList}}> 
 <div class ="relative block right-0 float-right pr-32 m-2 text-left" >
 <div class="absolute bg-white p-2 rounded-lg border-gray-200 border-2 shadow-sm">
-    <div class="flex-wrap"> 
-<div class="w-full">Menu 
-   <button class="text-right" {{on "click" this.hideMenuList}}>
+    <div class="flex wrap"> 
+<div class="flex-1 py-1">
+    <button type="button" class="w-full" {{on "click" this.hideMenuList}}>Menu</button>
+     </div>
+   <button type="button" class="text-right flex-1 px-2 font-bold" {{on "click" this.hideMenuList}}>
         X
         </button>
-   </div></div> 
+  </div> 
 {{#if (eq @label "projects")}}
 
 <div class="block py-2">Create New Project</div>
