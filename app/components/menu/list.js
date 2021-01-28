@@ -52,8 +52,8 @@ export default class MenuListComponent extends Component {
 
   @action
   removeForm() {    
-    const id = this.args.id    
-    console.log(id)
+   const id = this.args.id    
+    console.log(id)  
     let form = this.store.peekRecord('form', id, {
       include: 'project'
     })      

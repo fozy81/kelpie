@@ -11,6 +11,7 @@ export default class FormModel extends Model {
     @attr display;
     @attr pos;
     @attr('date') dateCreated;
+    @attr('boolean') archive;
     @belongsTo task;
     @hasMany questions;
     @attr('string') rev;  

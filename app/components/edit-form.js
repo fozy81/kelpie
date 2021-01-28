@@ -26,7 +26,8 @@ export default class EditFormComponent extends Component {
   @action
   formChange(event) {
 
-    let selection = { id: event.target.id, value: event.target.value }   
+    let selection = { id: event.target.id, value: event.target.value }  
+    console.log('selection:' + selection) 
     if (this.selectedOptions.length === 0 ) {
       this.selectedOptions.push(selection)
     } else {
@@ -60,17 +61,16 @@ export default class EditFormComponent extends Component {
   @action
   saveReplaceForm(event) { 
     console.log('saveReplaceForm: ')
-    event.preventDefault()
+    // event.preventDefault()
     let store = this.store
     let args = this.args
     let router = this.router
     let selectedOptions = this.selectedOptions
     //save form template
     let formTemplateId = this.args.formTemplate.id
-    store.findRecord('form-template', formTemplateId).then(
+    store.findRecord('form-template', formTemplateId, { include: 'questionTemplates' }).then(
       function (formTemplate) {
-      // convert checkbox string to boolean
-      
+      // convert checkbox string to boolean      
       if(formTemplate.multiEntry === 'true' | formTemplate.multiEntry === true) {
         formTemplate.multiEntry = true
       } else {
@@ -82,14 +82,16 @@ export default class EditFormComponent extends Component {
       // For question type 'dropdown' select options:
      let questionTemplates = formTemplates.questionTemplates;
         questionTemplates.map(function(question, index) {   
-          console.log('questiont mpa')    
+          console.log('question map')    
         store.findRecord('question-template', question.id).then( 
         function(questionTemplate) {
-          console.log('questiontemplate question: ' + questionTemplate.question)
-          if(selectedOptions[index].value   !== undefined) {
-          questionTemplate.type = selectedOptions[index].value   
+         // console.log('selectedOptions: ' + selectedOptions[index].value )
+          if(selectedOptions.length === 0) {
+            questionTemplate.type = "text"      
+          } else {
+            questionTemplate.type = selectedOptions[index].value   
           }
-          questionTemplate.response = ''       
+          questionTemplate.response = ''                 
           questionTemplate.save()
         })
        
@@ -103,7 +105,7 @@ export default class EditFormComponent extends Component {
       // add new form
       const taskId = router.currentRoute.params.task_id
       console.log(taskId)
-      let myTask = store.peekRecord('task', taskId);
+      let myTask = store.peekRecord('task', taskId);      
       let formTemplate = store.peekRecord('form-template', formTemplateId);
       let formRecord = store.createRecord('form', {
         title: formTemplate.title,

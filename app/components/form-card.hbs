@@ -2,149 +2,109 @@
 {{#if @model.edit}}
 {{#each @formTemplates as |formTemplate|}}
 {{#if (eq formTemplate.id @model.templateId)}}
-<EditForm 
- @forms={{@model}}
- @edit={{this.editForm}}
- @formTemplate={{formTemplate}}
-/>
+<EditForm @forms={{@model}} @edit={{this.editForm}} @formTemplate={{formTemplate}} />
 {{/if}}
-{{/each}} 
+{{/each}}
 {{else}}
 {{!-- Closed form --}}
 <div class="wrap flex">
-<div class="w-full h-auto m-2 p-2 shadow-md
+      <div class="w-full h-auto m-2 p-2 shadow-md
             border-2 rounded-md
             border-teal-300 text-left">
-<div class="wrap flex">         
-<button type="button" class="w-full text-left"
-            {{on "click" this.showQuestion}}
-            > 
-<div class="font-bold">{{@model.title}} 
-{{#let this.questionNumber as |stat|}}
-<span class="text-sm  {{if stat.complete "text-lg text-teal-600" "text-orange-600"}}">
-{{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}
-</span>
-{{/let}}
+            <div class="wrap flex">
+                  <button type="button" class="w-full text-left" {{on "click" this.showQuestion}}>
+                        <div class="font-bold">{{@model.title}}
+                              {{#let this.questionNumber as |stat|}}
+                              <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
+                                    {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}
+                              </span>
+                              {{/let}}
+                        </div>
+                  </button>
+                  {{!-- Open form menu --}}
+                  {{#if this.shows}}
+                  <div class="w-8 text-right block">
+                         <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}}
+                                          @edit={{this.editForm}} @model={{@model}}/>
 
+                        {{!-- <Menu @id={{@model.id}} @label="form" @model={{@model}} @title="..." @edit={{this.editForm}} /> --}}
+                  </div>
+                  {{/if}}
+            </div>
+            {{#if this.shows}}
+            <div>{{@model.description}}</div>
+            {{!-- Open form questions --}}
+            <div {{on "change" this.formChange}} {{ref this "formElement" }}>
+                  {{#let this.orderByPosition as | orderedquestions|}}
+                  {{#each orderedquestions as |question index|}}
+                  {{!-- this.orderByPosition takes in multiple questions and orders them --}}
+                  <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
+                        @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
+                        @hideEditingQuestion={{this.hideEditingQuestion}} />
+                  {{/each}}
+                  {{/let}}
+                  <div class="grid grid-cols-1">
+                        {{!-- Submit form --}}
+                        {{#let this.questionNumber as |stat|}}
+                        {{#if (or this.hideEditQuestion (eq stat.complete false) @model.multiEntry)}}
+
+                        <button class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"
+                              formid={{@model.id}} update="false" type="button" {{on "click" this.addSelections}}>Submit
+                        </button>
+                        <button class="place-content-center m-2 p-1 border-1 border-gray-800 rounded-md bg-gray-400"
+                              formid={{@model.id}} update="false" type="button" {{on "click" this.showQuestion}}>Cancel
+                        </button>
+                        {{/if}}
+                        {{/let}}
+                  </div>
+                  <p></p>
+            </div>
+
+            {{!--
+            Display multi-entry responses
+            (from all forms with matching templateId)
+            --}}
+            {{#each @allforms as |form index|}}
+            {{#if form.multiEntry}}
+            {{#if (eq form.templateId @model.templateId) }}
+            {{#if form.display}}
+            {{#if (not-eq form.archive true)}}
+            <div class="wrap flex">
+                  <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">                       
+                        <div class="wrap flex">
+                              <button class="w-full text-left block" type="button" {{on "click" (fn this.showMenu
+                                    index)}}>
+                                    <div {{on "change" this.formChange}} {{ref this "formElement" }}>
+                                          <FormQuestion::Filter @questions={{form.questions}} as |questions|>
+                                                {{#each questions as |question index|}}
+                                                {{#if question.response}}
+                                                <FormQuestion @form={{@model}} @question={{question}}
+                                                      @input={{this.input}} @hideEditQuestion={{this.hideEditQuestion}}
+                                                      @index={{index}} @display={{true}}
+                                                      @addSelections={{this.addSelections}} @update={{true}}
+                                                      @hideEditingQuestion={{this.hideEditingQuestion}} />
+                                                <p></p>
+                                                {{/if}}
+                                                {{/each}}
+                                          </FormQuestion::Filter>
+                                    </div>
+                              </button>
+                      
+                              <div class="w-8 text-right block">
+                                    <Menu @id={{form.id}} @label="form" @title="..." @archive={{this.archiveForm}}
+                                          @edit={{this.editForm}} @model=""/>
+                              </div>
+                           
+                        </div>
+                  </div>
+            </div>
+            {{/if}}
+            {{/if}}
+            {{/if}}
+            {{/if}}
+            {{/each}}
+            {{/if}}
+      </div>
 </div>
-
-
-</button>
-{{!-- Open form menu --}}
-{{#if this.shows}}
-
-<div class="w-8 text-right block"> 
-<Menu @id={{@model.id}}
-      @label="form"   
-      @model={{@model}}
-      @title="..."
-      @edit={{this.editForm}}/>
-</div>
-{{/if}}
-</div>
-
-{{#if this.shows}}
-<div>{{@model.description}}</div>
-{{!-- Open form questions --}}
-<div {{on "change" this.formChange}} 
-     {{ref this "formElement"}}> 
-
-{{#let this.orderByPosition as | orderedquestions|}}
-{{#each orderedquestions as |question index|}}
-{{!-- this.orderByPosition takes in multiple questions and orders them --}}
-<FormQuestion @form={{@model}}              
-              @question={{question}}  
-              @input={{this.input}}
-              @index={{index}} 
-              @hideEditQuestion={{this.hideEditQuestion}}              
-              @display={{false}}    
-              @update={{index}}     
-              @hideEditingQuestion={{this.hideEditingQuestion}}
-              />
-
-{{/each}}
-{{/let}}
-<div class="grid grid-cols-1">
- {{!-- Submit form --}}  
- {{#let this.questionNumber as |stat|}}
- {{#if (or this.hideEditQuestion (eq stat.complete false) @model.multiEntry)}}  
-
-<button
-class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"
- formid={{@model.id}}  
- update="false"
- type="submit" 
- {{on "click" this.addSelections}}>Submit
-</button>
-
-
-<button
-class="place-content-center m-2 p-1 border-1 border-gray-800 rounded-md bg-gray-400"
- formid={{@model.id}}  
- update="false"
- type="submit" 
- {{on "click" this.showQuestion}}>Cancel
-</button>
-
-{{/if}}
-{{/let}}
-</div>
-<p></p>
-</div>
-
-{{!-- 
- Display multi-entry responses
-(from all forms with matching templateId)
---}}
-{{#each @allforms as |form index|}}
-{{#if form.multiEntry}}
-{{#if (eq form.templateId  @model.templateId) }}
-{{#if form.display}}
-<div class="wrap flex">
-<div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">
-<div class="wrap flex">  
-<button class="w-full text-left block"  {{on "click" (fn this.showMenu index)}}>
- <div {{on "change" this.formChange}} 
-     {{ref this "formElement"}}>   
-<FormQuestion::Filter @questions={{form.questions}} as |questions|>
-{{#each questions as |question index|}}
-{{#if question.response}}
-<FormQuestion @form={{@model}}                         
-              @question={{question}}  
-              @input={{this.input}}
-              @hideEditQuestion={{this.hideEditQuestion}}   
-              @index={{index}}
-              @display={{true}}   
-              @addSelections={{this.addSelections}}
-              @update={{true}}
-              @hideEditingQuestion={{this.hideEditingQuestion}}            
-              />
-
-<p></p>
-{{/if}}
-{{/each}}
-</FormQuestion::Filter> 
-</div>
-</button>
-      {{#if (eq this.menu index)}}
-<div class="w-8 text-right block"> 
-<Menu @id={{form.id}}
-      @label="form" 
-      @title="..."
-      @edit={{this.editForm}}/>
-</div>
-
-{{/if}}
-</div>
-</div>
-</div>
-{{/if}}
-{{/if}}
-{{/if}}
-{{/each}}
-{{/if}}
-</div>   
-</div>
-
 {{/if}}
 {{yield}}

@@ -19,6 +19,17 @@ export default class CounterComponent extends Component {
 
   }
 
+  @action
+  archiveForm(id) {
+    // let id = this.args.model.id
+    console.log('archive id: ' + id)
+    this.store.findRecord('form', id).then(function (form) {
+      form.archive = true;
+      form.save()
+    })
+
+  }
+
   @tracked menu = "";
   @action
   showMenu(index) {

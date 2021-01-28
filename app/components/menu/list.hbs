@@ -46,14 +46,14 @@
 
 <div class="left-0 block py-2">
     <button class="left-0 block text-left" type="button" {{on "click" @edit}}>Edit Form Template</button>
-    </div>
+    </div>   
      {{#if @model.multiEntry}}
    <div class="block py-2" {{on "click" this.removeAllForms}}>
     <button type="button" class="left-0 block text-left">Remove All Form(s)</button>
      </div>
    {{else}}
-   <div class="block py-2" {{on "click" this.removeForm}}>
-    <button type="button">Remove Form</button>
+   <div class="block py-2" >
+    <button type="button" {{on "click" this.removeForm}}>Remove Form</button>
      </div>
   {{/if}}
  
@@ -64,6 +64,6 @@
 </div>
 </div>
 {{else}}
-<Menu @label={{@label}} @edit={{@edit}} @model={{@model}} class="flex-1" @title="..."/>
+<Menu @label={{@label}} @edit={{@edit}} @model={{@model}}  @archive={{@archive}} @id={{@id}} class="flex-1" @title="..."/>
 
 {{/if}}

@@ -47,8 +47,8 @@ export default class CreateCardComponent extends Component {
 
       let search = this.store.query(model, {
         filter: {
-          title: { '$regex': regexp },
-          archive: { '$gte': null }
+          title: { '$regex': regexp },      
+          type: {  '$gte': null  }
         }
       })
       this.query = search
@@ -226,23 +226,16 @@ export default class CreateCardComponent extends Component {
         task: myTask
       }
       )
-
       formRecord
         .save()
-        .then(function (form) {
-          console.log('form id:' + form.templateId)
+        .then(async function (form) {
+          console.log('form id:' + await form.templateId)
+
           store.findRecord('form-template', id, { include: 'questionTemplates' }).then(async function (formTemplate) {
-            console.log('template questions length:' + formTemplate.questionTemplates.length + ' ' + formTemplate.title)
+            console.log('template questions length:' + await formTemplate.questionTemplates.length + ' ' + formTemplate.title)
             let questionTemplates = await formTemplate.questionTemplates
-            questionTemplates.map(async function (questionTemplate) {
-              console.log('question: ' + await questionTemplate.question)
-              if (questionTemplate.required) {
-                console.log('question: ' + await questionTemplate.required)
-              }
+            questionTemplates.map(async function (questionTemplate) {   
 
-              console.log('type: ' + await questionTemplate.type)
-
-              console.log('multi-entry? : ' + questionTemplate.multiEntry)
               let question = store.createRecord('question', {
                 question: questionTemplate.question,
                 response: questionTemplate.response,
@@ -252,7 +245,8 @@ export default class CreateCardComponent extends Component {
                 pos: questionTemplate.pos,
                 options: questionTemplate.options,
                 required: questionTemplate.required,
-                form: form
+                dateCreated: new Date(),
+                form: form  
               })
               question
                 .save()
