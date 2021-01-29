@@ -8,5 +8,6 @@ export default class TaskModel extends Model {
     @attr('string') rev;  
     @belongsTo project;   
     @hasMany forms; 
+    @belongsTo taskTemplate;
 
 }

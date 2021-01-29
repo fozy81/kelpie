@@ -16,5 +16,6 @@ export default class QuestionModel extends Model {
     @attr default;
     @attr('string') rev;  
     @belongsTo form;
+    @belongsTo questionTemplate;
   
 }

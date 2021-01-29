@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 
 export default class ProjectModel extends Model {
 
@@ -13,5 +13,6 @@ export default class ProjectModel extends Model {
     @attr colour;
     @attr('string') rev;  
     @hasMany tasks;
+    @belongsTo projectTemplate;
 
 }

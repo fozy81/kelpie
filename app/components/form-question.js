@@ -58,8 +58,17 @@ export default class FormQuestionComponent extends Component {
 
   get options(){
     let optionString = this.args.question
-    console.log(optionString.options)
-     
+    // console.log(optionString.options)
+    let formTemplates = this.args.formTemplates
+    console.log(formTemplates)
+    formTemplates.map(function(formTemplate) {
+
+      console.log('formTemplate: ' + formTemplate.title)
+        formTemplate.questionTemplates.map(function(questionTemplate){
+          console.log('questionTemplate: ' + questionTemplate.question)
+        })
+
+    })
     optionString = optionString.options.split(',')
 
     //console.log('options - recalculated>:' + this.optionsEntered)

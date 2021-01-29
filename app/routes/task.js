@@ -6,20 +6,15 @@ export default class TasksRoute extends Route {
 
   model(params) {
     return RSVP.hash({
-      task: this.store.findRecord('task', params.task_id, { include: 'project,forms.questions' }),
+      task: this.store.findRecord('task', params.task_id, { include: 'project,forms.questions,forms.formTemplate' }),
       formTemplate: this.store.findAll('form-template', { include: 'questionTemplates' })
-      // formTemplate: this.store.findRecord('task', params.task_id, { include: 'forms' }).then(
-      //   function (task) {
-      //     let forms = task.forms
-      //     console.log('model task route' + forms)
-      //     let templates = forms.map(function (form) {
-      //       console.log('model task route templateId' + form.templateId)
-            
-      //     })
-      //     console.log('model task route templates:' + templates)
-      //     return templates
-      //   }
-      // )
+      // formTemplate: this.store.findRecord('task', params.task_id, { include: 'forms' }).then(function (task) {       
+      //     let templates = task.forms.map(function (form) {
+      //       console.log(form)
+      //       this.store.findRecord('form-template', form.templateId, { include: 'questionTemplates' })
+      //     })  
+      //     return templates      
+      // })
     });
   }
 

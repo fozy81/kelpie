@@ -18,10 +18,10 @@ export default class SearchProjectsComponent extends Component {
         this.show = !this.show
         this.search = ''
         let now = new Date();
-        let day = ("0" + now.getDate()).slice(-2);
-        let monthplusone = ("0" + (now.getMonth() + 2)).slice(-2);
-        let todayplusmonth = now.getFullYear() + "-" + (monthplusone) + "-" + (day);
-        this.date = todayplusmonth
+        let dayPlusOne = ("0" + (now.getDate() + 1)).slice(-2);
+        let month = ("0" + (now.getMonth() + 1)).slice(-2);
+        let date = now.getFullYear() + "-" + (month) + "-" + (dayPlusOne);
+        this.date = date
     }
 
     @service store;
@@ -30,10 +30,12 @@ export default class SearchProjectsComponent extends Component {
     defaultDate() {
 
         let now = new Date();
-        let day = ("0" + now.getDate()).slice(-2);
-        let month = ("0" + (now.getMonth() + 2)).slice(-2);
-        let today = now.getFullYear() + "-" + (month) + "-" + (day);
-        this.date = today
+        let dayPlusOne = ("0" + (now.getDate() + 1)).slice(-2);
+        let month = ("0" + (now.getMonth() + 1)).slice(-2);
+        let date = now.getFullYear() + "-" + (month) + "-" + (dayPlusOne);
+        // today = Date(today).valueOf;
+        this.date = date
+
     }
 
 
@@ -44,10 +46,10 @@ export default class SearchProjectsComponent extends Component {
 
         if (this.date === '') {
             let now = new Date();
-            let day = ("0" + now.getDate()).slice(-2);
-            let monthplusone = ("0" + (now.getMonth() + 2)).slice(-2);
-            let todayplusmonth = now.getFullYear() + "-" + (monthplusone) + "-" + (day);
-            this.date = todayplusmonth
+            let dayPlusOne = ("0" + (now.getDate() + 1)).slice(-2);
+            let monthplusone = ("0" + (now.getMonth() + 1)).slice(-2);
+            let date = now.getFullYear() + "-" + (monthplusone) + "-" + (dayPlusOne);
+            this.date = date
         }
 
         let date = new Date(this.date);
@@ -55,11 +57,11 @@ export default class SearchProjectsComponent extends Component {
         console.log('searh term: ' + this.search)
         console.log('search date: ' + date)
         let regexp = new RegExp(this.search, 'i');
-      
+
         let result = this.store.query('project', {
             filter: {
-                title: { '$regex': regexp }, 
-                dueDateValue: { '$lte': date }          
+                title: { '$regex': regexp },
+                dueDateValue: { '$lte': date }
             },
             sort: [
                 { dueDateValue: 'desc' }
@@ -73,9 +75,8 @@ export default class SearchProjectsComponent extends Component {
     @tracked recent = null
     @action
     recentFilter() {
-
         let recent = this.store.query('project', {
-            filter: {               
+            filter: {
                 title: { '$gte': null },
                 projectId: { '$gte': null },
                 createdDateValue: { '$gte': null },
@@ -85,9 +86,6 @@ export default class SearchProjectsComponent extends Component {
             ],
             limit: 3
         })
-
         this.recent = recent
-
     }
-
 }

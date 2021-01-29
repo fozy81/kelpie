@@ -40,7 +40,7 @@
                   {{!-- this.orderByPosition takes in multiple questions and orders them --}}
                   <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
                         @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
-                        @hideEditingQuestion={{this.hideEditingQuestion}} />
+                        @hideEditingQuestion={{this.hideEditingQuestion}} @formTemplates={{@formTemplates}} />
                   {{/each}}
                   {{/let}}
                   <div class="grid grid-cols-1">

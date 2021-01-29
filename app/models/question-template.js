@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class QuestionTemplateModel extends Model {
 
@@ -16,5 +16,6 @@ export default class QuestionTemplateModel extends Model {
     @attr options;
     @attr required;
     @belongsTo formTemplate;
+    @hasMany questions;
 
 }

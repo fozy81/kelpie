@@ -1,9 +1,10 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class TaskTemplateModel extends Model {
 
     @attr title;
     @attr description;
-    @attr('string') rev;  
+    @attr('string') rev;
+    @hasMany tasks  
 
 }

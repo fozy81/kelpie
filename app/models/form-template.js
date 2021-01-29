@@ -7,7 +7,8 @@ export default class FormTemplateModel extends Model {
     @attr rep;
     @attr edit;
     @attr multiEntry;  
-    @attr('boolean') archive;   
-    @hasMany questionTemplates;
+    @attr('boolean') archive;
     @attr('string') rev;  
+    @hasMany questionTemplates;  
+    @hasMany forms;
 }

@@ -16,10 +16,17 @@
 
 
 </div>
+{{#each @model.task.forms as |form|}}
+
+Title form template: {{form.formTemplate.title}}
+
+{{/each}}
+
 
 <Forms 
        @forms={{@model.task.forms}}
-       @formTemplates={{@model.formTemplate}}/>
+       @formTemplates={{@model.formTemplate}}
+      />
 
 
 

@@ -12,7 +12,7 @@
    </div>
 <div style="background-color:{{{@model.colour}}};" class="p-2 rounded-lg border-gray-400 border-2 m-2">
 <p></p>
-<div   class="font-bold">{{@model.title}} </div>
+<div   class="font-bold">{{@model.projectTemplate.title}}</div>
 
 <p></p>
 {{@model.description}}
@@ -23,8 +23,11 @@
 
 <hr>
 Tasks:
-
-
+<br>
+Templates:
+{{#each @model.tasks as |task|}}
+{{task.taskTemplate.title}}
+{{/each}}
 {{#each @model.tasks as |task|}}
 
 <Card @title={{task.title}}
