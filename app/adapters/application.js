@@ -33,7 +33,6 @@ import { Adapter } from 'ember-pouch';
 import pouchDebugPlugin from 'pouchdb-debug'; // (assumed available via ember-auto-import or shim)
 import ENV from 'kelpie/config/environment';
 
-//dotenv.config()
 PouchDB.plugin(pouchDebugPlugin);
 
 // PouchDB.debug.enable('*');

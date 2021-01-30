@@ -43,7 +43,7 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
-  ENV.remote_couch =  'http://localhost:5984/test';
+  ENV.remote_couch =  'http://localhost:5984/';
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
   if (environment === 'production') {
