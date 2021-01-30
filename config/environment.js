@@ -47,7 +47,7 @@ module.exports = function(environment) {
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
   if (environment === 'production') {
-   ENV.rootURL = '/';
+   ENV.rootURL = '';
    ENV.remote_couch = process.env.remote_couch
   }
   if ( ENV.remote_couch ) {
