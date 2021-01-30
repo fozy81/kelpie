@@ -82,7 +82,7 @@ export default class SearchProjectsComponent extends Component {
                 createdDateValue: { '$gte': null },
             },
             sort: [
-                { createdDateValue: 'asc' }
+                { createdDateValue: 'desc' }
             ],
             limit: 3
         })

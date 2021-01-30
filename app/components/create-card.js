@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-
+import shortlink from 'shortlink';
 
 export default class CreateCardComponent extends Component {
 
@@ -97,11 +97,12 @@ export default class CreateCardComponent extends Component {
 
       if (model == "project") {
         let colour = this.getRandomColor()
+        let date = new Date()
         this.store.createRecord(model, {
           title: this.newName,
-          projectId: '121',
-          createdDate: new Date(),
-          createDateValue: new Date().valueOf(),
+          projectId: shortlink.generate(8),
+          createdDate: date,
+          createdDateValue: date.valueOf(),
           colour: colour
         }).save().then(function (record) {
           const path = '/' + router.currentRoute.name + '/' + record.id

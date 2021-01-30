@@ -74,6 +74,7 @@
     "edition": "octane"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "shortlink": "^1.1.0"
   }
 }
