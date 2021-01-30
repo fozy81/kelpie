@@ -33,11 +33,7 @@ import { Adapter } from 'ember-pouch';
 import pouchDebugPlugin from 'pouchdb-debug'; // (assumed available via ember-auto-import or shim)
 import ENV from 'kelpie/config/environment';
 
-PouchDB.plugin(pouchDebugPlugin);
-
 // PouchDB.debug.enable('*');
-//
-
 
 let remote = new PouchDB(ENV.remote_couch);
 
