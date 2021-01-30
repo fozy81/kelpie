@@ -37,7 +37,7 @@ import ENV from 'kelpie/config/environment';
 
 let remote_couch = `${ENV.remote_couch} + /kelpie`
 
-let remote = new PouchDB(ENV.remote_couch);
+let remote = new PouchDB(remote_couch);
 
 let db = new PouchDB('kelpie');
 
