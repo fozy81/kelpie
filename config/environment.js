@@ -47,8 +47,8 @@ module.exports = function(environment) {
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
   if (environment === 'production') {
-    ENV.rootURL = '/';
-    ENV.remote_couch = 'https://my.couchcluster.com/bloggr';
+   // ENV.rootURL = '/';
+   // ENV.remote_couch = 'https://my.couchcluster.com/bloggr';
   }
   if ( ENV.remote_couch ) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
