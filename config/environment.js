@@ -47,8 +47,8 @@ module.exports = function(environment) {
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
   if (environment === 'production') {
-   ENV.rootURL = '';
-   ENV.remote_couch = process.env.remote_couch
+   ENV.rootURL = '/';
+   ENV.remote_couch = `${process.env.remote_couch}/kelpie`
   }
   if ( ENV.remote_couch ) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
