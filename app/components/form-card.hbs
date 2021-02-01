@@ -67,8 +67,8 @@
             (from all forms with matching templateId)
             --}}
             {{#each @allforms as |form index|}}
-            {{#if form.multiEntry}}
-            {{#if (eq form.templateId @model.templateId) }}
+            {{#if form.multiEntry}}                  
+            {{#if (eq form.formTemplateId @model.formTemplateId) }}
             {{#if form.display}}
             {{#if (not-eq form.archive true)}}
             <div class="wrap flex">

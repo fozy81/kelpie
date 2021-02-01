@@ -168,6 +168,7 @@ export default class CounterComponent extends Component {
         templateId: currentForm.templateId,
         multiEntry: currentForm.multiEntry,
         formTemplate: currentForm.formTemplate,
+        formTemplateId: currentForm.formTemplate.get('id'),
         rep: 2,
         task: currentForm.task,
         display: true
