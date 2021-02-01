@@ -10,12 +10,23 @@ export default class ResponsesRoute extends Route {
 
     model() {
         return this.store.query('project',  {        
-          filter: { 
-            'startDate': { '$gte': null }
-            //,
-            //'tasks.title': { '$eq': 'Test'}
-        },
-          limit: 100
-        });
-      }
+  //         selector: { 
+      
+  //           //,
+  //           //'tasks.title': { '$eq': 'Test'}
+  //            "$or": [
+  //   { "title": { "$eq": "W"}},
+  //    {"description": { "$eq": "badger"}}
+  // ]
+  //       },
+  //         limit: 100
+  //       });
+  //     }
+
+    filter: { title: { '$regex': '' }
+          },
+    limit: 1000
+  })
+
+}
 }

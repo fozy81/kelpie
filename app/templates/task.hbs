@@ -14,18 +14,18 @@
 <div class="font-bold">Task: {{@model.task.title}}</div>
 
 
-
 </div>
-{{#each @model.task.forms as |form|}}
-
-Title form template: {{form.formTemplate.title}}
+{{!-- {{#each @model.task.forms as |form|}}
+{{#each form.questions as |question|}}
+{{question.questionTemplate.options}}
 
 {{/each}}
+{{/each}} --}}
 
 
 <Forms 
        @forms={{@model.task.forms}}
-       @formTemplates={{@model.formTemplate}}
+       {{!-- @formTemplates={{@modelformTemplate}} --}}
       />
 
 

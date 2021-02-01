@@ -1,3 +1,10 @@
+
+
+
+
+
+Form title: {{@forms.formTemplate.title}}
+
 <div class="wrap flex">
 <div class="w-full m-2 p-2 shadow-md border-2 rounded-md
             border-teal-300 text-left">
@@ -5,15 +12,15 @@
 
 <div class="wrap flex">
 <div class="font-bold p-2 text-gray-600 w-3/4">Editing Form Template...</div>
-{{#if (or (eq @formTemplate.archive false) (eq @formTemplate.archive undefined))}}
+{{#if (or (eq @forms.formTemplate.archive false) (eq @forms.formTemplate.archive undefined))}}
 <button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
- {{on "click" (fn this.removeFormTemplate @formTemplate.id)}}>
+ {{on "click" (fn this.removeFormTemplate @forms.formTemplate.id)}}>
  Archive
  </button>
 {{/if}}
-{{#if (eq @formTemplate.archive true)}}
+{{#if (eq @forms.formTemplate.archive true)}}
 <button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
- {{on "click" (fn this.removeFormTemplate @formTemplate.id)}}>
+ {{on "click" (fn this.removeFormTemplate @forms.formTemplate.id)}}>
  Re-Activate
  </button>
 {{/if}}
@@ -23,7 +30,7 @@
 Title <span class="ml-2"> 
  <Input
  class="m-2 w-30 border-b border-gray-400"
- @value={{@formTemplate.title}}
+ @value={{@forms.formTemplate.title}}
 /> 
 </span>
 </div>
@@ -32,7 +39,7 @@ Title <span class="ml-2">
 Description <span class="ml-2"> 
  <Input class="m-2 w-30 border-b border-gray-400" 
  id="vehicle1" name="vehicle1" 
-@value={{@formTemplate.description}}
+@value={{@forms.formTemplate.description}}
  {{did-insert this.focus}}
 /></span>
 </div>
@@ -42,11 +49,11 @@ Mutli-entry form <span class="ml-2">
 <Input class="m-2 w-30 border-b border-gray-400" 
 @type="checkbox"
 name="multiEntry"
-@checked={{@formTemplate.multiEntry}}
+@checked={{@forms.formTemplate.multiEntry}}
 />
 </span>
 </div>
-{{#each @formTemplate.questionTemplates as |question index|}}
+{{#each @forms.formTemplate.questionTemplates as |question index|}}
 <EditQuestion @question={{question}} 
               @index={{index}}
               @formChange={{this.formChange}} 

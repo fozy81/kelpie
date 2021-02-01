@@ -171,7 +171,9 @@ export default class CreateCardComponent extends Component {
             edit: true,
             multiEntry: false,
             dateCreated: new Date(),
-            templateId: formTemplate.id
+            formTemplateId: formTemplate.id,
+            templateId: myTask.id,
+            formTemplate: formTemplate
           })
           form
             .save()
@@ -211,17 +213,18 @@ export default class CreateCardComponent extends Component {
     console.log('add template form')
     const router = this.router
     const store = this.store
-    const taskId = router.currentRoute.params.task_id
+    const taskId = router.currentRoute.params.task_id   
     let myTask = store.peekRecord('task', taskId);
     store.findRecord('form-template', id).then(function (formTemplate) {
       console.log('templateID: ' + formTemplate.questionTemplates)
       let formRecord = store.createRecord('form', {
         title: formTemplate.title,
         description: formTemplate.description,
+        formTemplateId: formTemplate.id,
         rep: 1,
         edit: false,
         multiEntry: formTemplate.multiEntry,
-        templateId: formTemplate.id,
+        templateId: myTask.id,
         dateCreated: new Date(),
         display: false,
         task: myTask
@@ -240,11 +243,12 @@ export default class CreateCardComponent extends Component {
               let question = store.createRecord('question', {
                 question: questionTemplate.question,
                 response: questionTemplate.response,
+                questionTemplate: questionTemplate,
+                questionTemplateId: questionTemplate.id,
                 rep: 1,
                 multiEntry: questionTemplate.multiEntry,
                 type: questionTemplate.type,
-                pos: questionTemplate.pos,
-                options: questionTemplate.options,
+                pos: questionTemplate.pos,              
                 required: questionTemplate.required,
                 dateCreated: new Date(),
                 form: form  

@@ -10,7 +10,7 @@ export default class EditFormComponent extends Component {
   saveForm() {
     event.preventDefault()
     console.log(this.args.forms)
-    let formTemplateId = this.args.formTemplate.id
+    let formTemplateId = this.args.forms.formTemplate.id
     this.store.findRecord('form-template', formTemplateId).then(function (formTemplate) {
       formTemplate.save();
     })
@@ -61,7 +61,8 @@ export default class EditFormComponent extends Component {
     let router = this.router
     let selectedOptions = this.selectedOptions
     //save form template
-    let formTemplateId = this.args.formTemplate.id
+    let formTemplateId = this.args.forms.formTemplate.get('id')
+    console.log('formTempalteID really ' + formTemplateId)
     store.findRecord('form-template', formTemplateId, { include: 'questionTemplates' }).then(
       function (formTemplate) {
         // convert checkbox string to boolean      
@@ -117,7 +118,9 @@ export default class EditFormComponent extends Component {
           edit: false,
           multiEntry: formTemplate.multiEntry,
           dateCreated: new Date(),
-          templateId: formTemplate.id,
+          templateId: myTask.id,
+          formTemplateId: formTemplate.id,
+          formTemplate: formTemplate,
           task: myTask,
           display: false
         }
@@ -135,12 +138,13 @@ export default class EditFormComponent extends Component {
             }
             let question = store.createRecord('question', {
               question: questionTemplate.question,
+              questionTemplate: questionTemplate,
+              questionTemplateId: questionTemplate.id,
               response: response,
               rep: 1,
               multiEntry: myForm.multiEntry,
               type: questionTemplate.type,
-              pos: questionTemplate.pos,
-              options: questionTemplate.options,
+              pos: questionTemplate.pos,             
               required: questionTemplate.required,
               min: questionTemplate.min,
               max: questionTemplate.max,
@@ -166,7 +170,7 @@ export default class EditFormComponent extends Component {
   @tracked count = 0
   @action
   addQuestion() {
-    let formTemplateId = this.args.formTemplate.id
+    let formTemplateId = this.args.forms.formTemplate.get('id')
     console.log(formTemplateId)
     let formTemplate = this.store.peekRecord('form-template', formTemplateId)
     let questions = formTemplate.questionTemplates

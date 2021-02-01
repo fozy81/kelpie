@@ -1,10 +1,12 @@
 {{!-- Edit form --}}
+
 {{#if @model.edit}}
-{{#each @formTemplates as |formTemplate|}}
-{{#if (eq formTemplate.id @model.templateId)}}
+{{!-- {{#each @formTemplates as |formTemplate|}} --}}
+
+{{!-- {{#if (eq allform.id @model.templateId)}} --}}
 <EditForm @forms={{@model}} @edit={{this.editForm}} @formTemplate={{formTemplate}} />
-{{/if}}
-{{/each}}
+{{!-- {{/if}} --}}
+{{!-- {{/each}} --}}
 {{else}}
 {{!-- Closed form --}}
 <div class="wrap flex">
@@ -36,11 +38,11 @@
             {{!-- Open form questions --}}
             <div {{on "change" this.formChange}} {{ref this "formElement" }}>
                   {{#let this.orderByPosition as | orderedquestions|}}
-                  {{#each orderedquestions as |question index|}}
-                  {{!-- this.orderByPosition takes in multiple questions and orders them --}}
+                   {{!-- this.orderByPosition takes in multiple questions and orders them --}}
+                  {{#each orderedquestions as |question index|}}                 
                   <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
                         @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
-                        @hideEditingQuestion={{this.hideEditingQuestion}} @formTemplates={{@formTemplates}} />
+                        @hideEditingQuestion={{this.hideEditingQuestion}} @questionTemplates={{question.questionTemplate}}/>
                   {{/each}}
                   {{/let}}
                   <div class="grid grid-cols-1">
@@ -82,7 +84,7 @@
                                                       @input={{this.input}} @hideEditQuestion={{this.hideEditQuestion}}
                                                       @index={{index}} @display={{true}}
                                                       @addSelections={{this.addSelections}} @update={{true}}
-                                                      @hideEditingQuestion={{this.hideEditingQuestion}} />
+                                                      @hideEditingQuestion={{this.hideEditingQuestion}} @questionTemplates={{@model.formTemplate.questionTemplates}}/>
                                                 <p></p>
                                                 {{/if}}
                                                 {{/each}}

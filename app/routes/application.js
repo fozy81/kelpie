@@ -8,6 +8,12 @@ export default class ApplicationRoute extends Route {
     let projects = this.store.query('project', {
       filter: { title: 'Welcome Project' }
     }).then(function (project) {
+
+      function failure(reason) {
+        console.log(reason) // handle the error
+        return
+      }
+
       console.log(project.content[0])
       let date = new Date()
       if (typeof project.content[0] === "undefined") {
@@ -38,7 +44,14 @@ export default class ApplicationRoute extends Route {
             .then(addTask)
             .catch(failure);
 
+       
+
           function addTask(project) {
+
+            function failure(reason) {
+              console.log(reason) // handle the error
+              return
+            }
 
             let formTemplate = store.createRecord('form-template', {
               title: 'Wildlife Survey',
@@ -52,23 +65,21 @@ export default class ApplicationRoute extends Route {
 
 
             function addQuestionTemplate(formTemplate) {
-              let questionTemplate = store.createRecord('question-template', {
-                id: 'qt1',
+              let questionTemplate = store.createRecord('question-template', {               
                 question: 'Species',
                 response: '',
                 multiEntry: true,
                 type: 'select',
                 rep: 1,
                 pos: 1,
-                options: 'fox,badger,hedgehog,squirrel',
+                options: 'Acroloxidae,Aeshnidae,Ancylidae,Aphelocheiridae,Asellidae,Astacidae,Athericidae,Baetidae,Beraeidae,Bithyniidae,Brachycentridae,Caenidae,Calopterygidae,Capniidae,Ceratopogonidae,Chaoboridae,Chironomidae,Chloroperlidae,Coenagrionidae,Cordulegasteridae,Cordulegastridae,Corixidae,Corophiidae,Crangonyctidae,Culicidae,Dendrocoelidae,Dixidae,Dolichopodidae,Dreissenidae,Dryopidae,Dugesiidae,Dytiscidae,Elmidae,Empididae,Ephemerellidae,Ephemeridae,Ephydridae,Erpobdellidae,Gammaridae,Gerridae,Glossiphoniidae,Glossosomatidae,Goeridae,Gyrinidae,Haliplidae,Heptageniidae,Hirudinidae,Hydraenidae,Hydrobiidae,Hydrometridae,Hydrophilidae (including Helophoridae, Georissidae and Hydrochidae),Hydropsychidae,Hydroptilidae,Hygrobiidae,Lepidostomatidae,Leptoceridae,Leptophlebiidae,Leuctridae,Libellulidae,Limnephilidae (including Apataniidae),Lymnaeidae,Mesoveliidae,Molannidae,Muscidae,Naucoridae,Nemouridae,Nepidae,Neritidae,Niphargidae,Noteridae,Notonectidae,Odontoceridae,Oligochaeta,Perlidae,Perlodidae,Philopotamidae,Phryganeidae,Physidae,Piscicolidae,Planariidae,Planorbidae,Platycnemididae,Pleidae,Polycentropodidae,Potamanthidae,Psychodidae,Psychomyiidae,Ptychopteridae,Rhagionidae,Rhyacophilidae,Sciomyzidae,Scirtidae,Sericostomatidae,Sialidae,Simuliidae,Siphlonuridae (including Ameletidae),Sisyridae,Sphaeriidae,Stratiomyidae,Syrphidae,Tabanidae,Taeniopterygidae,Tipulidae (including Limoniidae, Cylindrotomidae and Pediciidae),Unionidae,Valvatidae,Veliidae,Viviparidae',
                 formTemplate: formTemplate
               })
               questionTemplate
                 .save()
                 .catch(failure);
 
-              let questionTemplateTwo = store.createRecord('question-template', {
-                id: 'qt2',
+              let questionTemplateTwo = store.createRecord('question-template', {           
                 question: 'Count',
                 response: '',
                 multiEntry: true,
@@ -81,91 +92,99 @@ export default class ApplicationRoute extends Route {
                 .save()
                 .then(addTaskTemplate)
                 .catch(failure);
-            }
-          
+            
+
 
             function addTaskTemplate() {
-            let taskTemplate = store.createRecord('task-template', {
-              title: 'Woodlands site',
-              description: 'Woods'
-            })
-            taskTemplate
-              .save()
-              .then(addTasks)
-              .catch(failure);
-          
-
-            function addTasks(taskTemplate) {
-              let task = store.createRecord('task', {
+              let taskTemplate = store.createRecord('task-template', {
                 title: 'Woodlands site',
-                description: 'Woods',
-                project: project,
-                taskTemplate: taskTemplate
+                description: 'Woods'
               })
-              task
+              taskTemplate
                 .save()
-                .then(addForm)
+                .then(addTasks)
                 .catch(failure);
 
-              function addForm(task) {
-                let form = store.createRecord('form', {
-                  title: 'Wildlife Survey',
-                  description: 'Record wildlife present',
-                  task: task,
-                  rep: 1,
-                  edit: false,
-                  multiEntry: true,
-                  dateCreated: new Date(),
-                  display: true,
-                  formTemplate: formTemplate
+
+              function addTasks(taskTemplate) {
+                let task = store.createRecord('task', {
+                  title: 'Woodlands site',
+                  description: 'Woods',
+                  project: project,
+                  taskTemplate: taskTemplate
                 })
-                form
+                task
                   .save()
-                  .then(addQuestion)
+                  .then(addForm)
                   .catch(failure);
+
+                function addForm(task) {
+                  let form = store.createRecord('form', {
+                    title: 'Wildlife Survey',
+                    description: 'Record wildlife present',
+                    task: task,
+                    rep: 1,
+                    templateId: task.id,
+                    formTemplateId: formTemplate.id,
+                    edit: false,
+                    multiEntry: true,
+                    dateCreated: new Date(),
+                    display: true,
+                    formTemplate: formTemplate
+                  })
+                  form
+                    .save()
+                    .then(addQuestion)
+                    .catch(failure);
+
+                }
 
               }
             }
+                function addQuestion(form) {
+                  let question = store.createRecord('question', {
+                    question: 'Species',
+                    questionTemplateId: questionTemplate.id,
+                    response: 'Elmidae',
+                    multiEntry: true,
+                    type: 'select',
+                    rep: 1,
+                    pos: 1,                   
+                    form: form,
+                    questionTemplate: questionTemplate
+                  })
+                  question
+                    .save()
+                    .catch(failure)
+
+                  let questionTwo = store.createRecord('question', {
+                    question: 'Count',
+                    questionTemplateId: questionTemplateTwo.id,
+                    response: '5',
+                    multiEntry: true,
+                    type: 'number',
+                    rep: 1,
+                    pos: 2,
+                    form: form,
+                    questionTemplate: questionTemplateTwo
+                  })
+                  questionTwo
+                    .save()
+                    .catch(failure);
+
+                }
+
+            }
+
+
+              
+            
           }
-          }
-
-          function failure(reason) {
-            console.log(reason) // handle the error
-            return
-          }
 
 
-          function addQuestion(form) {
-            let question = store.createRecord('question', {
-              question: 'Species',
-              response: 'Fox',
-              multiEntry: true,
-              type: 'select',
-              rep: 1,
-              pos: 1,
-              options: 'fox,badger,hedgehog,squirrel',
-              form: form,
-              questionTemplate: 'questionTemplate_2_qt1'
-            })
-            question
-              .save()
-              .catch(failure)
 
-            let questionTwo = store.createRecord('question', {
-              question: 'Count',
-              response: '5',
-              multiEntry: true,
-              type: 'number',
-              rep: 1,
-              pos: 2,
-              form: form,
-              questionTemplate: 'questionTemplate_2_qt2'
-            })
-            questionTwo
-              .save()
-              .catch(failure);
 
-          }
+
 
 
         }

@@ -8,6 +8,7 @@ export default class FormModel extends Model {
     @attr edit;
     @attr multiEntry; 
     @attr templateId;
+    @attr formTemplateId;
     @attr display;
     @attr pos;
     @attr('date') dateCreated;

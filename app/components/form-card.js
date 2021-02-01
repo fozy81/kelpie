@@ -167,6 +167,7 @@ export default class CounterComponent extends Component {
         description: currentForm.description,
         templateId: currentForm.templateId,
         multiEntry: currentForm.multiEntry,
+        formTemplate: currentForm.formTemplate,
         rep: 2,
         task: currentForm.task,
         display: true
@@ -186,9 +187,10 @@ export default class CounterComponent extends Component {
                 question: question.question,
                 form: newForm,
                 type: question.type,
-                pos: question.pos,
-                options: question.options,
+                pos: question.pos,          
                 required: question.required,
+                questionTemplate: question.questionTemplate,
+                questionTemplateId: question.questionTemplateId,
                 multiEntry: question.multiEntry
               }).save()
              
@@ -264,6 +266,7 @@ export default class CounterComponent extends Component {
 
   get orderByPosition() {
     let questions = this.args.questions
+    console.log('qt ' + questions.questionTemplate)
     questions.map(item => console.log('question order?' + item.pos))
 
     let sorted = questions.sortBy('pos')
