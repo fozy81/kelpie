@@ -1,11 +1,21 @@
 
-
+      {{!-- {{#each @forms as |form|}}
+      {{#each form.questions as |question|}}
+       {{question.question}}
+       {{/each}}
+      {{/each}} --}}
 <LinkTo @route={{@route}}
-        @model={{@model}}> 
+        @model={{@id}}> 
   <div style="background-color:{{safe @colour}};" class="m-2 p-2
               shadow-md border-gray-200 border rounded-lg" >
-  <div class="flex wrap">    
-  <div class="flex-1 w-full" >  {{@title}} </div> 
+  <div class="flex wrap">
+    {{#let this.questionStats as |stat|}}    
+  <div class="flex-1 w-full" >  {{@title}} 
+     <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
+                                    {{if stat.complete "✓" stat.text}}  </span>     
+     </div> 
+   {{/let}}
+
   <div class=" text-gray-600 text-sm font-bold" ><em>{{date @due}}</em>  </div> 
   </div>  
 

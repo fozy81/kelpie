@@ -23,10 +23,12 @@
             <div class="wrap flex">
                   <button type="button" class="w-full text-left" {{on "click" this.showQuestion}}>
                         <div class="font-bold">{{@model.formTemplate.title}}
-                              {{#let this.questionNumber as |stat|}}
+                              {{#let this.questionStats as |stat|}} 
+                              {{#let this.formStats as |formStat|}} 
                               <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
-                                    {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}
+                                    {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}   <span class="text-sm"> {{if @model.multiEntry formStat.total}}</span>
                               </span>
+                              {{/let}}
                               {{/let}}
                         </div>
                   </button>
@@ -55,7 +57,7 @@
                   {{/let}}
                   <div class="grid grid-cols-1">
                         {{!-- Submit form --}}
-                        {{#let this.questionNumber as |stat|}}
+                        {{#let this.questionStats as |stat|}}
                         {{#if (or this.hideEditQuestion (eq stat.complete false) @model.multiEntry)}}
 
                         <button class="place-content-center m-2 p-1 rounded-md bg-indigo-800 text-white font-bold"

@@ -7,7 +7,7 @@
 </div>
 <div {{did-insert this.recentFilter}}>
 {{#each this.recent as |project|}}
-<Card @route="project" @model={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
+<Card @route="project" @id={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{/each}}
 </div>
 <div class="py-1">
@@ -40,7 +40,7 @@ class="m-2"
 {{/if}}
 </h2>
 {{#each this.results as |project|}}
-<Card @route="project" @model={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
+<Card @route="project" @id={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{else}}
 <div class="px-2"><em>No search results</em></div>
 {{/each}}

@@ -11,6 +11,7 @@ export default class ProjectModel extends Model {
     @attr('date') dueDate;
     @attr('number') dueDateValue;
     @attr colour;
+    @attr percentageComplete;
     @attr('string') rev;  
     @hasMany tasks;
     @belongsTo projectTemplate;

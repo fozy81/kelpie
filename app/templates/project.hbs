@@ -15,7 +15,7 @@
 <div   class="font-bold">{{@model.projectTemplate.title}}</div>
 
 <p></p>
-{{@model.description}}
+{{@model.description}} {{@model.percentageComplete}}
 <p></p>
 
 <DueDate @due={{@model.dueDate}} @id={{@model.id}}/>
@@ -32,7 +32,8 @@ Templates:
 
 <Card @title={{task.title}}
        @route="task"
-       @model={{task.id}} 
+       @id={{task.id}} 
+       @forms={{task.forms}}
        @colour="#edf2f7"/>
        {{else}}
        No tasks assigned

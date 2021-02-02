@@ -9,10 +9,8 @@ export default class FormQuestionComponent extends Component {
   @tracked showField = true;
   @action
   showInput() {
-
     this.showField = !this.showField
     console.log('showField: ' + this.showField)
-
   }
 
   @action
@@ -30,7 +28,6 @@ export default class FormQuestionComponent extends Component {
   @tracked value = this.args.value;
   @action
   cancel(event) {
-    console.log(event)
     if (event.target == null) {
       this.value = event.parentElement.childNodes[1].attributes[1].ownerElement.attributes[2].value
       this.showInput()
@@ -62,21 +59,16 @@ export default class FormQuestionComponent extends Component {
 
   get options() {
     let id = this.args.question.questionTemplateId
-
     let questionTemplates = this.store.peekRecord('question-template', id)
-    // let questionTemplates = this.args.questionTemplates
-    console.log('questionTemplates: ' + questionTemplates)
     let form = this.args.form
     let store = this.store
     let responses = []
+    let formId = form.formTemplateId
     // find all responses from task
-    id = form.templateId
-    console.log('id: ' + form.templateId)
-
     let task = store.peekRecord('task', form.templateId)
-    console.log('task: ' + task)
     task.forms.map(function (form) {
-      if (form.templateId === id) {
+      // filter responses with matching formTemplateId
+      if (form.formTemplateId === formId) {
         form.questions.map(function (question) {
           if (question.id) {
             let q = store.peekRecord('question', question.id)
@@ -85,26 +77,11 @@ export default class FormQuestionComponent extends Component {
         })
       }
     })
-
-    console.log('responses' + responses)
-    //let templateOptions = []
-    // find options from questionTemplate
-    // questionTemplates.map(function (questionTemplate) {     
-    //   if (questionTemplate.id == id) {
-    //     questionTemplate.options.split(',').map(function (item) {
-    //       templateOptions.push(item)
-    //     })
-    //   }
-    // })
-    
     let templateOptions = questionTemplates.options.split(',')
-
-  
     // filter out options which have already been given as a reponse in this task
     templateOptions = templateOptions.filter(function (item) {
       return !responses.includes(item);
-    })   
-
+    })
     return templateOptions
   }
 }
