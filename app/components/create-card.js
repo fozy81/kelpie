@@ -164,7 +164,7 @@ export default class CreateCardComponent extends Component {
 
 
           let form = store.createRecord(model, {
-            title: newName,
+            title: formTemplate.title,
             description: '',
             task: myTask,
             rep: 1,
@@ -221,6 +221,7 @@ export default class CreateCardComponent extends Component {
         title: formTemplate.title,
         description: formTemplate.description,
         formTemplateId: formTemplate.id,
+        formTemplate: formTemplate,
         rep: 1,
         edit: false,
         multiEntry: formTemplate.multiEntry,

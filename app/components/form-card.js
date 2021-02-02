@@ -267,7 +267,10 @@ export default class CounterComponent extends Component {
 
   get orderByPosition() {
     let questions = this.args.questions
-    console.log('qt ' + questions.questionTemplate)
+    questions.map(function(question) {
+      console.log('qt ' + question.questionTemplate.get('id'))
+    })
+  
     questions.map(item => console.log('question order?' + item.pos))
 
     let sorted = questions.sortBy('pos')

@@ -1,10 +1,17 @@
-{{!-- Edit form --}}
 
+
+{{!-- Need to display questionTemplate here to resolve promise??! --}}
+{{#each @model.questions as |question|}}
+{{question.questionTemplate.awda}}   
+{{/each}}
+
+
+{{!-- Edit form --}}
 {{#if @model.edit}}
 {{!-- {{#each @formTemplates as |formTemplate|}} --}}
 
 {{!-- {{#if (eq allform.id @model.templateId)}} --}}
-<EditForm @forms={{@model}} @edit={{this.editForm}} @formTemplate={{formTemplate}} />
+<EditForm @forms={{@model}} @edit={{this.editForm}} />
 {{!-- {{/if}} --}}
 {{!-- {{/each}} --}}
 {{else}}
@@ -15,7 +22,7 @@
             border-teal-300 text-left">
             <div class="wrap flex">
                   <button type="button" class="w-full text-left" {{on "click" this.showQuestion}}>
-                        <div class="font-bold">{{@model.title}}
+                        <div class="font-bold">{{@model.formTemplate.title}}
                               {{#let this.questionNumber as |stat|}}
                               <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
                                     {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}
@@ -39,7 +46,8 @@
             <div {{on "change" this.formChange}} {{ref this "formElement" }}>
                   {{#let this.orderByPosition as | orderedquestions|}}
                    {{!-- this.orderByPosition takes in multiple questions and orders them --}}
-                  {{#each orderedquestions as |question index|}}                 
+                  {{#each orderedquestions as |question index|}}    
+                          
                   <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
                         @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
                         @hideEditingQuestion={{this.hideEditingQuestion}} @questionTemplates={{question.questionTemplate}}/>

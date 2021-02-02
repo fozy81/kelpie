@@ -70,12 +70,13 @@ export default class FormQuestionComponent extends Component {
     let store = this.store
     let responses = []
     // find all responses from task
+    id = form.templateId
     console.log('id: ' + form.templateId)
 
     let task = store.peekRecord('task', form.templateId)
     console.log('task: ' + task)
     task.forms.map(function (form) {
-      if (form.id === id) {
+      if (form.templateId === id) {
         form.questions.map(function (question) {
           if (question.id) {
             let q = store.peekRecord('question', question.id)

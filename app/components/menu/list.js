@@ -64,7 +64,7 @@ export default class MenuListComponent extends Component {
   @action
   removeAllForms() {       
     const form = this.args.model
-    const templateId = form.templateId
+    const templateId = form.formTemplateId
     const id = this.router.currentRoute.params.task_id    
     let task = this.store.peekRecord('task', id, {
       include: 'forms'
@@ -73,7 +73,7 @@ export default class MenuListComponent extends Component {
      task.forms.map(function(form) {
 
      
-      if(form.templateId == templateId) {
+      if(form.formTemplateId == templateId) {
         form.destroyRecord() 
       }
      })
