@@ -7,8 +7,8 @@ export default class QuestionModel extends Model {
     @attr response; 
     @attr multiEntry;
     @attr type;
-    @attr rep;
     @attr required;
+    @attr('boolean') archive;
     @attr('number') pos;
     @attr('number') min;
     @attr('number') max;

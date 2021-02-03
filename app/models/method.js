@@ -6,6 +6,11 @@ export default class MethodModel extends Model {
     @attr description;
     @attr body;
     @attr forms;
+    @attr('boolean') archive;
+    @attr('date') createdDate;
+    @attr('number') createdDateValue;
+    @attr('date') modifiedDate;
+    @attr('number') modifiedDateValue;
     @attr('string') rev;  
 
 }

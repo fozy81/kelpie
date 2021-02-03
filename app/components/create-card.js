@@ -147,7 +147,6 @@ export default class CreateCardComponent extends Component {
         let formTemplate = store.createRecord('form-template', {
           title: newName,
           description: '',
-          rep: '',
           edit: true,
           multEntry: false
         })
@@ -167,10 +166,10 @@ export default class CreateCardComponent extends Component {
             title: formTemplate.title,
             description: '',
             task: myTask,
-            rep: 1,
             edit: true,
             multiEntry: false,
             dateCreated: new Date(),
+            archive: false,
             formTemplateId: formTemplate.id,
             templateId: myTask.id,
             formTemplate: formTemplate
@@ -221,13 +220,13 @@ export default class CreateCardComponent extends Component {
         title: formTemplate.title,
         description: formTemplate.description,
         formTemplateId: formTemplate.id,
-        formTemplate: formTemplate,
-        rep: 1,
+        formTemplate: formTemplate,   
         edit: false,
         multiEntry: formTemplate.multiEntry,
         templateId: myTask.id,
         dateCreated: new Date(),
         display: false,
+        archive: false,
         task: myTask
       }
       )
@@ -246,12 +245,12 @@ export default class CreateCardComponent extends Component {
                 response: questionTemplate.response,
                 questionTemplate: questionTemplate,
                 questionTemplateId: questionTemplate.id,
-                rep: 1,
                 multiEntry: questionTemplate.multiEntry,
                 type: questionTemplate.type,
                 pos: questionTemplate.pos,              
                 required: questionTemplate.required,
                 dateCreated: new Date(),
+                archive: false,
                 form: form  
               })
               question

@@ -37,7 +37,9 @@
 <div class="block py-2" {{on "click" this.removeTask}}>
     <button type="button">Remove Task</button>
     </div>
-<div class="block py-2">Show Archived Forms</div>
+<div class="block py-2" {{on "click" this.showingArchive}}>
+    <button type="button">Show Archived Forms</button>
+   </div>
 <div class="block py-2">Print...</div>
 
 {{/if}}

@@ -114,20 +114,18 @@ export default class CounterComponent extends Component {
 
   @action
   addSelections(event) {
-    //event.preventDefault();  
-    console.log(event)
-    console.log(this.formElement.childNodes)
-    console.log('select options length: ' + this.selectedOptions.length)
+    // event.preventDefault();      
+    // console.log(this.formElement.childNodes)
+    // console.log('select options length: ' + this.selectedOptions.length)
     let selectedOptions = this.selectedOptions
-    console.log(selectedOptions)
+    // console.log(selectedOptions)
     console.log("save data")
-    console.log('formid:' + event.target.attributes.formid.value)
+    // console.log('formid:' + event.target.attributes.formid.value)
     let formid = event.target.attributes.formid.value
     let store = this.store
     let currentForm = store.peekRecord('form', formid, { include: 'questions' })
     let update = event.target.attributes.update.value
     console.log('update: ' + update)
-    console.log('rep: ' + currentForm.rep)
     if (currentForm.multiEntry
       && currentForm.display == true
       && update === "false"
@@ -143,10 +141,10 @@ export default class CounterComponent extends Component {
       let selectedId = selectedOptions.map(function (item) {
         return item.id
       })
-      console.log('selectId: ' + selectedId)
-      console.log('requiredId: ' + requiredId)
+      // console.log('selectId: ' + selectedId)
+      // console.log('requiredId: ' + requiredId)
       const found = requiredId.filter(id => selectedId.includes(id));
-      console.log('found: ' + found)
+      // console.log('found: ' + found)
       if (found.length >= requiredId.length) {
         store.createRecord('form', {
           title: currentForm.title,
@@ -155,18 +153,17 @@ export default class CounterComponent extends Component {
           multiEntry: currentForm.multiEntry,
           formTemplate: currentForm.formTemplate,
           formTemplateId: currentForm.formTemplate.get('id'),
-          rep: 2,
           task: currentForm.task,
+          archive: false,
           display: true
         }).save().then(function (newForm) {
           // check if any required questions not entered by matching question.id to select.id???
           selectedOptions.map(function (select) {
-            console.log('question id: ' + select.id)
+            // console.log('question id: ' + select.id)
             store.findRecord('question', select.id)
               .then(function (question) {
                 store.createRecord('question', {
                   response: select.value,
-                  rep: true,
                   question: question.question,
                   form: newForm,
                   type: question.type,
@@ -174,9 +171,10 @@ export default class CounterComponent extends Component {
                   required: question.required,
                   questionTemplate: question.questionTemplate,
                   questionTemplateId: question.questionTemplateId,
-                  multiEntry: question.multiEntry
+                  multiEntry: question.multiEntry,
+                  archive: false
                 }).save()
-                 // Update project level % completed???
+                // Update project level % completed???
               })
           })
         })
@@ -197,16 +195,13 @@ export default class CounterComponent extends Component {
           if (question.response != '') {
             questionEntered.push(question.id)
           }
-
         })
         let selectedId = selectedOptions.map(function (item) {
           return item.id
         })
-
         const found = requiredId.filter(id => selectedId.includes(id));
-        console.log('found: ' + found)
+        // console.log('found: ' + found)
         if (found.length >= requiredId.length || questionEntered.length > 0) {
-          currentForm.rep = 2
           currentForm.display = true
           currentForm.save()
           selectedOptions.map(function (select) {
@@ -216,10 +211,8 @@ export default class CounterComponent extends Component {
                 question.response = select.value
                 question.save()
               })
-
           })
           this.selectedOptions = []
-
         } else {
           console.log('fail')
           return
@@ -227,14 +220,12 @@ export default class CounterComponent extends Component {
       } else {
         return
       }
-
     }
 
     if (this.hideEditQuestion === true) {
       this.hideEditingQuestion()
     }
     console.log('showInput: ' + this.input)
-
   }
 
   @tracked input = true
@@ -247,11 +238,8 @@ export default class CounterComponent extends Component {
 
   get orderByPosition() {
     let questions = this.args.questions
-
     let sorted = questions.sortBy('pos')
-
     return sorted
-
   }
 
   get orderFormQuestionsByPosition() {
@@ -261,14 +249,13 @@ export default class CounterComponent extends Component {
     //    form.questions.sortBy('pos') 
     //   })
     return forms
-
   }
 
   get questionStats() {
     let questions = this.args.questions
     let responses = []
     questions.map(function (question) {
-      if (question.response != '') {
+      if (question.response != '' & question.archive === false) {
         responses.push(question.response)
       }
     })
@@ -293,14 +280,14 @@ export default class CounterComponent extends Component {
     let allForms = this.args.allforms
     let forms = []
     allForms.map(function (form) {
-      if (currentForm.formTemplateId == form.formTemplateId) {
+      if (currentForm.formTemplateId == form.formTemplateId && currentForm.archive === false && form.archive === false) {
         forms.push(form)
       }
     })
-   let stats = {
-    total: forms.length
-   }
-   return stats
+    let stats = {
+      total: forms.length
+    }
+    return stats
   }
 
 }

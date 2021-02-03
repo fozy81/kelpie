@@ -1,3 +1,4 @@
+
 <div class="m-1">
   <div class="flex wrap">
     <LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
@@ -5,13 +6,13 @@
         class="border border-gray-200 w-11/12 p-2 rounded-lg text-gray-900"> ᐸ Back to {{@model.task.project.title}}
       </div>
     </LinkTo>
-    <div class="relative">
-      <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" />
+    <div class="relative w-22 text-right block">
+      <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}} />
     </div>
   </div>
   <div class="font-bold">Task: {{@model.task.title}}</div>
 </div>
 
-<Forms @forms={{@model.task.forms}} />
+<Forms @forms={{@model.task.forms}} @archive={{this.archive}} />
 
 {{outlet}}

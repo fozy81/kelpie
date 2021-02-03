@@ -9,7 +9,7 @@ export default class MenuComponent extends Component {
 
 @action 
 showCard() {
-  console.log("showCard") 
+  console.log("show menu") 
    this.show = true  
   }
 

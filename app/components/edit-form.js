@@ -114,7 +114,6 @@ export default class EditFormComponent extends Component {
         let formRecord = store.createRecord('form', {
           title: formTemplate.title,
           description: formTemplate.description,
-          rep: 1,
           edit: false,
           multiEntry: formTemplate.multiEntry,
           dateCreated: new Date(),
@@ -141,7 +140,6 @@ export default class EditFormComponent extends Component {
               questionTemplate: questionTemplate,
               questionTemplateId: questionTemplate.id,
               response: response,
-              rep: 1,
               multiEntry: myForm.multiEntry,
               type: questionTemplate.type,
               pos: questionTemplate.pos,             

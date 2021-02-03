@@ -2,15 +2,15 @@
 {{#let this.uniqueForms as |uniqueforms|}}
 {{#let this.dateOrderForms as |allforms|}}
   {{#each uniqueforms as |form|}}   
+  {{#if (eq form.archive false)}}
     <FormCard
       @model={{form}}
       @questions={{form.questions}}
-      @allforms={{allforms}}    
-
+      @allforms={{allforms}}        
     />
+    {{/if}}
   {{/each}}
-{{/let}}
-{{/let}}
+
 
 <CreateCard @modelName="form" @label="Add More..." @editing={{this.editingTemplate}} 
  />
@@ -25,5 +25,33 @@ Create Method (aka a lists of forms)
 
 
 {{/if}}
+
+{{#each allforms as |form|}}   
+{{#if (and (eq form.archive true) (gte form.modifiedDateValue this.date)) }}
+<div {{did-insert this.archiveDate}}>
+
+<Card @model={{form}}/>
+
+</div>
+
+{{/if}}
+{{/each}}
+
+{{@archive}}
+{{#if @archive}}
+{{#each allforms as |form|}}   
+{{#if (and (eq form.archive true) (gte form.modifiedDateValue this.date)) }}
+<div {{did-insert this.archiveDate}}>
+
+<Card @model={{form}}/>
+
+</div>
+
+{{/if}}
+{{/each}}
+{{/if}}
+
+{{/let}}
+{{/let}}
 
 {{yield}}

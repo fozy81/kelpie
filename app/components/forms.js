@@ -5,10 +5,10 @@ import { tracked } from '@glimmer/tracking';
 
 export default class FormsComponent extends Component {
 
-
   get uniqueForms() {
     let selection = this.args.forms    
     var arr = [];
+    selection = selection.sortBy('archive')
     selection.forEach(function (item) {
       var i = arr.findIndex(x => x.formTemplateId == item.formTemplateId);
       if (i <= -1) {
@@ -21,7 +21,7 @@ export default class FormsComponent extends Component {
     })   
 
     const found = selection.filter(el => arr.includes(el.id));
-   
+    
 
     return (found)
   }
@@ -41,5 +41,11 @@ export default class FormsComponent extends Component {
     this.methodTemplateId = id    
   }
 
+  @tracked date = new Date().valueOf() - 30000
+  @action
+  archiveDate(){
+    this.date = new Date().valueOf() - 30000
+  
+  }
 
 }

@@ -1,26 +1,35 @@
-
-      {{!-- {{#each @forms as |form|}}
-      {{#each form.questions as |question|}}
-       {{question.question}}
-       {{/each}}
-      {{/each}} --}}
-<LinkTo @route={{@route}}
-        @model={{@id}}> 
+<LinkTo @route={{@route}} @model={{@id}} {{on "click" (fn this.restore @model.id)}}>
   <div style="background-color:{{safe @colour}};" class="m-2 p-2
-              shadow-md border-gray-200 border rounded-lg" >
-  <div class="flex wrap">
-    {{#let this.questionStats as |stat|}}    
-  <div class="flex-1 w-full" >  {{@title}} 
-     <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
-                                    {{if stat.complete "✓" stat.text}}  </span>     
-     </div> 
-   {{/let}}
+              shadow-md border-gray-200 border rounded-lg">
+ 
 
-  <div class=" text-gray-600 text-sm font-bold" ><em>{{date @due}}</em>  </div> 
-  </div>  
+      {{!-- Restore old card --}}
+      {{#if @model}}
+      <div class=" text-gray-700">
+       <div class="flex-1 w-full"><span class="bg-gray-200 rounded-lg flex-1 w=10 p-1">Restore</span> {{@model.title}}</div>
+       {{#each @model.questions as |question|}}
+      <div class="flex-1 w=20">{{question.question}}:  {{question.response}} 
+     </div>
+      {{/each}}
+      <div class=" text-gray-600 text-sm font-bold"><em>{{date @model.modifiedDate}}</em> </div> 
+       </div>
 
-    <p></p>
+
+      {{else}}
+      <div class="flex wrap">
+      {{#let this.questionStats as |stat|}}
+      <div class="flex-1 w-full"> {{@title}}
+        <span class="text-sm  {{if stat.complete "  text-teal-600" "text-orange-600" }}">
+          {{if stat.complete "✓ 100%" stat.text}} </span>
+      </div>
+      {{/let}}
+      <div class=" text-gray-600 text-sm font-bold"><em>{{date @due}}</em> </div>
+    </div>
+        <p></p>
     {{@description}}
+      {{/if}}
+
+
   </div>
 </LinkTo>
 
