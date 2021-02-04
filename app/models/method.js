@@ -5,7 +5,8 @@ export default class MethodModel extends Model {
     @attr title;
     @attr description;
     @attr body;
-    @attr forms;
+    @attr formTemplates;
+    @attr('string', {defaultValue: 'method'}) type;
     @attr('boolean') archive;
     @attr('date') createdDate;
     @attr('number') createdDateValue;

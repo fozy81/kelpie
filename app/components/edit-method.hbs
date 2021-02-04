@@ -1,0 +1,40 @@
+
+<div class="m-2 border-2 border-gray-300 rounded-lg p-2">
+
+Editing method...{{@method.title}}
+<div>Create a 'Method' consisting of a group of form(s) and guidance for using.</div>
+
+<div>Title: <Input class="border border-gray-300" @type="text" @value={{@method.title}} /></div>
+
+<div>Body: <Textarea class="border border-gray-300" @value={{@method.body}} rows="10"
+  cols="34" /></div>
+
+<p></p>
+
+
+{{!-- Add a CreateCard component - only allow seleciton from drop down list - upon selecting - save id & form title to method.formTemplates  --}}
+<label for={{@question.type}}>Select Forms</label>
+<select id="test"> 
+  <option selected="true" value="test">test</option>  
+</select>
+
+<div>Added Forms: 
+ {{#each @method.formTemplates as |form|}}   
+ form
+ {{else}}
+ No forms added...
+ {{/each}}
+</div>
+
+{{!-- Display saved/selected forms (title only) once they have been selected. Allow forms to be removed with 'X' --}}
+ <div>Added Forms:    <Input class="border border-gray-300" @type="text" @value={{@method.formTemplates}} /></div>
+
+<button type="submit" class="border-2 border-gray-300" {{on "click" (fn this.saveMethod @method.id)}}>Save </button>
+
+<button type="submit" class="border-2 border-gray-300" {{on "click" (fn this.saveAdd @method.id)}}>Save and Add</button>
+
+<button type="submit" class="border-2 border-gray-300" {{on "click" (fn (mut @editing) false)}}>Cancel</button>
+
+</div>
+
+{{yield}}

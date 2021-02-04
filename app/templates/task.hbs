@@ -13,6 +13,6 @@
   <div class="font-bold">Task: {{@model.task.title}}</div>
 </div>
 
-<Forms @forms={{@model.task.forms}} @archive={{this.archive}} />
+<Forms @forms={{@model.task.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
 
 {{outlet}}

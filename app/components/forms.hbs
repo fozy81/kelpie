@@ -17,34 +17,25 @@
 
 {{#if this.editMethodTemplate}}
 
-Work in progress...
-Create Method (aka a lists of forms)
-<p></p>
-{{this.methodTemplateId}}
-
+<EditMethod  @method={{this.methodTemplateId}} @editing={{this.editMethodTemplate}}/>
 
 
 {{/if}}
 
 {{#each allforms as |form|}}   
-{{#if (and (eq form.archive true) (gte form.modifiedDateValue this.date)) }}
+{{#if (and (eq form.archive true) (gte form.modifiedDateValue this.date) (eq @archive false) ) }}
 <div {{did-insert this.archiveDate}}>
-
 <Card @model={{form}}/>
-
 </div>
-
 {{/if}}
 {{/each}}
 
-{{@archive}}
 {{#if @archive}}
+<div class="m-1"> Archived forms   <button type="button" class="font-bold" {{on "click" @showArchive}}>X</button></div>
 {{#each allforms as |form|}}   
-{{#if (and (eq form.archive true) (gte form.modifiedDateValue this.date)) }}
+{{#if form.archive}}
 <div {{did-insert this.archiveDate}}>
-
 <Card @model={{form}}/>
-
 </div>
 
 {{/if}}

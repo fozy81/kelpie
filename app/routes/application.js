@@ -44,8 +44,6 @@ export default class ApplicationRoute extends Route {
             .then(addTask)
             .catch(failure);
 
-
-
           function addTask(project) {
 
             function failure(reason) {
@@ -63,7 +61,6 @@ export default class ApplicationRoute extends Route {
               .save()
               .then(addQuestionTemplate)
               .catch(failure);
-
 
             function addQuestionTemplate(formTemplate) {
               let questionTemplate = store.createRecord('question-template', {
@@ -94,8 +91,6 @@ export default class ApplicationRoute extends Route {
                 .then(addTaskTemplate)
                 .catch(failure);
 
-
-
               function addTaskTemplate() {
                 let taskTemplate = store.createRecord('task-template', {
                   title: 'Woodlands site',
@@ -105,7 +100,6 @@ export default class ApplicationRoute extends Route {
                   .save()
                   .then(addTasks)
                   .catch(failure);
-
 
                 function addTasks(taskTemplate) {
                   let task = store.createRecord('task', {
@@ -172,6 +166,22 @@ export default class ApplicationRoute extends Route {
                 questionTwo
                   .save()
                   .catch(failure);
+
+                  let method = store.createRecord('method', {
+                    title: 'Wildlife',
+                    body: ` # My Demo Method 
+                            Record Wildlife...
+                            ## 1. Record Date, Time and Sampler
+                            * Date - current date
+                          * Local time at commencement of method (+/- minute)
+                              * Sampler name
+                            ## 2. Record Wildlife
+                              * Identify wildlife and and count individuals`
+              })
+              method
+              .save()
+              .catch(failure)
+
 
               }
             }

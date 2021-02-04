@@ -41,10 +41,10 @@ export default class FormsComponent extends Component {
     this.methodTemplateId = id    
   }
 
-  @tracked date = new Date().valueOf() - 30000
+  @tracked date = new Date().valueOf() - 15000
   @action
   archiveDate(){
-    this.date = new Date().valueOf() - 30000
+    this.date = new Date().valueOf() - 15000
   
   }
 

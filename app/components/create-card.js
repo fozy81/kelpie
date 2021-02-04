@@ -42,13 +42,22 @@ export default class CreateCardComponent extends Component {
     console.log('newName: ' + this.newName)
     if (this.newName) {
       const router = this.router
-      let model = this.model
+      // let model = this.model
+      // let model = router.currentRoute.attributes.modelName
+      let model = this.args.modelName
       let regexp = new RegExp(this.newName, 'i');
-
+      console.log('model before: ' + model)
+      if(model == "form") {
+      model = "form-template"
+      }
+      // if(model == "project") {
+      //   model = "project-template"
+      //   }
+      console.log('model' + model)
       let search = this.store.query(model, {
         filter: {
-          title: { '$regex': regexp },      
-          type: {  '$gte': null  }
+          title: { '$regex': regexp },
+          type: { '$eq': model }
         }
       })
       this.query = search
@@ -63,7 +72,7 @@ export default class CreateCardComponent extends Component {
     this.methodId = id
     console.log(this.methodId)
 
-    console.log('m,ethod id' + id)
+    console.log('method id' + id)
     this.args.editing(id)
     this.newName = ""
 
@@ -160,8 +169,6 @@ export default class CreateCardComponent extends Component {
         function addForm(formTemplate) {
           // add form template to form record
           console.log('creating new form')
-
-
           let form = store.createRecord(model, {
             title: formTemplate.title,
             description: '',
@@ -179,40 +186,44 @@ export default class CreateCardComponent extends Component {
             .catch((reason) => console.log('error detected'));
         }
         this.show = !this.show
-
       }
-
       this.newName = ""
     } else {
       // New Method
-
       this.show = !this.show
-      let methodId = this.methodId
+      //let methodId = this.methodId
       let updateMethodId = this.updateMethodId
       let method = this.store.createRecord('method', {
-        title: this.newName
+        title: this.newName,
+        body: `# My Demo Method Title
+Record Wildlife...
+## Heading
+Plain text sentence.
+* Bullet point
+* Bullet point two
+[Link](www.google.com) 
+`
       })
       method
         .save()
         .then(function (method) {
-          updateMethodId(method.id)
+          updateMethodId(method)
 
         })
         .catch((reason) => console.log('error detected'));
-
-
     }
-
-
   }
-
 
   @action
   addFormTemplate(id) {
-    console.log('add template form')
+    if(this.args.modelName === "project") {
+      console.log('Needproject add helper?!')
+      return
+    }
+    console.log('add template form')    
     const router = this.router
     const store = this.store
-    const taskId = router.currentRoute.params.task_id   
+    const taskId = router.currentRoute.params.task_id
     let myTask = store.peekRecord('task', taskId);
     store.findRecord('form-template', id).then(function (formTemplate) {
       console.log('templateID: ' + formTemplate.questionTemplates)
@@ -220,7 +231,7 @@ export default class CreateCardComponent extends Component {
         title: formTemplate.title,
         description: formTemplate.description,
         formTemplateId: formTemplate.id,
-        formTemplate: formTemplate,   
+        formTemplate: formTemplate,
         edit: false,
         multiEntry: formTemplate.multiEntry,
         templateId: myTask.id,
@@ -228,18 +239,15 @@ export default class CreateCardComponent extends Component {
         display: false,
         archive: false,
         task: myTask
-      }
-      )
+      })
       formRecord
         .save()
         .then(async function (form) {
           console.log('form id:' + await form.templateId)
-
           store.findRecord('form-template', id, { include: 'questionTemplates' }).then(async function (formTemplate) {
-            console.log('template questions length:' + await formTemplate.questionTemplates.length + ' ' + formTemplate.title)
+            console.log('template questions length:' + await formTemplate.get('questionTemplates').length + ' ' + formTemplate.title)
             let questionTemplates = await formTemplate.questionTemplates
-            questionTemplates.map(async function (questionTemplate) {   
-
+            questionTemplates.map(async function (questionTemplate) {
               let question = store.createRecord('question', {
                 question: questionTemplate.question,
                 response: questionTemplate.response,
@@ -247,11 +255,11 @@ export default class CreateCardComponent extends Component {
                 questionTemplateId: questionTemplate.id,
                 multiEntry: questionTemplate.multiEntry,
                 type: questionTemplate.type,
-                pos: questionTemplate.pos,              
+                pos: questionTemplate.pos,
                 required: questionTemplate.required,
                 dateCreated: new Date(),
                 archive: false,
-                form: form  
+                form: form
               })
               question
                 .save()
