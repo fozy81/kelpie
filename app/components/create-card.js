@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import shortlink from 'shortlink';
+import { A } from '@ember/array';
 
 export default class CreateCardComponent extends Component {
 
@@ -45,10 +46,13 @@ export default class CreateCardComponent extends Component {
       // let model = this.model
       // let model = router.currentRoute.attributes.modelName
       let model = this.args.modelName
+      if (this.model == "method") {
+        model = "method"
+      }
       let regexp = new RegExp(this.newName, 'i');
       console.log('model before: ' + model)
-      if(model == "form") {
-      model = "form-template"
+      if (model == "form") {
+        model = "form-template"
       }
       // if(model == "project") {
       //   model = "project-template"
@@ -216,11 +220,85 @@ Plain text sentence.
 
   @action
   addFormTemplate(id) {
-    if(this.args.modelName === "project") {
+    if (this.args.modelName === "project") {
       console.log('Needproject add helper?!')
       return
     }
-    console.log('add template form')    
+
+    // While editing a method - add form to method
+    if (this.args.method) {
+      console.log('Add method this form: ' + id)
+      let formTemplate = this.store.peekRecord('form-template', id)
+      let method = this.store.peekRecord('method', this.args.method)
+      if (typeof method.formTemplates == "undefined") {
+        method.formTemplates = A([{
+          id: formTemplate.id,
+          title: formTemplate.title
+        }])
+      } else {
+        console.log('Push on to array' + method.formTemplates.length)
+        method.formTemplates.pushObject({
+          id: formTemplate.id,
+          title: formTemplate.title
+        })
+      }
+      method.save()
+      return
+    }
+
+    // If adding method to task:
+    if (this.model == "method") {
+      console.log('Adding method to this task')
+      let store = this.store
+      let router = this.router
+      this.store.findRecord('method', id).then(function (method) {
+        const taskId = router.currentRoute.params.task_id
+        let task = store.peekRecord('task', taskId);
+        method.get('formTemplates').map(function (methodFormTemplate) {
+          store.findRecord('form-template', methodFormTemplate.id).then(function (formTemplate) {
+            store.createRecord('form', {
+              title: formTemplate.title,
+              description: formTemplate.description,
+              task: task,
+              edit: false,
+              multiEntry: formTemplate.multiEntry,
+              methodTitle: method.title,
+              methodId: method.id,
+              dateCreated: new Date(),
+              archive: false,
+              formTemplateId: formTemplate.id,
+              templateId: task.id,
+              formTemplate: formTemplate
+            }).save()
+              .then(async function (form) {
+                store.findRecord('form-template', form.formTemplateId, { include: 'questionTemplates' }).then(async function (formTemplate) {
+                  let questionTemplates = await formTemplate.questionTemplates
+                  questionTemplates.map(async function (questionTemplate) {
+                    let question = store.createRecord('question', {
+                      question: questionTemplate.question,
+                      response: questionTemplate.response,
+                      questionTemplate: questionTemplate,
+                      questionTemplateId: questionTemplate.id,
+                      multiEntry: questionTemplate.multiEntry,
+                      type: questionTemplate.type,
+                      pos: questionTemplate.pos,
+                      required: questionTemplate.required,
+                      dateCreated: new Date(),
+                      archive: false,
+                      form: form
+                    })
+                    question
+                      .save()
+                  })
+                })
+              })
+          })
+        })
+      })
+      return
+    }
+
+    console.log('add template form')
     const router = this.router
     const store = this.store
     const taskId = router.currentRoute.params.task_id
@@ -249,14 +327,14 @@ Plain text sentence.
             let questionTemplates = await formTemplate.questionTemplates
             questionTemplates.map(async function (questionTemplate) {
               let question = store.createRecord('question', {
-                question: questionTemplate.question,
-                response: questionTemplate.response,
+                question: questionTemplate.get('question'),
+                response: questionTemplate.get('response'),
                 questionTemplate: questionTemplate,
-                questionTemplateId: questionTemplate.id,
-                multiEntry: questionTemplate.multiEntry,
-                type: questionTemplate.type,
-                pos: questionTemplate.pos,
-                required: questionTemplate.required,
+                questionTemplateId: questionTemplate.get('id'),
+                multiEntry: questionTemplate.get('multiEntry'),
+                type: questionTemplate.get('type'),
+                pos: questionTemplate.get('pos'),
+                required: questionTemplate.get('required'),
                 dateCreated: new Date(),
                 archive: false,
                 form: form

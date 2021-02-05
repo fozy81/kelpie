@@ -10,6 +10,8 @@ export default class FormModel extends Model {
     @attr formTemplateId;
     @attr display;
     @attr pos;
+    @attr methodId;
+    @attr methodTitle;
     @attr('boolean') archive;
     @attr('date') createdDate;
     @attr('number') createdDateValue;

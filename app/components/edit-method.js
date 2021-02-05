@@ -21,8 +21,8 @@ export default class EditMethodComponent extends Component {
         const taskId = this.router.currentRoute.params.task_id
         let task = this.store.peekRecord('task', taskId)           
         let method = this.store.peekRecord('method', id)   
-        method.formTemplates.split(',').map(function(formTemplate) {
-           store.findRecord('form-template', formTemplate).then(function(formTemplate){
+        method.formTemplates.map(function(formTemplate) {
+           store.findRecord('form-template', formTemplate.id).then(function(formTemplate){
                store.createRecord('form', { 
             title: formTemplate.title,
             description: '',

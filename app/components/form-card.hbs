@@ -1,5 +1,4 @@
 
-
 {{!-- Need to display questionTemplate here to resolve promise??! --}}
 {{#each @model.questions as |question|}}
 {{question.questionTemplate.awda}}   
@@ -114,9 +113,14 @@
             {{/if}}
             {{/if}}
             {{/if}}
-            {{/each}}
+            {{/each}}  
+            {{#if @model.methodTitle}}     
+                   <div class=""><button class="flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button">{{@model.methodTitle}} </button>    </div>      
             {{/if}}
+            {{/if}}      
+      
       </div>
+       
 </div>
 {{/if}}
 {{yield}}
