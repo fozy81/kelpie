@@ -58,6 +58,5 @@ module.exports = function(environment) {
       'connect-src': "'self' " + remote_couch_hostname 
     };
   }
-
   return ENV;
 };
