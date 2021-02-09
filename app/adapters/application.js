@@ -32,17 +32,17 @@ import PouchDB from 'ember-pouch/pouchdb';
 import { Adapter } from 'ember-pouch';
 import pouchDebugPlugin from 'pouchdb-debug'; // (assumed available via ember-auto-import or shim)
 import ENV from 'kelpie/config/environment';
-
+import { inject as service } from '@ember/service';
 // PouchDB.debug.enable('*');
 
 let remote = new PouchDB(ENV.remote_couch);
 
-let db = new PouchDB('kelpie');
+ let db = new PouchDB('kelpie');
 
-db.sync(remote, {
-   live: true,   // do a live, ongoing sync
-   retry: true   // retry if the connection is lost
-});
+ db.sync(remote, {
+    live: true,   // do a live, ongoing sync
+    retry: true   // retry if the connection is lost
+ });
 
  
 db.createIndex({
@@ -57,6 +57,9 @@ db.createIndex({
     }
   })
 
+
+
 export default class ApplicationAdapter extends Adapter {
-  db = db;
+
+    db = db; 
 }
