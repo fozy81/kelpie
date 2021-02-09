@@ -28,38 +28,67 @@
   
 // }  
 
-import PouchDB from 'ember-pouch/pouchdb';
-import { Adapter } from 'ember-pouch';
-import pouchDebugPlugin from 'pouchdb-debug'; // (assumed available via ember-auto-import or shim)
+
 import ENV from 'kelpie/config/environment';
-import { inject as service } from '@ember/service';
+
 // PouchDB.debug.enable('*');
 
-let remote = new PouchDB(ENV.remote_couch);
+import config from '../config/environment';
+import { assert } from '@ember/debug';
+import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
+import { Adapter } from 'ember-pouch';
+import PouchDB from 'ember-pouch/pouchdb';
+import auth from 'pouchdb-authentication';
 
- let db = new PouchDB('kelpie');
+PouchDB.plugin(auth);
 
- db.sync(remote, {
-    live: true,   // do a live, ongoing sync
-    retry: true   // retry if the connection is lost
- });
+
+
+
+
+// let db = new PouchDB('kelpie');
+
+//  db.sync(remote, {
+//     live: true,   // do a live, ongoing sync
+//     retry: true   // retry if the connection is lost
+//  });
 
  
-db.createIndex({
-    index: {
-      fields: ['data.createdDateValue']
-    }
-  })
+// db.createIndex({
+//     index: {
+//       fields: ['data.createdDateValue']
+//     }
+//   })
 
-  db.createIndex({
-    index: {
-      fields: ['data.dueDateValue']
-    }
-  })
+//   db.createIndex({
+//     index: {
+//       fields: ['data.dueDateValue']
+//     }
+//   })
 
 
 
 export default class ApplicationAdapter extends Adapter {
+  @service session;
+  @service cloudState;
+  @service refreshIndicator;
 
-    db = db; 
+
+
+
+constructor() {
+  super(...arguments);
+
+
+
+
+  const db = new PouchDB(ENV.remote_couch);
+  this.db = db;
+
+
+  return this;
+}
+
+ 
 }
