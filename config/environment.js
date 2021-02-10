@@ -53,10 +53,11 @@ module.exports = function(environment) {
   }
   if ( ENV.remote_couch ) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
+    var site = 'https://kelpie.netlify.app'
     var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
     ENV.contentSecurityPolicy = {
       'default-src': ["'none'"],
-      'connect-src': "'self' " + remote_couch_hostname, 
+      'connect-src': ["'self' " + remote_couch_hostname, "'self' " + site], 
       'style-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
       'script-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
       
