@@ -16,7 +16,7 @@
 
 //     const remote = new PouchDB('http://localhost:5984/test');
 //     const db = new PouchDB(localDb);  
-  
+
 //   db.sync(remote, {
 //     live: true,   // do a live, ongoing sync
 //     retry: true   // retry if the connection is lost
@@ -25,7 +25,7 @@
 
 //     return this;
 //   }    
-  
+
 // }  
 
 
@@ -54,18 +54,7 @@ PouchDB.plugin(auth);
 //     retry: true   // retry if the connection is lost
 //  });
 
- 
-// db.createIndex({
-//     index: {
-//       fields: ['data.createdDateValue']
-//     }
-//   })
 
-//   db.createIndex({
-//     index: {
-//       fields: ['data.dueDateValue']
-//     }
-//   })
 
 
 
@@ -77,18 +66,28 @@ export default class ApplicationAdapter extends Adapter {
 
 
 
-constructor() {
-  super(...arguments);
+  constructor() {
+    super(...arguments);
+
+    const db = new PouchDB(ENV.remote_couch);
+
+    db.createIndex({
+      index: {
+        fields: ['data.createdDateValue']
+      }
+    })
+
+    db.createIndex({
+      index: {
+        fields: ['data.dueDateValue']
+      }
+    })
+
+    this.db = db;
 
 
+    return this;
+  }
 
 
-  const db = new PouchDB(ENV.remote_couch);
-  this.db = db;
-
-
-  return this;
-}
-
- 
 }
