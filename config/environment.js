@@ -55,8 +55,14 @@ module.exports = function(environment) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
     var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
     ENV.contentSecurityPolicy = {
-      'connect-src': "'self' " + remote_couch_hostname 
+      'default-src': ["'none'"],
+      'connect-src': "'self' " + remote_couch_hostname, 
+      'style-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
+      'script-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
+      
     };
   }
+  ENV.reportOnly = true
+  ENV.delivery = ['header'] 
   return ENV;
 };
