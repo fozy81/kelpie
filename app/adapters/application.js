@@ -69,12 +69,7 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    const db = new PouchDB(ENV.remote_couch,
-       {ajax: {rejectUnauthorized: false,
-        requestCert: true,
-        agent: false}     
-      
-      });
+    const db = new PouchDB(ENV.remote_couch);
 
     db.createIndex({
       index: {
