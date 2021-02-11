@@ -56,7 +56,12 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    const db = new PouchDB(ENV.remote_couch);
+    const db = new PouchDB(ENV.remote_couch, {
+      fetch(url, opts) {
+        opts.credentials = 'include';
+        return PouchDB.fetch(url, opts);
+      }
+     });
    
     db.createIndex({
       index: {

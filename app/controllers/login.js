@@ -15,7 +15,9 @@ export default class LoginController extends Controller {
   async login(event) {
     event.preventDefault();
     try {
-      await this.session.authenticate('authenticator:pouch', this.identification, this.password);
+      await this.session.authenticate('authenticator:pouch', this.identification, this.password).then(function() {
+        window.location.reload()}
+      );
     } catch (error) {      
       this.error = error.reason || error;
     }
