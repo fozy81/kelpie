@@ -8,22 +8,23 @@ export default class LoginController extends Controller {
 
   @tracked error;
   @tracked password;
-  @tracked username;
+  @tracked identification;
 
 
   @action
   async login(event) {
     event.preventDefault();
     try {
-      await this.session.authenticate('authenticator:pouch', this.username, this.password);
+      await this.session.authenticate('authenticator:pouch', this.identification, this.password);
     } catch (error) {
-      this.error = error;
+      console.log(error)
+      this.error = error.reason;
     }
   }
 
   @action
   updateIdentification(e) {
-    this.username = e.target.value;
+    this.identification = e.target.value;
   }
 
   @action
@@ -31,16 +32,4 @@ export default class LoginController extends Controller {
     this.password = e.target.value;
   }
 
-  @action
-  authenticate(event) {
-    const { target } = event;
-    let identification = target.querySelector('#identification').value;
-    let password = target.querySelector('#password').value;
-    event.preventDefault();
-    this.session.authenticate('authenticator:pouch', identification, password).then(() => {
-      this.setProperties({ identification: '', password: '' });
-    }).catch((reason) => {
-      this.errorMessage = reason.message || reason;
-    });
-  }
 }

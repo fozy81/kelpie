@@ -1,34 +1,13 @@
-<div class="row mx-3">
-  <div class="col">
-    <p>Login with your CloudStation account. Create one for free <a href="https://cloudstation.com/en/register" title="Create a Free CloudStation account">here</a>.</p>
-    <p>
-      <form class="form-inline" {{on "submit" this.authenticate}}>
-        <div class="form-group">
-          <label class="sr-only" for="identification">Username</label>
-          <input class="form-control" id="identification" placeholder="Username" type="text" name="identification" />
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="password">Password</label>
-          <input class="form-control" id="password" placeholder="Password" type="password" name="password" />
-        </div>
-        <button type="submit" class="btn btn-secondary">Login</button>
-        {{#if this.errorMessage}}
-          <span class="col-12">{{this.errorMessage}}</span>
-        {{/if}}
-      </form>
-    </p>
-  </div>
-</div>
 
 
 {{!-- app/templates/login.hbs --}}
-{{!-- <form {{on "submit" this.login}}>
-  <label for="username">Username</label>
-  <input id='username' placeholder="Enter Login" value={{this.username}} {{on "change" this.updateIdentification}}>
+<form {{on "submit" this.login}}>
+  <label for="identification">Username</label>
+  <input id='identification' placeholder="Enter Login" value={{this.identification}} {{on "change" this.updateIdentification}}>
   <label for="password">Password</label>
   <input id='password' placeholder="Enter Password" value={{this.password}} {{on "change" this.updatePassword}}>
   <button type="submit">Login</button>
   {{#if this.error}}
     <p>{{this.error}}</p>
   {{/if}}
-</form> --}}
+</form>
