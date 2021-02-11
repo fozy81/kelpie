@@ -30,9 +30,7 @@
 
 
 import ENV from 'kelpie/config/environment';
-
 // PouchDB.debug.enable('*');
-
 import config from '../config/environment';
 import { assert } from '@ember/debug';
 import { isEmpty } from '@ember/utils';
@@ -43,10 +41,6 @@ import auth from 'pouchdb-authentication';
 
 PouchDB.plugin(auth);
 
-
-
-
-
 // let db = new PouchDB('kelpie');
 
 //  db.sync(remote, {
@@ -54,23 +48,16 @@ PouchDB.plugin(auth);
 //     retry: true   // retry if the connection is lost
 //  });
 
-
-
-
-
 export default class ApplicationAdapter extends Adapter {
   @service session;
   @service cloudState;
   @service refreshIndicator;
 
-
-
-
   constructor() {
     super(...arguments);
 
     const db = new PouchDB(ENV.remote_couch);
-
+   
     db.createIndex({
       index: {
         fields: ['data.createdDateValue']
@@ -82,12 +69,10 @@ export default class ApplicationAdapter extends Adapter {
         fields: ['data.dueDateValue']
       }
     })
-
+  
     this.db = db;
-
 
     return this;
   }
-
 
 }

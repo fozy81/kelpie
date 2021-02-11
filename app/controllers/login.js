@@ -16,9 +16,8 @@ export default class LoginController extends Controller {
     event.preventDefault();
     try {
       await this.session.authenticate('authenticator:pouch', this.identification, this.password);
-    } catch (error) {
-      console.log(error)
-      this.error = error.reason;
+    } catch (error) {      
+      this.error = error.reason || error;
     }
   }
 
