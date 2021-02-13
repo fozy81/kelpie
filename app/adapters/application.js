@@ -74,6 +74,8 @@ export default class ApplicationAdapter extends Adapter {
         fields: ['data.dueDateValue']
       }
     })
+
+    
   
     this.db = db;
 

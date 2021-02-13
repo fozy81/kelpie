@@ -10,7 +10,7 @@ export default class MenuListComponent extends Component {
   showingArchive() {
     console.log('show archive')
     this.args.showArchive()
-    
+
   }
 
   @tracked show = true;
@@ -32,15 +32,29 @@ export default class MenuListComponent extends Component {
   @service router
   @action
   removeProject() {
-
     const id = this.router.currentRoute.params.project_id
-    console.log(id)
-    let project = this.store.peekRecord('project', id);
-    console.log(project)
-    project.destroyRecord()
+    let project = this.store.peekRecord('project', id, {
+      include: 'tasks.forms.questions'
+    });
+    project.archive = true
+    project.save().then(function () {
+      project.tasks.map(function (task) {
+        task.archive = true
+        task.save().then(function (task) {
+          task.forms.map(function (form) {
+            form.archive = true
+            form.save().then(function (form) {
+              form.questions.map(function (question) {
+                question.archive = true
+                question.save()
+              })
+            })
+          })
+        })
+      })
+    })
     const path = '/projects'
     this.router.transitionTo(path);
-
   }
 
   @action
@@ -48,10 +62,20 @@ export default class MenuListComponent extends Component {
 
     const id = this.router.currentRoute.params.task_id
     let task = this.store.peekRecord('task', id, {
-      include: 'project'
+      include: 'project, task.forms.questions'
     })
-
-    task.destroyRecord()
+    task.archive = true
+    task.save().then(function (task) {
+      task.forms.map(function (form) {
+        form.archive = true
+        form.save().then(function (form) {
+          form.questions.map(function (question) {
+            question.archive = true
+            question.save()
+          })
+        })
+      })
+    })
     const projectId = this.args.id
     const path = '/projects/' + projectId
     this.router.transitionTo(path);
@@ -87,9 +111,9 @@ export default class MenuListComponent extends Component {
 
     task.forms.map(function (form) {
       if (form.formTemplateId == templateId) {
-        form.questions.map(function(question){
-         question.archive = true
-         question.save()
+        form.questions.map(function (question) {
+          question.archive = true
+          question.save()
         })
         form.archive = true
         let date = new Date()

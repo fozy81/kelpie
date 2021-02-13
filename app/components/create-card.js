@@ -49,7 +49,8 @@ export default class CreateCardComponent extends Component {
       if (this.model == "method") {
         model = "method"
       }
-      let regexp = new RegExp(this.newName, 'i');
+      // let regexp = new RegExp(this.newName, 'i');
+      let regexp = this.newName
       console.log('model before: ' + model)
       if (model == "form") {
         model = "form-template"

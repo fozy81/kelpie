@@ -24,21 +24,21 @@
 <hr>
 Tasks:
 <br>
-Templates:
+{{!-- Templates:
 {{#each @model.tasks as |task|}}
 {{task.taskTemplate.title}}
-{{/each}}
+{{/each}} --}}
 {{#each @model.tasks as |task|}}
+  {{#if (eq task.archive false)}}
 
 <Card @title={{task.title}}
        @route="task"
        @id={{task.id}}        
        @forms={{task.forms}}
-       @colour="#edf2f7"/>
-       {{else}}
-       No tasks assigned
+       @colour="#edf2f7" />   
+   {{/if}}
 {{/each}}
-
+ 
  </div>
 <CreateCard @label="Add New Task"
             @modelName="task"/>
