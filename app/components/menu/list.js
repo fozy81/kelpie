@@ -36,6 +36,9 @@ export default class MenuListComponent extends Component {
     let project = this.store.peekRecord('project', id, {
       include: 'tasks.forms.questions'
     });
+    let date = new Date()
+    project.modifiedDate = date
+    project.modifiedDateValue = date.valueOf()
     project.archive = true
     project.save().then(function () {
       project.tasks.map(function (task) {
@@ -65,6 +68,9 @@ export default class MenuListComponent extends Component {
       include: 'project, task.forms.questions'
     })
     task.archive = true
+    let date = new Date()
+    task.modifiedDate = date
+    task.modifiedDateValue = date.valueOf()
     task.save().then(function (task) {
       task.forms.map(function (form) {
         form.archive = true

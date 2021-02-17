@@ -15,7 +15,7 @@
 <div class="block py-2">Create New Project</div>
 <div class="block py-2">Create New Team</div>
 <div class="block py-2">Print...</div>
-<div class="block py-2">Show Archived Projects</div>
+<div class="block py-2" {{on "click" this.showingArchive}}> <button type="button">Show Archived Projects</button></div>
 
 {{/if}}
 
@@ -25,7 +25,7 @@
 <div class="block py-2">Edit Project</div>
 <div class="block py-2" {{on "click" this.removeProject}}>
     <button class="text-left" type="button">Remove Project</button></div>
-<div class="block py-2">Show Archived Tasks</div>
+<div class="block py-2" {{on "click" this.showingArchive}}> <button type="button">Show Archived Tasks</button></div>
 <div class="block py-2">Print...</div>
 
 {{/if}}

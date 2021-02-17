@@ -96,7 +96,9 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
                   function addTaskTemplate() {
                     let taskTemplate = store.createRecord('task-template', {
                       title: 'Woodlands site',
-                      description: 'Woods'
+                      description: 'Woods',
+                      lat: 56.6,
+                      lon: 34.3
                     })
                     taskTemplate
                       .save()

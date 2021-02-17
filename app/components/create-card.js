@@ -18,7 +18,7 @@ export default class CreateCardComponent extends Component {
   @action
   focus(element) {
     element.focus();
-  }
+  }taskTemplate
 
   @tracked show = false;
   @action
@@ -126,13 +126,27 @@ export default class CreateCardComponent extends Component {
       if (model == "task") {
         if (this.model === "form-template") {
           const id = router.currentRoute.params.project_id
-          let myProject = this.store.peekRecord('project', id);
-          let task = this.store.createRecord(model, {
+          let store = this.store
+          let newName = this.newName
+          let myProject = this.store.peekRecord('project', id);            
+          let taskTemplate = this.store.createRecord('task-template', {
             title: this.newName,
             project: myProject
           })
 
-          let self = this;
+          taskTemplate
+          .save()
+          .then(addTask)
+       
+
+          function addTask(formTemplate) {
+            let task = store.createRecord(model, {
+              title: newName,
+              project: myProject,
+              taskTemplate: taskTemplate
+            })
+
+            //    let self = this;
 
           function transitionToTask(task) {
             router.transitionTo('/task/' + task.id);
@@ -147,6 +161,8 @@ export default class CreateCardComponent extends Component {
             .then(transitionToTask)
             .catch(failure)
         }
+      }
+      
       }
 
       if (model == "form") {

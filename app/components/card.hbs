@@ -1,17 +1,19 @@
-<LinkTo @route={{@route}} @model={{@id}} {{on "click" (fn this.restore @model.id)}}>
+
+{{#if this.showCard}}
   <div style="background-color:{{safe @colour}};" class="m-2 p-2
               shadow-md border-gray-200 border rounded-lg">
- 
+ <LinkTo @route={{@route}} @model={{@id}} {{on "click" (fn this.restore @model)}}>
 
       {{!-- Restore old card --}}
       {{#if @model}}
-      <div class=" text-gray-700">
+      <div class="flex wrap text-gray-700">
        <div class="flex-1 w-full"><span class="bg-gray-200 rounded-lg flex-1 w=10 p-1">Restore</span> {{@model.title}}</div>
        {{#each @model.questions as |question|}}
       <div class="flex-1 w=20">{{question.question}}:  {{question.response}} 
      </div>
       {{/each}}
-      <div class=" text-gray-600 text-sm font-bold"><em>{{date @model.modifiedDate}}</em> </div> 
+      <div class="flex-1 w-full text-gray-600 text-sm font-bold"><em>{{date @model.modifiedDate}}</em> </div> 
+   
        </div>
 
 
@@ -29,10 +31,13 @@
     {{@description}}
       {{/if}}
 
-
-  </div>
 </LinkTo>
-
+ {{#if  @model}}
+   <div  class="flex-1 w-full text-right font-bold"><button class="font-bold" type="button" {{on "click" this.showingCard}} >X</button></div>
+ {{/if}} 
+  </div>
+ 
+{{/if}}
 
 
 {{yield}}

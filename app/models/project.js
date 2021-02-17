@@ -5,6 +5,7 @@ export default class ProjectModel extends Model {
     @attr title;
     @attr description;
     @attr projectId;
+    @attr('string', { defaultValue: 'project' }) type;
     @attr('date') createdDate;
     @attr('number') createdDateValue;
     @attr('date') startDate;

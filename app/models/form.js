@@ -4,6 +4,7 @@ export default class FormModel extends Model {
 
     @attr title;
     @attr description;
+    @attr('string', { defaultValue: 'form' }) type;
     @attr edit;
     @attr multiEntry; 
     @attr templateId;

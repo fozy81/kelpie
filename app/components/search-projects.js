@@ -41,6 +41,7 @@ export default class SearchProjectsComponent extends Component {
 
     @tracked search = ''
     @tracked results = null
+    @tracked archives = null
     @action
     filter() {
 
@@ -89,6 +90,19 @@ export default class SearchProjectsComponent extends Component {
         })
             this.results = result
   
+          
+       let archive = this.store.query('project', {
+        filter: {
+            title: { '$regex': regexp_couchdb },
+            dueDateValue: { '$lte': date },
+            archive: { '$eq': true }
+        },
+        sort: [
+            { dueDateValue: 'desc' }
+        ],
+        limit: 10
+    })
+        this.archives = archive
 
     }
 
@@ -109,4 +123,19 @@ export default class SearchProjectsComponent extends Component {
         })
         this.recent = recent
     }
+
+
+    @tracked archive = false;
+    @action
+    showArchive() {
+      this.archive = !this.archive
+    }
+
+    @tracked date = new Date().valueOf() - 15000
+    @action
+    archiveDate(){
+      this.date = new Date().valueOf() - 15000
+    
+    }
+
 }

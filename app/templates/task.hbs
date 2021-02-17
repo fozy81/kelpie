@@ -11,6 +11,36 @@
     </div>
   </div>
   <div class="font-bold">Task: {{@model.task.title}}</div>
+
+{{#if this.showDetails}}
+
+{{!-- {{#let (load this.geoFindMe) as |data|}}
+  {{#if data.isLoading}}
+    <p>loading...</p>
+  {{else if data.isLoaded}}
+  <div>Lat: <input class="border border-gray-500" value={{data.value.latitude}} /></div>
+
+  {{else if data.isError}}
+    <p>Whoops! Something went wrong!</p>
+    <p>{{data.error.message}}</p>
+  {{/if}}
+{{/let}} --}}
+
+
+Details <button type="button" {{on "click" this.showMore}} class="font-bold"> X</button>
+
+<div class="m-1">Lat: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lat}} /></div>
+<div class="m-1">Lon: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lon}} /></div>
+<div class="m-1">Arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
+<div class="m-1">Describe assess: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.describeAccess}} rows="10"
+  cols="36"/></div></div>
+<div class="m-1">Risk assessment: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.riskAssessment}} rows="10"
+  cols="36"/></div></div>
+
+<button type="submit" class="border-2 border-gray-500 bg-gray-200 rounded-lg p-1"{{on "click" (fn this.saveTask @model.task.taskTemplate.id)}}>Update</button>
+{{else}}
+<button type="button" {{on "click" this.showMore}}> Show details...</button>
+{{/if}}
 </div>
 
 <Forms @forms={{@model.task.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
