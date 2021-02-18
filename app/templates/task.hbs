@@ -10,8 +10,10 @@
       <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}} />
     </div>
   </div>
-  <div class="font-bold">Task: {{@model.task.title}}</div>
+  <div class="flex wrap">
+  <div class="font-bold flex-1">Task: {{@model.task.title}} <a href="geo:{{@model.task.taskTemplate.lat}},{{@model.task.taskTemplate.lon}};U=1000" > 🌍 </a></div>
 
+  </div>
 {{#if this.showDetails}}
 
 {{!-- {{#let (load this.geoFindMe) as |data|}}
@@ -31,7 +33,7 @@ Details <button type="button" {{on "click" this.showMore}} class="font-bold"> X<
 
 <div class="m-1">Lat: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lat}} /></div>
 <div class="m-1">Lon: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lon}} /></div>
-<div class="m-1">Arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
+<div class="m-1">Pre-arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
 <div class="m-1">Describe assess: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.describeAccess}} rows="10"
   cols="36"/></div></div>
 <div class="m-1">Risk assessment: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.riskAssessment}} rows="10"

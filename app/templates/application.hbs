@@ -16,7 +16,7 @@
             ℹ 
          </a>
          <LinkTo @route="login">
-            👤 Login
+            👤  {{#if (eq this.session.isAuthenticated false)}} <span>Login</span> {{/if}}
          </LinkTo>
       </div>
    </nav>

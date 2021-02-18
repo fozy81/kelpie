@@ -13,4 +13,8 @@ export default class IndexRoute extends Route {
         }
       
     }
+
+    // beforeModel(transition) {
+    //   this.get('session').requireAuthentication(transition, 'login');
+    //   }
 }

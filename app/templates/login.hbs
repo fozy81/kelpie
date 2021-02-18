@@ -1,13 +1,38 @@
+{{#if this.session.isAuthenticated}}
+<a class="border-2 border-gray-400 bg-gray-200 p-1 m-1 rounded-lg" {{on "click" this.invalidateSession}}>Logout</a>
+
+<div class="m-1">
+  <br>
+  <div class="m-1">Username: {{this.user}} </div>
+  <div class="m-1">Roles: {{this.roles}} </div>
+</div>
+
+<form {{on "submit" this.changePassword}}>
+  <label for="identification">Current password:</label>
+  <input type="password" id='identification' placeholder="Current Login" value={{this.identification}} {{on "change"
+    this.updateIdentification}}>
+  <label for="password">New password:</label>
+  <input type="password" id='new' placeholder="New Login" value={{this.new}} {{on "change" this.newId}}>
+  <button type="submit" class="m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Change password</button>
+  {{#if this.error}}
+  <p>{{this.error}}</p>
+  {{/if}}
+</form>
+{{else}}
+
 
 
 {{!-- app/templates/login.hbs --}}
 <form {{on "submit" this.login}}>
   <label for="identification">Username</label>
-  <input id='identification' placeholder="Enter Login" value={{this.identification}} {{on "change" this.updateIdentification}}>
+  <input id='identification' placeholder="Enter Login" value={{this.identification}} {{on "change"
+    this.updateIdentification}}>
   <label for="password">Password</label>
-  <input id='password' placeholder="Enter Password" value={{this.password}} {{on "change" this.updatePassword}}>
-  <button type="submit">Login</button>
+  <input type="password" id='password' placeholder="Enter Password" value={{this.password}} {{on "change"
+    this.updatePassword}}>
+  <button type="submit" class="m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Login</button>
   {{#if this.error}}
-    <p>{{this.error}}</p>
+  <p>{{this.error}}</p>
   {{/if}}
 </form>
+{{/if}}

@@ -5,12 +5,12 @@ export default class LoginRoute extends Route {
 
     @service session;
 
-    beforeModel(){
-        if(this.session.isAuthenticated) {
-            this.replaceWith('projects');
-        } else {
-            this.replaceWith('login');
-        }
-    }
+    // beforeModel(){
+    //     if(this.session.isAuthenticated) {
+    //         this.replaceWith('projects');
+    //     } else {
+    //         this.replaceWith('login');
+    //     }
+    // }
 
 }
