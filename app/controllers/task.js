@@ -2,9 +2,27 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import QRCode from 'qrcode'
 
 
 export default class TaskController extends Controller {
+
+  @tracked qr = null 
+  @action
+  createQr() {
+  // let url = `http://localhost:4200/task/${this.model.task.id}`
+
+  
+  // QRCode.toCanvas(document.getElementById('canvas'), url, function (error) {
+  //   if (error) console.error(error)
+  //   console.log('success!');
+  // })
+
+  return null
+    
+  }
+
+
 
   @tracked archive = false;
   @action
@@ -47,10 +65,10 @@ export default class TaskController extends Controller {
   }
 
   @action
-  saveTask(id){
-     let taskTemplate = this.store.peekRecord('task-template', id)
-     taskTemplate.save()
-     this.showDetails = !this.showDetails
+  saveTask(id) {
+    let taskTemplate = this.store.peekRecord('task-template', id)
+    taskTemplate.save()
+    this.showDetails = !this.showDetails
   }
 
 

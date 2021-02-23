@@ -1,5 +1,5 @@
 
-<div class="m-1">
+<div   class="m-1">
   <div class="flex wrap">
     <LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
       <div style="background-color:{{@model.task.project.colour}};"
@@ -11,9 +11,11 @@
     </div>
   </div>
   <div class="flex wrap">
-  <div class="font-bold flex-1">Task: {{@model.task.title}} <a href="geo:{{@model.task.taskTemplate.lat}},{{@model.task.taskTemplate.lon}};U=1000" > 🌍 </a></div>
+  <div class="font-bold flex-1">{{@model.task.taskTemplate.title}} <a href="geo:{{@model.task.taskTemplate.lat}},{{@model.task.taskTemplate.lon}};u=1000" > 🌍 </a></div>
 
   </div>
+
+  {{!-- <div  {{did-insert this.createQr}}><canvas id="canvas"></canvas></div> --}}
 {{#if this.showDetails}}
 
 {{!-- {{#let (load this.geoFindMe) as |data|}}
@@ -28,20 +30,33 @@
   {{/if}}
 {{/let}} --}}
 
+<div class="border-2 border-gray-500 rounded-lg p-1 m-1">
+  <div class="flex flex-wrap">
+<div class="text-gray-700">Editing Task Details...</div>
+<div class="font-bold text-right flex-1 p-2"><button type="button" {{on "click" this.showMore}} class="font-bold text-right" > X </button></div>
+</div>
+<div class="m-1">Title: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.title}} /></div>
+<div class="m-1">Description: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.description}} /></div>
+<CreateCard @label="Add Form"
+            @modelName="task-template"/>
 
-Details <button type="button" {{on "click" this.showMore}} class="font-bold"> X</button>
 
+{{#each @model.task.taskTemplate.forms as |form|}}
+  {{form.title}}
+
+{{/each}}
 <div class="m-1">Lat: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lat}} /></div>
 <div class="m-1">Lon: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lon}} /></div>
 <div class="m-1">Pre-arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
 <div class="m-1">Describe assess: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.describeAccess}} rows="10"
-  cols="36"/></div></div>
+  cols="34"/></div></div>
 <div class="m-1">Risk assessment: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.riskAssessment}} rows="10"
-  cols="36"/></div></div>
+  cols="34"/></div></div>
 
 <button type="submit" class="border-2 border-gray-500 bg-gray-200 rounded-lg p-1"{{on "click" (fn this.saveTask @model.task.taskTemplate.id)}}>Update</button>
+</div>
 {{else}}
-<button type="button" {{on "click" this.showMore}}> Show details...</button>
+<button type="button" class="text-sm font-thin border border-gray-500 rounded-lg p-1 shadow-sm" {{on "click" this.showMore}}> Details...</button>
 {{/if}}
 </div>
 

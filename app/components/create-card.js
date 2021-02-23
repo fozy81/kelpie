@@ -18,7 +18,7 @@ export default class CreateCardComponent extends Component {
   @action
   focus(element) {
     element.focus();
-  }taskTemplate
+  } taskTemplate
 
   @tracked show = false;
   @action
@@ -31,7 +31,6 @@ export default class CreateCardComponent extends Component {
   @tracked model = 'form-template'
   @action
   updateModel(event) {
-
     this.model = event.target.value
     console.log(event.target.value)
   }
@@ -49,16 +48,23 @@ export default class CreateCardComponent extends Component {
       if (this.model == "method") {
         model = "method"
       }
+   
       // let regexp = new RegExp(this.newName, 'i');
       let regexp = this.newName
       console.log('model before: ' + model)
       if (model == "form") {
         model = "form-template"
       }
+      if (model == "task-template") {
+        model = "form-template"
+      }
       // if(model == "project") {
       //   model = "project-template"
       //   }
       console.log('model' + model)
+      if (model == "task") {
+        model = "task-template"
+      }
       let search = this.store.query(model, {
         filter: {
           title: { '$regex': regexp },
@@ -82,13 +88,9 @@ export default class CreateCardComponent extends Component {
     this.newName = ""
 
   }
-
-
   getRandomColor() {
     return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 0.5)';
   }
-
-
 
   @tracked newName;
 
@@ -128,42 +130,58 @@ export default class CreateCardComponent extends Component {
           const id = router.currentRoute.params.project_id
           let store = this.store
           let newName = this.newName
-          let myProject = this.store.peekRecord('project', id);            
+          let myProject = this.store.peekRecord('project', id);
           let taskTemplate = this.store.createRecord('task-template', {
             title: this.newName,
             project: myProject
           })
 
           taskTemplate
-          .save()
-          .then(addTask)
-       
+            .save()
+            .then(addTask)
 
           function addTask(formTemplate) {
             let task = store.createRecord(model, {
               title: newName,
               project: myProject,
+              taskTemplateId: taskTemplate.id,
+              taskTemplate: taskTemplate
+            })        
+
+            function transitionToTask(task) {
+              router.transitionTo('/task/' + task.id);
+            }
+
+            function failure(reason) {
+              console.log(reason) // handle the error
+            }
+
+            task
+              .save()
+              .then(transitionToTask)
+              .catch(failure)
+          }
+        }
+        if (model == "task-template") {
+          const id = router.currentRoute.params.task_id
+          let store = this.store
+          let newName = this.newName
+          let myTask = this.store.peekRecord('task', id);
+          console.log("creating task template form")
+          this.store.findRecord('task-template', myTask.taskTemplateId).then(function(taskTemplate) {            
+            let form = store.createRecord('form', {
+              title: newName,
+              taskTemplateId: taskTemplate.id,
               taskTemplate: taskTemplate
             })
-
-            //    let self = this;
-
-          function transitionToTask(task) {
-            router.transitionTo('/task/' + task.id);
+            form
+              .save()  
+              .catch(failure)
+          })
           }
-
-          function failure(reason) {
-            console.log(reason) // handle the error
-          }
-
-          task
-            .save()
-            .then(transitionToTask)
-            .catch(failure)
         }
-      }
+
       
-      }
 
       if (model == "form") {
         const store = this.store
@@ -241,6 +259,34 @@ Plain text sentence.
       console.log('Needproject add helper?!')
       return
     }
+
+    if (this.args.modelName === "task-template") {    
+      console.log('add form to task-template')
+      const router = this.router
+      const store = this.store   
+      const taskId = router.currentRoute.params.task_id
+      let myTask = store.peekRecord('task', taskId); 
+      console.log( myTask.taskTemplateId)
+     
+      store.findRecord('task-template', myTask.taskTemplateId, { include: 'forms.questions' }).then(async function (taskTemplate) {   
+        store.findRecord('form-template', id).then(function(formTemplate) {        
+        store.createRecord('form', {
+          title: formTemplate.title,
+          description: formTemplate.description,         
+          edit: false,
+          multiEntry: formTemplate.multiEntry,     
+          dateCreated: new Date(),
+          archive: false,
+          formTemplateId: formTemplate.id,     
+          formTemplate: formTemplate,
+          taskTemplate: taskTemplate,
+          taskTemplateId: taskTemplate.id
+        }).save()  
+      })
+    })
+    return  
+    }     
+    
 
     // While editing a method - add form to method
     if (this.args.method) {

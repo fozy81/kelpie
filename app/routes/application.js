@@ -6,8 +6,12 @@ export default class ApplicationRoute extends Route {
 
   @service session
   beforeModel(transition) {
+    console.log(transition.intent.url)
     this.get('session').requireAuthentication(transition, 'login');
-    if(this.session.isAuthenticated) {
+    if(!this.session.isAuthenticated) {
+      this.replaceWith('login');
+     } 
+     if(transition.intent.url == '/login') {
       this.replaceWith('projects');
      } 
    }
