@@ -281,7 +281,29 @@ Plain text sentence.
           formTemplate: formTemplate,
           taskTemplate: taskTemplate,
           taskTemplateId: taskTemplate.id
-        }).save()  
+        }).save()
+        .then(function(form) {
+          store.findRecord('form-template', form.formTemplateId, { include: 'questionTemplates' }).then(async function (formTemplate) {
+            let questionTemplates = await formTemplate.questionTemplates
+            questionTemplates.map(async function (questionTemplate) {
+              let question = store.createRecord('question', {
+                question: questionTemplate.question,
+                response: questionTemplate.response,
+                questionTemplate: questionTemplate,
+                questionTemplateId: questionTemplate.id,
+                multiEntry: questionTemplate.multiEntry,
+                type: questionTemplate.type,
+                pos: questionTemplate.pos,
+                required: questionTemplate.required,
+                dateCreated: new Date(),
+                archive: false,
+                form: form
+              })
+              question
+                .save()
+            })
+          })
+        })
       })
     })
     return  

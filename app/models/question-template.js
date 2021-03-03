@@ -6,6 +6,7 @@ export default class QuestionTemplateModel extends Model {
     @attr response;
     @attr multiEntry;
     @attr type;
+    @attr units;
     @attr('number') pos;
     @attr('number') max;
     @attr('number') min;

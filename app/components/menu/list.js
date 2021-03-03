@@ -90,11 +90,11 @@ export default class MenuListComponent extends Component {
 
   @action
   removeForm() {
-    const id = this.args.id
+    const id = this.args.id  
     let form = this.store.peekRecord('form', id, {
       include: 'form.questions'
     })
-
+  
     form.questions.map(function (question) {
       question.archive = true
       question.save()
