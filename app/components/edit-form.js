@@ -25,16 +25,17 @@ export default class EditFormComponent extends Component {
   @tracked selectedOptions = [];
   @action
   formChange(event) {
-    let selection = { id: event.target.id, value: event.target.value }
-    console.log('selection:' + selection)
+    let selection = { id: event.target.id, value: event.target.value, name: event.target.name, nameid: `event.target.name + event.target.id` }
+    console.log('name:' + event.target.name)
+    console.log('selection:' + selection.id)
     if (this.selectedOptions.length === 0) {
       this.selectedOptions.push(selection)
     } else {
       // eslint-disable-next-line no-inner-declarations
-      function changeDesc(value, id, selectedOptions) {
+      function changeDesc(value, nameid, selectedOptions) {
         let found = false
         for (var i = 0; i < selectedOptions.length; i++) {
-          if (selectedOptions[i].id === id) {
+          if (selectedOptions[i].nameid === nameid ) {
             selectedOptions[i].value = value;
             //break; Stop this loop, we found it!
             found += true
@@ -84,18 +85,23 @@ export default class EditFormComponent extends Component {
                 console.log('question map')
                 if (selectedOptions.length === 0) {
                   questionTemplate.type = "text"
+                  questionTemplate.units = "none"
                 } else {
                    console.log('question map')
                   selectedOptions.map(function(selected){
                     console.log('selected id: ' + selected.id )
                     console.log('questionTemplate id: ' + questionTemplate.id )
-                    if(selected.id == questionTemplate.id) {
-                      questionTemplate.type = selected.value
+                    if(selected.id == questionTemplate.id && selected.name == "type") {
+                      questionTemplate.type = selected.value                      
+                    }
+                    if(selected.id == questionTemplate.id && selected.name == "units") {
+                      console.log('units: ' + selected.value )  
+                      questionTemplate.units = selected.value                      
                     }
                   })
                   
                 }
-                questionTemplate.response = ''
+                questionTemplate.response = ''                       
                 questionTemplate.save()
               })
 
@@ -121,6 +127,8 @@ export default class EditFormComponent extends Component {
           formTemplateId: formTemplate.id,
           formTemplate: formTemplate,
           task: myTask,
+          taskTemplateId: formTemplate.taskTemplateId,
+          taskTemplate: formTemplate.taskTemplate,
           display: false
         }
         )
@@ -142,6 +150,7 @@ export default class EditFormComponent extends Component {
               response: response,
               multiEntry: myForm.multiEntry,
               type: questionTemplate.type,
+              units: questionTemplate.units,
               pos: questionTemplate.pos,             
               required: questionTemplate.required,
               min: questionTemplate.min,

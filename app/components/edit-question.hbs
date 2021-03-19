@@ -64,7 +64,7 @@ Type:
     >
 
 <label for={{@question.type}}>Type</label>
-<select id={{@question.id}} >
+<select id={{@question.id}} name="type">
     {{#if @question.type}} 
   <option selected="true" value="{{@question.type}}">{{@question.type}} </option>  
     {{else}}
@@ -120,20 +120,22 @@ Step
  @value={{@question.step}}/>
 {{/if}}
 
-<div>
+<div  
+   {{on "change" this.selectUnits}} 
+ >
 <label for={{@question.type}}>Unit of measure</label>
-<select id={{@question.id}} >
-    {{#if @question.unitOfMeasure}} 
-  <option selected="true" value="{{@question.unitOfMeasure}}">{{@question.unitOfMeasure}} </option>  
+<select id={{@question.id}} name="units">
+    {{#if @question.units}} 
+  <option selected="true" value="{{@question.units}}">{{@question.units}} </option>  
     {{else}}
   <option  selected="true" value="none">--Pick one--</option>
   {{/if}}  
    <option value="none">none</option>
-  <option value="number">metres</option>
-  <option value="date">cm</option>
-  <option value="time">km</option>  
-  <option value="select">grams</option>  
-  <option value="checkbox">kg</option>  
+  <option value="metres">metres</option>
+  <option value="cm">cm</option>
+  <option value="km">km</option>  
+  <option value="grams">grams</option>  
+  <option value="kg">kg</option>  
 </select> 
 </div>
 

@@ -15,7 +15,7 @@
           <option value={{op}}>{{op}}</option>   
         {{/each}}     
         </select> 
-         <p>  {{#if (not-eq @question.units 'none')}}{{/if}}</p>         
+         <p>  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</p>         
      {{/let}}
     {{!-- If mulitEntry question type not 'select': --}}
     {{else}}
@@ -32,7 +32,7 @@
       step={{@question.step}}
       {{did-insert this.focus}}
       @required={{@question.required}}
-      />  {{#if (not-eq @question.units 'none')}}{{/if}}</span>
+      />  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span>
       <p></p>    
     {{/if}}
     {{!-- If @display true then rendered button --}}
@@ -56,7 +56,7 @@
       {{#each options as |op|}}      
                <option value={{op}}>{{op}}</option>   
       {{/each}}     
-        </select>    {{#if (not-eq @question.units 'none')}}{{/if}}      
+        </select>    {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}      
   {{/let}}
       <button class="p-2 font-bold"
       {{on "click" (fn this.showInput )}}>X
@@ -72,7 +72,7 @@
       type={{@question.type}}
       required={{@question.required}}
       {{did-insert this.focus}}
-      />  {{#if (not-eq @question.units 'none')}}{{/if}}</span> 
+      />  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span> 
       <button class="p-2 font-bold"
       {{on "click" (fn this.showInput )}}>X
       </button>
@@ -106,7 +106,7 @@
             <option value={{op}}>{{op}}</option>   
           {{/each}}     
           </select> 
-          <p>  {{#if (not-eq @question.units 'none')}}{{/if}}</p>
+          <p>  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</p>
         {{/let}}
       {{else}}     
            {{#if @question.default}}
@@ -129,12 +129,12 @@
         step={{@question.step}}
         @required={{@question.required}}
         {{did-insert this.focus}}
-        /> </span>
+        /> {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span>
         </label>
         <p></p>   
    
         {{else}}     
-        <p></p>        
+        <p></p>                
         <label>{{@question.question}} <span class="ml-2">     
         <Input class="m-2 border-b border-gray-400"         
         id={{@question.id}}
@@ -144,7 +144,7 @@
         @type={{@question.type}} 
         @required={{@question.required}}
         {{did-insert this.focus}}
-        />  {{#if (not-eq @question.units 'none')}}{{/if}}</span>
+        />  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span>
         </label>
         <p></p>        
         {{/if}}
@@ -179,7 +179,7 @@
           <option selected={{if (eq @question.response op) true}} value={{op}}>{{op}}</option>   
       {{/each}}     
         </select> 
-        <p>  {{#if (not-eq @question.units 'none')}}{{/if}}</p>
+        <p>  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</p>
    {{/let}}
       {{else}}  
            {{#if @question.default}}
@@ -203,7 +203,7 @@
       step={{@question.step}}       
       required={{@question.required}}
       {{did-insert this.focus}}
-      />   {{#if (not-eq @question.units 'none')}}{{/if}}</span> 
+      />   {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span> 
 
 
       <p></p>

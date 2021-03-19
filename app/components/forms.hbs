@@ -2,12 +2,15 @@
 {{#let this.uniqueForms as |uniqueforms|}}
 {{#let this.dateOrderForms as |allforms|}}
   {{#each uniqueforms as |form|}}   
+
   {{#if (eq form.archive false)}}
+  {{#if (eq form.taskTemplateId '')}}
     <FormCard
       @model={{form}}
       @questions={{form.questions}}
       @allforms={{allforms}}        
     />
+    {{/if}}
     {{/if}}
   {{/each}}
 
