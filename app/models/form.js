@@ -9,7 +9,7 @@ export default class FormModel extends Model {
     @attr multiEntry; 
     @attr templateId;
     @attr formTemplateId;
-    @attr taskTemplateId;
+    @attr('string', { defaultValue: '' }) taskTemplateId;
     @attr display;
     @attr pos;
     @attr methodId;

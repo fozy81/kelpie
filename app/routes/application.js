@@ -68,7 +68,7 @@ export default class ApplicationRoute extends Route {
                   title: 'Wildlife Survey',
                   description: 'Record wildlife present',
                   archive: false,
-                  multiEntry: true
+                  multiEntry: true                 
                 })
                 formTemplate
                   .save()
@@ -121,7 +121,8 @@ export default class ApplicationRoute extends Route {
                         title: 'Woodlands site',
                         description: 'Woods',
                         project: project,
-                        taskTemplate: taskTemplate
+                        taskTemplate: taskTemplate,
+                        taskTemplateId: taskTemplate.id
                       })
                       task
                         .save()
@@ -134,6 +135,7 @@ export default class ApplicationRoute extends Route {
                           description: 'Record wildlife present',
                           task: task,
                           templateId: task.id,
+                          taskTemplateId: '',
                           formTemplateId: formTemplate.id,
                           edit: false,
                           multiEntry: true,
