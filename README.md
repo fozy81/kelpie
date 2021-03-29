@@ -4,7 +4,21 @@ Kelpie aims to be a prototype/demo app for planning and recording survey data ei
 
 See [Demo](https://kelpie.netlify.app) (requires password)
 
-[Data entry](images/kelpie-data-entry.png)
+### Manage Projects
+
+![Projects](images/kelpie-projects.png)
+
+### Create Tasks
+
+![Tasks](images/kelpie-tasks.png)
+
+### Enter form data
+
+![Enter form data](images/kelpie-data-entry.png)
+
+### Edit forms
+
+![Edit forms](images/kelpie-edit-form.png)
 
 ## Prerequisites
 
