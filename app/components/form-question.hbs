@@ -41,7 +41,8 @@
      {{@question.question}}:
      <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
-     {{on "click" (fn this.showInput)}}>
+     {{on "click" (fn this.showInput)}}
+     type="button">
      {{@question.response}}  
     </button>
     <p></p> 
@@ -59,7 +60,8 @@
         </select>    {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}      
   {{/let}}
       <button class="p-2 font-bold"
-      {{on "click" (fn this.showInput )}}>X
+      {{on "click" (fn this.showInput )}}
+      type="button">X
       </button>
     {{else}} 
       <p></p>     
@@ -74,7 +76,8 @@
       {{did-insert this.focus}}
       />  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span> 
       <button class="p-2 font-bold"
-      {{on "click" (fn this.showInput )}}>X
+      {{on "click" (fn this.showInput )}}
+      type="button">X
       </button>
       
     {{/if}}
@@ -156,7 +159,8 @@
     {{@question.question}}:
     <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
-     {{on "click" (fn @hideEditingQuestion)}}>
+     {{on "click" (fn @hideEditingQuestion)}}
+     type="button">
      {{#if (eq @question.type "checkbox")}}
      ✓ 
      {{else}}

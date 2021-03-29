@@ -12,15 +12,14 @@ module('Integration | Component | due-date', function(hooks) {
 
     await render(hbs`<DueDate />`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), 'Add Due Date');
 
     // Template block usage:
     await render(hbs`
-      <DueDate>
-        template block text
+      <DueDate>        
       </DueDate>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'Add Due Date');
   });
 });

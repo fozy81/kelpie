@@ -7,7 +7,7 @@
   <Input class="shadow-md border-2 border-gray-400" @placeholder="Name" {{did-insert this.resetForm}}
     @modelName={{@modelname}} @value={{this.newName}} {{on "keyup" this.searchMatches}} @insert-newline={{fn
     this.createCard}} />
-  <button class="p-2 font-bold" {{on "click" this.showCard}}> X
+  <button class="p-2 font-bold" {{on "click" this.showCard}} type="button"> X
   </button>
   {{#if (eq @modelName "form")}}
   Add:
@@ -23,7 +23,7 @@
   {{#each @list as |item|}}  
   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
   <div>
-    <button {{on "click" (fn this.addFormTemplate item.id)}}>
+    <button {{on "click" (fn this.addFormTemplate item.id)}} type="button">
       {{item.title}}
     </button>
   </div>
@@ -33,7 +33,7 @@
   {{#each this.query as |item|}} 
   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
   <div>   
-    <button {{on "click" (fn this.addFormTemplate item.id)}}>
+    <button {{on "click" (fn this.addFormTemplate item.id)}} type="button">
       {{item.title}}
     </button>
   </div>
@@ -56,7 +56,7 @@
 <div class="m-2 p-2 border
             shadow-md border-gray-400
             bg-gray-200">
-  <button class="w-full text-left" {{on "click" this.showCard}}>
+  <button class="w-full text-left" {{on "click" this.showCard}} type="button">
     <em>{{@label}}</em>
   </button>
 </div>

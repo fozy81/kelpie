@@ -8,6 +8,7 @@ Question<span class="ml-2">
 <span>
  <button class="border-gray-400 border p-1 rounded-md"
  {{on "click" (fn this.removeQuestion @question.id)}}
+ type="button"
  >Remove
  </button>
  </span>
@@ -24,7 +25,8 @@ name="required"
 Type: 
 <button 
  class="ml-2 p-1 border border-gray-400"
- {{on "click" (fn this.showInput @question.type)}}>
+ {{on "click" (fn this.showInput @question.type)}}
+ type="button">
  {{@question.type}}  
 </button>
 {{/if}}
@@ -33,7 +35,8 @@ Type:
 <p></p>Comma seperate options: 
 <button
  class="ml-2 p-1 border border-gray-400"
- {{on "click" (fn this.showInput @question.type)}}>
+ {{on "click" (fn this.showInput @question.type)}}
+ type="button">
  {{@question.options}}
 </button>
 {{/if}}
@@ -42,7 +45,8 @@ Type:
 <p></p>Number options 
 <button
  class="ml-2 p-1 border border-gray-400"
-{{on "click" (fn this.showInput @question.type)}}>
+{{on "click" (fn this.showInput @question.type)}}
+type="button">
  Max {{@question.max}}  Min {{@question.min}}
 </button>
 {{/if}}
@@ -51,7 +55,8 @@ Type:
 <p></p>Text options 
 <button
  class="ml-2 p-1 border border-gray-400"
-{{on "click" (fn this.showInput @question.type)}}>
+{{on "click" (fn this.showInput @question.type)}}
+type="button">
  Uneditable response: {{@question.default}}
 </button>
 {{/if}}
