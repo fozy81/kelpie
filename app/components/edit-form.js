@@ -174,7 +174,7 @@ export default class EditFormComponent extends Component {
   }
 
   @tracked showthis = false
-  @tracked count = 0
+
   @action
   addQuestion() {
     let formTemplateId = this.args.forms.formTemplate.get('id')

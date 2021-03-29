@@ -43,10 +43,10 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
-
   ENV.remote_couch =  'http://localhost:5984/kelpie';
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
+  
   if (environment === 'production') {
    ENV.rootURL = '/';
    ENV.remote_couch = `${process.env.remote_couch}/kelpie`

@@ -90,8 +90,8 @@
   {{/if}}
 {{/if}}
 
-<!-- ############ SINGLE ENTRY QUESTION ####################### -->
-<!-- ### On first entry ### -->
+{{!-- <!-- ############ SINGLE ENTRY QUESTION ####################### --> --}}
+{{!-- <!-- ### On first entry ### --> --}}
 {{#if (eq @question.multiEntry false)}}   
    {{#if (eq @hideEditQuestion false)}}  
     {{#if (eq @question.response '')}}               
@@ -152,7 +152,7 @@
     {{/if}}   
     {{#if @question.response}}  
    
-    <!-- ### If response entered #### -->
+    {{!-- <!-- ### If response entered #### --> --}}
     {{@question.question}}:
     <button 
      class="ml-2 mb-1 p-1  px-3 border border-gray-400 rounded-sm"
@@ -166,7 +166,7 @@
     <p></p>    
     {{/if}}
    {{/if}} 
-  <!-- ### On update #### --> 
+  {{!-- <!-- ### On update #### -->  --}}
   
     {{#if @hideEditQuestion}}   
       {{#if (eq @question.type "select")}} 
