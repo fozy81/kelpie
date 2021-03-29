@@ -8,11 +8,11 @@
 </LinkTo> 
  
 <div class="relative">
-   <Menu @label="project" @title="...Show menu" class="flex-1" /></div>
+   <Menu @label="project" @title="...Show menu" class="flex-1" @showArchive={{this.showArchive}} /></div>
    </div>
 <div style="background-color:{{{@model.colour}}};" class="p-2 rounded-lg border-gray-400 border-2 m-2">
 <p></p>
-<div   class="font-bold">{{@model.projectTemplate.title}}</div>
+<div   class="font-bold">{{@model.title}}</div>
 
 <p></p>
 {{@model.description}} {{@model.percentageComplete}}
@@ -24,25 +24,43 @@
 <hr>
 Tasks:
 <br>
-Templates:
+{{!-- Templates:
 {{#each @model.tasks as |task|}}
 {{task.taskTemplate.title}}
-{{/each}}
+{{/each}} --}}
 {{#each @model.tasks as |task|}}
+  {{#if (eq task.archive false)}}
 
 <Card @title={{task.title}}
        @route="task"
        @id={{task.id}}        
        @forms={{task.forms}}
-       @colour="#edf2f7"/>
-       {{else}}
-       No tasks assigned
+       @colour="#edf2f7" 
+       />   
+   {{/if}}
 {{/each}}
-
+ 
  </div>
 <CreateCard @label="Add New Task"
-            @modelName="task"/>
+            @modelName="task"/>           
 
-           
+{{#each @model.tasks  as |task|}}
+{{#if (and (eq task.archive true) (gte task.modifiedDateValue this.date)) }}
+<div {{did-insert this.archiveDate}}>
+<Card @model={{task}}/>
+</div>
+{{/if}}
+{{/each}}
+{{#if this.archive}}
+<div class="m-1"> Archived forms   <button type="button" class="font-bold" {{on "click" this.showArchive}}>X</button></div>
+{{#each @model.tasks  as |task|}}   
+{{#if task.archive}}
+<div {{did-insert this.archiveDate}}>
+<Card @model={{task}}/>
+</div>
+{{/if}}
+{{/each}}
+{{/if}}
+
 
 {{outlet}}

@@ -2,7 +2,7 @@
 <div class="flex wrap m-1">
     <h2 class="py-2 m-1 flex-1">Recently Created</h2>
     <div class="relative">
-        <Menu @label="projects" class="flex-1" @title="...Show menu" />
+        <Menu @label="projects" class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}}/>
     </div>
 </div>
 <div {{did-insert this.recentFilter}}>
@@ -44,5 +44,27 @@ class="m-2"
 {{else}}
 <div class="px-2"><em>No search results</em></div>
 {{/each}}
+
+
+
+{{#each this.archives  as |project|}}
+{{#if (and (eq project.archive true) (gte project.modifiedDateValue this.date)) }}
+<div {{did-insert this.archiveDate}}>
+<Card @model={{project}}/>
+</div>
+{{/if}}
+{{/each}}
+{{#if this.archive}}
+<div class="m-1"> Archived forms   <button type="button" class="font-bold" {{on "click" this.showArchive}}>X</button></div>
+{{#each this.archives  as |project|}}   
+{{#if project.archive}}
+<div {{did-insert this.archiveDate}}>
+<Card @model={{project}}/>
+</div>
+{{/if}}
+{{/each}}
+{{/if}}
+
+
 
 {{yield}}

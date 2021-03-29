@@ -64,29 +64,34 @@ Type:
     >
 
 <label for={{@question.type}}>Type</label>
-<select id={{@question.id}} >
+<select id={{@question.id}} name="type">
     {{#if @question.type}} 
   <option selected="true" value="{{@question.type}}">{{@question.type}} </option>  
     {{else}}
-  <option selected="true" value="">--pick--</option>
-  {{/if}}
-  <option value="text">text</option>
+  <option  selected="true" value="text">--Pick one--</option>
+  {{/if}}  
+   <option value="text">text</option>
   <option value="number">number</option>
   <option value="date">date</option>
   <option value="time">time</option>  
-  <option value="select">select</option>
+  <option value="select">select</option>  
   <option value="checkbox">checkbox</option>  
+  <option value="select">select</option>
+  <option value="select">textarea</option>
 </select> 
 </div>
 {{/if}}
 
 </div>
 {{#if (eq this.selecting "select")}}
-Comma seperate options: 
-<Input 
+Comma seperated options: 
+<div>
+<Textarea
  class="m-2 w-30 border-b border-gray-400"
  @type="text"
- @value={{@question.options}}/>
+ @value={{@question.options}}
+ rows="5" cols="34"/>
+ </div>
 {{/if}}
 
 {{#if (eq this.selecting "text")}}
@@ -114,6 +119,25 @@ Step
  @type="text"
  @value={{@question.step}}/>
 {{/if}}
+
+<div  
+   {{on "change" this.selectUnits}} 
+ >
+<label for={{@question.type}}>Unit of measure</label>
+<select id={{@question.id}} name="units">
+    {{#if @question.units}} 
+  <option selected="true" value="{{@question.units}}">{{@question.units}} </option>  
+    {{else}}
+  <option  selected="true" value="none">--Pick one--</option>
+  {{/if}}  
+   <option value="none">none</option>
+  <option value="metres">metres</option>
+  <option value="cm">cm</option>
+  <option value="km">km</option>  
+  <option value="grams">grams</option>  
+  <option value="kg">kg</option>  
+</select> 
+</div>
 
 <hr>
 {{yield}}

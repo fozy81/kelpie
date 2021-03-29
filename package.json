@@ -32,6 +32,7 @@
     "ember-cli": "~3.17.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.18.0",
+    "ember-cli-content-security-policy": "^1.1.1",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^4.2.3",
     "ember-cli-inject-live-reload": "^2.0.2",
@@ -49,7 +50,7 @@
     "ember-qunit": "^4.6.0",
     "ember-ref-modifier": "^1.0.0",
     "ember-resolver": "^7.0.0",
-    "ember-simple-auth": "^3.0.1",
+    "ember-simple-auth": "^3.1.0",
     "ember-simple-auth-pouch": "^0.2.0",
     "ember-source": "~3.17.0",
     "ember-table": "^2.2.3",
@@ -74,6 +75,7 @@
     "edition": "octane"
   },
   "dependencies": {
+    "qrcode": "^1.4.4",
     "shortlink": "^1.1.0"
   }
 }

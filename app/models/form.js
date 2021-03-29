@@ -4,10 +4,12 @@ export default class FormModel extends Model {
 
     @attr title;
     @attr description;
+    @attr('string', { defaultValue: 'form' }) type;
     @attr edit;
     @attr multiEntry; 
     @attr templateId;
     @attr formTemplateId;
+    @attr taskTemplateId;
     @attr display;
     @attr pos;
     @attr methodId;
@@ -19,6 +21,7 @@ export default class FormModel extends Model {
     @attr('number') modifiedDateValue;
     @belongsTo task;
     @belongsTo formTemplate;
+    @belongsTo taskTemplate;
     @hasMany questions;
     @attr('string') rev;  
 

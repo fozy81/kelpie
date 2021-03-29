@@ -46,17 +46,24 @@ module.exports = function(environment) {
   ENV.remote_couch =  'http://localhost:5984/kelpie';
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
+  
   if (environment === 'production') {
    ENV.rootURL = '/';
-   ENV.remote_couch = `${process.env.remote_couch}`  // kelpie`
+   ENV.remote_couch = `${process.env.remote_couch}/kelpie`
   }
   if ( ENV.remote_couch ) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
-    // var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
+    var site = 'https://kelpie.netlify.app'
+    var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
     ENV.contentSecurityPolicy = {
-      'connect-src': "'self' " + ENV.remote_couch 
+      'default-src': ["'none'"],
+      'connect-src': ["'self' " + remote_couch_hostname, "'self' " + site], 
+      'style-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
+      'script-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
+      
     };
   }
-
+  ENV.reportOnly = true
+  ENV.delivery = ['header'] 
   return ENV;
 };

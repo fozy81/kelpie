@@ -3,7 +3,8 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 export default class TaskModel extends Model {
 
     @attr title;
-    @attr description;
+    @attr description;  
+    @attr('string', { defaultValue: 'task' }) type;
     @attr taskTemplateId;
     @attr('boolean') archive;
     @attr('date') createdDate;

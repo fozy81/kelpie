@@ -20,7 +20,7 @@
 
   {{#if @list}}
 
-  {{#each @list as |item|}}
+  {{#each @list as |item|}}  
   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
   <div>
     <button {{on "click" (fn this.addFormTemplate item.id)}}>
@@ -30,10 +30,9 @@
   {{/if}}
   {{/each}}
   {{ else }}
-  {{#each this.query as |item|}}
+  {{#each this.query as |item|}} 
   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
-  <div>
-
+  <div>   
     <button {{on "click" (fn this.addFormTemplate item.id)}}>
       {{item.title}}
     </button>

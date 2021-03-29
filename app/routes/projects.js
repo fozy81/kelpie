@@ -1,10 +1,14 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service'
 
 export default class ProjectsRoute extends Route {
 
-    // model(){
-    //     return this.store.findAll('project');
-    // }
+    @service session;
+    beforeModel(){
+        if(!this.session.isAuthenticated) {
+            this.replaceWith('login');
+        }
+    }
 
 
     model() {

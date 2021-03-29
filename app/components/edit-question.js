@@ -66,6 +66,15 @@ export default class EditQuestionComponent extends Component {
         this.args.formChange(event)
     }
 
+    @tracked selectingUnits = false;
+    @action
+    selectUnits(event) {
+
+        console.log('event units target value: ' + event.target.value)
+     
+        this.args.formChange(event)
+    }
+
     @service store;
     @action
     removeQuestion(id) {

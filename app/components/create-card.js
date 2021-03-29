@@ -18,7 +18,7 @@ export default class CreateCardComponent extends Component {
   @action
   focus(element) {
     element.focus();
-  }
+  } taskTemplate
 
   @tracked show = false;
   @action
@@ -31,7 +31,6 @@ export default class CreateCardComponent extends Component {
   @tracked model = 'form-template'
   @action
   updateModel(event) {
-
     this.model = event.target.value
     console.log(event.target.value)
   }
@@ -49,15 +48,23 @@ export default class CreateCardComponent extends Component {
       if (this.model == "method") {
         model = "method"
       }
-      let regexp = new RegExp(this.newName, 'i');
+   
+      // let regexp = new RegExp(this.newName, 'i');
+      let regexp = this.newName
       console.log('model before: ' + model)
       if (model == "form") {
+        model = "form-template"
+      }
+      if (model == "task-template") {
         model = "form-template"
       }
       // if(model == "project") {
       //   model = "project-template"
       //   }
       console.log('model' + model)
+      if (model == "task") {
+        model = "task-template"
+      }
       let search = this.store.query(model, {
         filter: {
           title: { '$regex': regexp },
@@ -81,13 +88,9 @@ export default class CreateCardComponent extends Component {
     this.newName = ""
 
   }
-
-
   getRandomColor() {
     return 'hsla(' + (Math.random() * 360) + ', 30%, 60%, 0.5)';
   }
-
-
 
   @tracked newName;
 
@@ -98,16 +101,16 @@ export default class CreateCardComponent extends Component {
     if (this.model !== 'method') {
       const router = this.router
       let model = null
-      if (this.args.modelName == null) {
-        model = router.currentRoute.attributes.modelName
-      } else {
-        model = this.args.modelName
+      if (this.args.modelName == null) {   
+        model = router.currentRoute.attributes.modelName      
+      } else {       
+        model = this.args.modelName   
       }
       // Don't want empty/null name 
       if (this.newName == '') {
         return
       }
-
+    
       if (model == "project") {
         let colour = this.getRandomColor()
         let date = new Date()
@@ -121,32 +124,101 @@ export default class CreateCardComponent extends Component {
           const path = '/' + router.currentRoute.name + '/' + record.id
           router.transitionTo(path);
         })
-      }
+      }      
+     
       if (model == "task") {
         if (this.model === "form-template") {
           const id = router.currentRoute.params.project_id
+          let store = this.store
+          let newName = this.newName
           let myProject = this.store.peekRecord('project', id);
-          let task = this.store.createRecord(model, {
+          let taskTemplate = this.store.createRecord('task-template', {
             title: this.newName,
             project: myProject
           })
 
-          let self = this;
+          taskTemplate
+            .save()
+            .then(addTask)
 
-          function transitionToTask(task) {
-            router.transitionTo('/task/' + task.id);
+          function addTask(formTemplate) {
+            let task = store.createRecord(model, {
+              title: newName,
+              project: myProject,
+              taskTemplateId: taskTemplate.id,
+              taskTemplate: taskTemplate
+            })        
+
+            function transitionToTask(task) {
+              router.transitionTo('/task/' + task.id);
+            }
+
+            function failure(reason) {
+              console.log(reason) // handle the error
+            }
+
+            task
+              .save()
+              .then(transitionToTask)
+              .catch(failure)
           }
+        }
+      }
 
+   
+        if (model == "task-template") {    
+          
           function failure(reason) {
             console.log(reason) // handle the error
           }
 
-          task
-            .save()
-            .then(transitionToTask)
-            .catch(failure)
-        }
-      }
+          const id = router.currentRoute.params.task_id
+          let store = this.store
+          let newName = this.newName
+          let myTask = this.store.peekRecord('task', id);
+          console.log("creating task template form " + newName + " " + id)
+          this.store.findRecord('task-template', myTask.taskTemplateId).then(function(taskTemplate) {            
+            let formTemplate = store.createRecord('form-template', {
+              title: newName,         
+              edit: true,
+              multiEntry: false,
+              archive: false,
+              taskTemplate: taskTemplate,           
+              taskTemplateId: taskTemplate.id
+            })
+            formTemplate
+              .save()  
+              .then(addForm)
+              .catch(failure)
+          })
+    
+          function addForm(formTemplate) {
+            // add form template to form reco
+          
+            let taskTemplate = store.peekRecord('task-template', myTask.taskTemplateId)
+            console.log('creating new task form')
+            let form = store.createRecord('form', {
+              title: formTemplate.title,
+              description: '',
+              task: myTask,
+              edit: true,
+              multiEntry: false,
+              dateCreated: new Date(),
+              archive: false,            
+              formTemplateId: formTemplate.id,     
+              formTemplate: formTemplate,
+              taskTemplate: taskTemplate,
+              taskTemplateId: taskTemplate.id
+            })
+            form
+              .save()
+              .catch((reason) => console.log('error detected'));
+          }
+          this.show = !this.show
+          }
+        
+
+      
 
       if (model == "form") {
         const store = this.store
@@ -161,7 +233,8 @@ export default class CreateCardComponent extends Component {
           title: newName,
           description: '',
           edit: true,
-          multEntry: false
+          multiEntry: false,
+          taskTemplateId: ''
         })
         formTemplate
           .save()
@@ -183,7 +256,8 @@ export default class CreateCardComponent extends Component {
             archive: false,
             formTemplateId: formTemplate.id,
             templateId: myTask.id,
-            formTemplate: formTemplate
+            formTemplate: formTemplate,
+            taskTemplateId: formTemplate.taskTemplateId
           })
           form
             .save()
@@ -220,10 +294,61 @@ Plain text sentence.
 
   @action
   addFormTemplate(id) {
+    console.log('hello from add new template form!')
     if (this.args.modelName === "project") {
-      console.log('Needproject add helper?!')
+      console.log('Need project add helper?!')
       return
     }
+
+    if (this.args.modelName === "task-template") {    
+      console.log('add form to task-template')
+      const router = this.router
+      const store = this.store   
+      const taskId = router.currentRoute.params.task_id
+      let myTask = store.peekRecord('task', taskId); 
+      console.log( myTask.taskTemplateId)
+     
+      store.findRecord('task-template', myTask.taskTemplateId, { include: 'forms.questions' }).then(async function (taskTemplate) {   
+        store.findRecord('form-template', id).then(function(formTemplate) {        
+        store.createRecord('form', {
+          title: formTemplate.title,
+          description: formTemplate.description,         
+          edit: false,
+          multiEntry: formTemplate.multiEntry,     
+          dateCreated: new Date(),
+          archive: false,
+          formTemplateId: formTemplate.id,     
+          formTemplate: formTemplate,
+          taskTemplate: taskTemplate,
+          taskTemplateId: taskTemplate.id
+        }).save()
+        .then(function(form) {
+          store.findRecord('form-template', form.formTemplateId, { include: 'questionTemplates' }).then(async function (formTemplate) {
+            let questionTemplates = await formTemplate.questionTemplates
+            questionTemplates.map(async function (questionTemplate) {
+              let question = store.createRecord('question', {
+                question: questionTemplate.question,
+                response: questionTemplate.response,
+                questionTemplate: questionTemplate,
+                questionTemplateId: questionTemplate.id,
+                multiEntry: questionTemplate.multiEntry,
+                type: questionTemplate.type,
+                pos: questionTemplate.pos,
+                required: questionTemplate.required,
+                dateCreated: new Date(),
+                archive: false,
+                form: form
+              })
+              question
+                .save()
+            })
+          })
+        })
+      })
+    })
+    return  
+    }     
+    
 
     // While editing a method - add form to method
     if (this.args.method) {
@@ -316,6 +441,7 @@ Plain text sentence.
         dateCreated: new Date(),
         display: false,
         archive: false,
+        taskTemplateId: formTemplate.taskTemplateId,
         task: myTask
       })
       formRecord

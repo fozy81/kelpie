@@ -1,5 +1,5 @@
 
-<div class="m-1">
+<div   class="m-1">
   <div class="flex wrap">
     <LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
       <div style="background-color:{{@model.task.project.colour}};"
@@ -10,7 +10,63 @@
       <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}} />
     </div>
   </div>
-  <div class="font-bold">Task: {{@model.task.title}}</div>
+  <div class="flex wrap">
+  <div class="font-bold flex-1">{{@model.task.taskTemplate.title}} <a href="geo:{{@model.task.taskTemplate.lat}},{{@model.task.taskTemplate.lon}};u=1000" > 🌍 </a></div>
+
+  </div>
+
+  {{!-- <div  {{did-insert this.createQr}}><canvas id="canvas"></canvas></div> --}}
+{{#if this.showDetails}}
+
+{{!-- {{#let (load this.geoFindMe) as |data|}}
+  {{#if data.isLoading}}
+    <p>loading...</p>
+  {{else if data.isLoaded}}
+  <div>Lat: <input class="border border-gray-500" value={{data.value.latitude}} /></div>
+
+  {{else if data.isError}}
+    <p>Whoops! Something went wrong!</p>
+    <p>{{data.error.message}}</p>
+  {{/if}}
+{{/let}} --}}
+
+<div class="border-2 border-gray-500 rounded-lg p-1 m-1">
+  <div class="flex flex-wrap">
+<button  type="button"  class="flex-1 text-left w-full text-gray-700" {{on "click" this.showMore}}>Editing Task Attributes...</button>
+<button type="button" class="flex-none font-bold text-right p-2" {{on "click" this.showMore}}>X</button>
+</div>
+<div class="m-1">Title: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.title}} /></div>
+<div class="m-1">Description: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.description}} /></div>
+<div class="m-1">Lat: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lat}} /></div>
+<div class="m-1">Lon: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.lon}} /></div>
+<button type="submit" class="border-2 border-gray-500 bg-gray-200 rounded-lg p-1"{{on "click" (fn this.saveTask @model.task.taskTemplate.id)}}>Update</button>
+
+
+
+{{#each @model.task.taskTemplate.forms as |form|}}
+
+ {{#if (eq form.archive false)}}
+ <FormCard
+      @model={{form}}
+      @questions={{form.questions}}
+         
+    />
+    {{/if}}
+{{/each}}
+
+{{!-- <div class="m-1">Pre-arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
+<div class="m-1">Describe assess: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.describeAccess}} rows="10"
+  cols="34"/></div></div>
+<div class="m-1">Risk assessment: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.riskAssessment}} rows="10"
+  cols="34"/></div></div> --}}
+<CreateCard @label="Add task attribute form"
+            @modelName="task-template"/>
+
+</div>
+
+{{else}}
+<button type="button" class="text-sm font-thin border border-gray-500 rounded-lg p-1 shadow-sm" {{on "click" this.showMore}}> Details...</button>
+{{/if}}
 </div>
 
 <Forms @forms={{@model.task.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>

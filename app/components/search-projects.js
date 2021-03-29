@@ -41,6 +41,7 @@ export default class SearchProjectsComponent extends Component {
 
     @tracked search = ''
     @tracked results = null
+    @tracked archives = null
     @action
     filter() {
 
@@ -56,19 +57,52 @@ export default class SearchProjectsComponent extends Component {
         date = date.valueOf()
         console.log('searh term: ' + this.search)
         console.log('search date: ' + date)
-        let regexp = new RegExp(this.search, 'i');
-
-        let result = this.store.query('project', {
+        let regexp = new RegExp(this.search, 'i');        
+        function error(reason) {
+            console.log(reason) // handle the error
+            return
+          }
+        let regexp_couchdb = this.search;    
+        
+        // let result = this.store.query('project', {
+        //     filter: {
+        //         title: { '$regex': regexp },
+        //         dueDateValue: { '$lte': date }
+        //     },
+        //     sort: [
+        //         { dueDateValue: 'desc' }
+        //     ],
+        //     limit: 10
+        // })
+        //     this.results = result
+  
+    // couchdb regrex!
+       let result = this.store.query('project', {
             filter: {
-                title: { '$regex': regexp },
-                dueDateValue: { '$lte': date }
+                title: { '$regex': regexp_couchdb },
+                dueDateValue: { '$lte': date },
+                archive: { '$eq': false }
             },
             sort: [
                 { dueDateValue: 'desc' }
             ],
             limit: 10
         })
-        this.results = result
+            this.results = result
+  
+          
+       let archive = this.store.query('project', {
+        filter: {
+            title: { '$regex': regexp_couchdb },
+            dueDateValue: { '$lte': date },
+            archive: { '$eq': true }
+        },
+        sort: [
+            { dueDateValue: 'desc' }
+        ],
+        limit: 10
+    })
+        this.archives = archive
 
     }
 
@@ -80,6 +114,7 @@ export default class SearchProjectsComponent extends Component {
                 title: { '$gte': null },
                 projectId: { '$gte': null },
                 createdDateValue: { '$gte': null },
+                archive: { '$eq': false }
             },
             sort: [
                 { createdDateValue: 'desc' }
@@ -88,4 +123,19 @@ export default class SearchProjectsComponent extends Component {
         })
         this.recent = recent
     }
+
+
+    @tracked archive = false;
+    @action
+    showArchive() {
+      this.archive = !this.archive
+    }
+
+    @tracked date = new Date().valueOf() - 15000
+    @action
+    archiveDate(){
+      this.date = new Date().valueOf() - 15000
+    
+    }
+
 }
