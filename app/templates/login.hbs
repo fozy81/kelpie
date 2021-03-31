@@ -1,5 +1,6 @@
 {{#if this.session.isAuthenticated}}
-<a class="border-2 border-gray-400 bg-gray-200 p-1 m-1 rounded-lg" {{on "click" this.invalidateSession}}>Logout</a>
+<button type="button" class="border-2 border-gray-400 bg-gray-200 p-1 m-1 rounded-lg" {{on "click"
+  this.invalidateSession}}>Logout</button>
 
 <div class="m-1">
   <br>
@@ -7,30 +8,28 @@
   <div class="m-1">Roles: {{this.roles}} </div>
 </div>
 
-<form {{on "submit" this.changePassword}}>
+<form aria-label="Change password" {{on "submit" this.changePassword}}>
   <label for="identification">Current password:</label>
   <input type="password" id='identification' placeholder="Current Login" value={{this.identification}} {{on "change"
     this.updateIdentification}}>
-  <label for="password">New password:</label>
+  <label for="new">New password:</label>
   <input type="password" id='new' placeholder="New Login" value={{this.new}} {{on "change" this.newId}}>
   <button type="submit" class="m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Change password</button>
   {{#if this.error}}
   <p>{{this.error}}</p>
-  {{/if}}
+  {{/if}} 
 </form>
 {{else}}
 
-
-
 {{!-- app/templates/login.hbs --}}
-<form {{on "submit" this.login}}>
+<form aria-label="Enter username and pasword" {{on "submit" this.login}}>
   <label for="identification">Username</label>
-  <input id='identification' placeholder="Enter Login" value={{this.identification}} {{on "change"
-    this.updateIdentification}}>
+  <input class="identification" id='identification' placeholder="Enter Login" value={{this.identification}}
+    {{on "change" this.updateIdentification}}>
   <label for="password">Password</label>
-  <input type="password" id='password' placeholder="Enter Password" value={{this.password}} {{on "change"
-    this.updatePassword}}>
-  <button type="submit" class="m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Login</button>
+  <input class="password" type="password" id='password' placeholder="Enter Password" value={{this.password}}
+    {{on "change" this.updatePassword}}>
+  <button type="submit" class="login m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Login</button>
   {{#if this.error}}
   <p>{{this.error}}</p>
   {{/if}}

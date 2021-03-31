@@ -12,15 +12,16 @@ module('Integration | Component | edit-method', function(hooks) {
 
     await render(hbs`<EditMethod />`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
+    //assert.equal(this.element.textContent.trim(), '');
+    assert.dom('.title').exists();
     // Template block usage:
     await render(hbs`
       <EditMethod>
-        template block text
+        
       </EditMethod>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('.title').exists();
+    //assert.equal(this.element.textContent.trim(), '');
   });
 });

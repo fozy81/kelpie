@@ -21,9 +21,9 @@
 </div>
 <hr class="border-t-2 border-gray-400">
 <div class="font-bold p-2">
-Title <span class="ml-2"> 
+<label for="title">Title</label><span class="ml-2"> 
  <Input
- class="m-2 w-30 border-b border-gray-400"
+ id="title" class="m-2 w-30 border-b border-gray-400"
  @value={{@forms.formTemplate.title}}
 /> 
 </span>
@@ -39,8 +39,8 @@ Description <span class="ml-2">
 </div>
 
 <div class="font-bold p-2">  
-Mutli-entry form <span class="ml-2"> 
-<Input class="m-2 w-30 border-b border-gray-400" 
+<label for="multi">Mutli-entry form</label> <span class="ml-2"> 
+<Input id="multi" class="m-2 w-30 border-b border-gray-400" 
 @type="checkbox"
 name="multiEntry"
 @checked={{@forms.formTemplate.multiEntry}}
