@@ -12,7 +12,7 @@ module('Integration | Component | menu/list', function(hooks) {
 
     await render(hbs`<Menu::List />`);
 
-    assert.dom(this.element).hasText('');
+    assert.dom(this.element).hasText('Menu X');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | menu/list', function(hooks) {
       </Menu::List>
     `);
 
-    assert.dom(this.element).hasText('template block text');
+    assert.dom(this.element).hasText('Menu X');
   });
 });

@@ -18,5 +18,4 @@ Router.map(function() {
   });
   this.route('responses');
   this.route('login');
-  this.route('secret');
 });

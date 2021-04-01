@@ -21,6 +21,6 @@ module('Integration | Component | menu', function(hooks) {
       </Menu>
     `);
 
-    assert.dom(this.element).hasText('template block text');
+    assert.dom(this.element).hasText('');
   });
 });

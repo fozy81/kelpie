@@ -10,9 +10,8 @@ module('Integration | Component | table', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<Table />`);
-
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`<Table @responses='test' />`);
+    assert.dom('.table').exists(); 
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +20,6 @@ module('Integration | Component | table', function(hooks) {
       </Table>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('.table').exists(); 
   });
 });

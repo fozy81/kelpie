@@ -12,7 +12,7 @@ module('Integration | Component | edit-question', function(hooks) {
 
     await render(hbs`<EditQuestion />`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom('.edit-question').exists();
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | edit-question', function(hooks) {
       </EditQuestion>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('.edit-question').exists();
   });
 });

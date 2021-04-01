@@ -12,7 +12,8 @@ module('Integration | Component | search-projects', function(hooks) {
 
     await render(hbs`<SearchProjects />`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom('.search-projects').exists(); 
+
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +22,6 @@ module('Integration | Component | search-projects', function(hooks) {
       </SearchProjects>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('.search-projects').exists(); 
   });
 });

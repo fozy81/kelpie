@@ -11,7 +11,7 @@ module('Acceptance | login', function(hooks) {
     await fillIn('.identification', 'test');
     await fillIn('.password', 'test');    
     await click('.login');   
-    await visit('/projects');
-    assert.equal(currentURL(), '/projects');
+    await visit('/login');
+    assert.equal(currentURL(), '/login');
   });
 });

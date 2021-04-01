@@ -28,6 +28,9 @@ export default class TableComponent extends Component {
 
 
   get flat(){    
+    if (typeof this.args.responses  !== 'test') {
+      return
+   }
     let data = this.args.responses 
     let  flatArray = []
     data.map(function(project) {   
