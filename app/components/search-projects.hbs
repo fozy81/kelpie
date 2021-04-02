@@ -25,7 +25,7 @@
        /> 
  <button {{on "click" this.showSearch}} class="font-bold px-2" type="button">X</button>
 <div class="py-2">
- 'Due Date' less than <Input type="date" @value={{this.date}} class="border border-gray-400"
+ 'Due Date' less than <Input @type="date" @value={{this.date}} class="border border-gray-400"
     {{did-insert this.defaultDate}}  {{on "change" this.filter}}/> 
 </div>
 
