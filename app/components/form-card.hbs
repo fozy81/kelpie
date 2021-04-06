@@ -1,7 +1,6 @@
-
 {{!-- Need to display questionTemplate here to resolve promise??! --}}
 {{#each @model.questions as |question|}}
-{{question.questionTemplate.awda}}   
+{{question.questionTemplate.awda}}
 {{/each}}
 
 
@@ -20,12 +19,13 @@
             border-2 rounded-md
             border-teal-300 text-left">
             <div class="wrap flex">
-                  <button type="button" class="w-full text-left" {{on "click" this.showQuestion}}>
+                  <button type="button" class="w-full text-left" {{on "click" (fn this.showQuestion @model.methodId)}}>
                         <div class="font-bold">{{@model.formTemplate.title}}
-                              {{#let this.questionStats as |stat|}} 
-                              {{#let this.formStats as |formStat|}} 
+                              {{#let this.questionStats as |stat|}}
+                              {{#let this.formStats as |formStat|}}
                               <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
-                                    {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}}   <span class="text-sm"> {{if @model.multiEntry formStat.total}}</span>
+                                    {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}} <span
+                                          class="text-sm"> {{if @model.multiEntry formStat.total}}</span>
                               </span>
                               {{/let}}
                               {{/let}}
@@ -34,10 +34,12 @@
                   {{!-- Open form menu --}}
                   {{#if this.shows}}
                   <div class="w-8 text-right block">
-                         <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}}
-                                          @edit={{this.editForm}} @model={{@model}} />
+                        <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}}
+                              @edit={{this.editForm}} @model={{@model}} />
 
-                        {{!-- <Menu @id={{@model.id}} @label="form" @model={{@model}} @title="..." @edit={{this.editForm}} /> --}}
+                        {{!--
+                        <Menu @id={{@model.id}} @label="form" @model={{@model}} @title="..." @edit={{this.editForm}} />
+                        --}}
                   </div>
                   {{/if}}
             </div>
@@ -46,12 +48,13 @@
             {{!-- Open form questions --}}
             <div {{on "change" this.formChange}} {{ref this "formElement" }}>
                   {{#let this.orderByPosition as | orderedquestions|}}
-                   {{!-- this.orderByPosition takes in multiple questions and orders them --}}
-                  {{#each orderedquestions as |question index|}}    
-                          
+                  {{!-- this.orderByPosition takes in multiple questions and orders them --}}
+                  {{#each orderedquestions as |question index|}}
+
                   <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
                         @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
-                        @hideEditingQuestion={{this.hideEditingQuestion}} @questionTemplates={{question.questionTemplate}}/>
+                        @hideEditingQuestion={{this.hideEditingQuestion}}
+                        @questionTemplates={{question.questionTemplate}} />
                   {{/each}}
                   {{/let}}
                   <div class="grid grid-cols-1">
@@ -63,7 +66,7 @@
                               formid={{@model.id}} update="false" type="button" {{on "click" this.addSelections}}>Submit
                         </button>
                         <button class="place-content-center m-2 p-1 border-1 border-gray-800 rounded-md bg-gray-400"
-                              formid={{@model.id}} update="false" type="button" {{on "click" this.showQuestion}}>Cancel
+                              formid={{@model.id}} update="false" type="button" {{on "click" (fn this.showQuestion @model.methodId)}}>Cancel
                         </button>
                         {{/if}}
                         {{/let}}
@@ -76,12 +79,12 @@
             (from all forms with matching templateId)
             --}}
             {{#each @allforms as |form index|}}
-            {{#if form.multiEntry}}                  
+            {{#if form.multiEntry}}
             {{#if (eq form.formTemplateId @model.formTemplateId) }}
             {{#if form.display}}
             {{#if (not-eq form.archive true)}}
             <div class="wrap flex">
-                  <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">                       
+                  <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">
                         <div class="wrap flex">
                               <button class="w-full text-left block" type="button" {{on "click" (fn this.showMenu
                                     index)}}>
@@ -93,34 +96,46 @@
                                                       @input={{this.input}} @hideEditQuestion={{this.hideEditQuestion}}
                                                       @index={{index}} @display={{true}}
                                                       @addSelections={{this.addSelections}} @update={{true}}
-                                                      @hideEditingQuestion={{this.hideEditingQuestion}} @questionTemplates={{@model.formTemplate.questionTemplates}}/>
+                                                      @hideEditingQuestion={{this.hideEditingQuestion}}
+                                                      @questionTemplates={{@model.formTemplate.questionTemplates}} />
                                                 <p></p>
                                                 {{/if}}
                                                 {{/each}}
                                           </FormQuestion::Filter>
                                     </div>
                               </button>
-                      
+
                               <div class="w-8 text-right block">
                                     <Menu @id={{form.id}} @label="form" @title="..." @archive={{this.archiveForm}}
-                                          @edit={{this.editForm}} @model=""/>
+                                          @edit={{this.editForm}} @model="" />
                               </div>
-                           
+
                         </div>
                   </div>
-            </div>
+            </div>            
             {{/if}}
-            {{/if}}
-            {{/if}}
-            {{/if}}
-            {{/each}}  
-            {{#if @model.methodTitle}}     
-                   <div class=""><button class="flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button">{{@model.methodTitle}} </button>    </div>      
             {{/if}}
             {{/if}}      
-      
+            {{/if}}
+            {{/each}}           
+            <div class="flex">
+            {{#if @model.methodTitle}}
+            <div class="">
+                  <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" (fn this.showMethod @model.methodId)}}>
+                        {{@model.methodTitle}}
+                  </button>
+            </div>
+            {{/if}}
+            <div>
+             <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" this.tags}}>Tags + </button></div>
+           </div>
+            {{#if this.methodDisplay}}
+            <div class="markdown">{{format-markdown this.method.body}} </div>
+            {{/if}}
+            {{/if}}
+
       </div>
-       
+
 </div>
 {{/if}}
 {{yield}}

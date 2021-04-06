@@ -25,6 +25,7 @@ See [Demo](https://kelpie.netlify.app) (requires password)
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
+* [couchdb](https://docs.couchdb.org/en/stable/install/index.html)
 * [Node.js](https://nodejs.org/) (with npm)
 * [Ember CLI](https://ember-cli.com/)
 * [Google Chrome](https://google.com/chrome/)
@@ -34,6 +35,7 @@ You will need the following things properly installed on your computer.
 * `git clone <repository-url>` this repository
 * `cd kelpie`
 * `npm install`
+* Create user 'test' and password 'test' with admin role in couchdb for testing purposes.
 
 ## Running / Development
 
@@ -63,7 +65,9 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+* Need to host couchdb or use IBM cloudant. 
+* If hosting couchdb - need https certificate setup.
+* May need to add `same_site` = `strict` in couchdb `couch_httpd_auth` section of options/config via futon app.
 
 ## Further Reading / Useful Links
 

@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "ember-cli-update": "^0.56.0",
+    "marked": "^2.0.1",
     "qrcode": "^1.4.4",
     "shortlink": "^1.1.0"
   }

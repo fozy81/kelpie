@@ -16,7 +16,9 @@ export default class ApplicationRoute extends Route {
      } 
    }
 
+  
     model() {
+      if (this.session.isAuthenticated) {
         let store = this.store
         let projects = this.store.query('project', {
           filter: { title: 'Welcome Project' }
@@ -208,6 +210,7 @@ export default class ApplicationRoute extends Route {
         }
         )
       }
+    }
 
   // sessionInvalidated() {
   //   //data may still be viewed, so no window.reload needed

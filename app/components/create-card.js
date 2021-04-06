@@ -18,12 +18,12 @@ export default class CreateCardComponent extends Component {
   @action
   focus(element) {
     element.focus();
-  } taskTemplate
+  } 
 
   @tracked show = false;
   @action
   showCard() {
-
+     console.log('showCard function')
     this.show = !this.show
 
   }

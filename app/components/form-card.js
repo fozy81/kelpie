@@ -39,9 +39,14 @@ export default class CounterComponent extends Component {
 
   @tracked shows = false;
   @action
-  showQuestion() {
-    event.preventDefault()
+  showQuestion(id) {
+    event.preventDefault(id)
+    if(this.shows) {
+      this.methodDisplay = false
+    }
     this.shows = !this.shows
+    this.store.findRecord('method', id).then(function (method) {   
+    })    
     console.log("show: " + this.shows)
   }
 
@@ -288,6 +293,17 @@ export default class CounterComponent extends Component {
       total: forms.length
     }
     return stats
+  }
+
+  @tracked method = ''
+  @tracked methodDisplay = false
+  @action
+  showMethod(id) {     
+
+  let method = this.store.peekRecord('method', id)
+  this.method = method
+
+  this.methodDisplay = !this.methodDisplay
   }
 
 }

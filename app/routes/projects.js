@@ -4,11 +4,13 @@ import { inject as service } from '@ember/service'
 export default class ProjectsRoute extends Route {
 
     @service session;
-    beforeModel(){
-        if(!this.session.isAuthenticated) {
-            this.replaceWith('login');
-        }
-    }
+    // beforeModel(){
+    //     try {
+    //         this.session.isAuthenticated       
+    //       } catch (error) {      
+    //         this.replaceWith('login');
+    //       }   
+    // }
 
 
     model() {

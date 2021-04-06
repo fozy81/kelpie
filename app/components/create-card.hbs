@@ -7,10 +7,12 @@
   <Input id="title" class="shadow-md border-2 border-gray-400" 
   placeholder="Name"
   {{did-insert this.resetForm}}
-  modelName={{@modelname}}
+  modelName={{@modelName}}
   @value={{this.newName}} 
   {{on "keyup" this.searchMatches}}
-  {{on-key "Enter" this.createCard}} />
+  @enter={{this.createCard}}
+  {{!-- {{on-key "Enter" this.createCard event="keydown"}} --}}
+   />
   <button class="p-2 font-bold" {{on "click" this.showCard}} type="button"> X
   </button>
   {{#if (eq @modelName "form")}}
