@@ -47,6 +47,4 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Test
-        run: npm install
-        run: ember test
-
+        run: npm install && ember test
