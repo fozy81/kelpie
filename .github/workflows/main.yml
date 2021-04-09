@@ -48,5 +48,5 @@ jobs:
 
       - name: Test
         run: npm install
-        run: npm run test:ember
+        run: ember test
 
