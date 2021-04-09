@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  NODE_VERSION: 14
+  NODE_VERSION: 14.5.0
 
 jobs:
   test-app:
@@ -47,4 +47,5 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
 
       - name: Test
-        run: npm install && ember test
+        run: npm run test:ember
+
