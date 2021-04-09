@@ -6,6 +6,9 @@ module.exports = function (environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
+    emberPouch: {
+      options: {},
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -23,7 +26,8 @@ module.exports = function (environment) {
     },
   };
 
-  if (environment === 'development') {
+  if (environment === 'development') {  
+
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -32,6 +36,8 @@ module.exports = function (environment) {
   }
 
   if (environment === 'test') {
+    ENV.emberPouch.options = { adapter: 'memory' };
+
     // Testem prefers this...
     ENV.locationType = 'none';
 
@@ -43,27 +49,29 @@ module.exports = function (environment) {
     ENV.APP.autoboot = false;
   }
 
-  ENV.remote_couch =  'http://localhost:5984/kelpie';
+  ENV.remote_couch = 'http://localhost:5984/kelpie';
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
-  
+
   if (environment === 'production') {
-   ENV.rootURL = '/';
-   ENV.remote_couch = `${process.env.remote_couch}/kelpie`
+    ENV.rootURL = '/';
+    ENV.remote_couch = `${process.env.remote_couch}/kelpie`;
   }
-  if ( ENV.remote_couch ) {
+  if (ENV.remote_couch) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else
-    var site = 'https://kelpie.netlify.app'
-    var remote_couch_hostname = ENV.remote_couch.substring(0, ENV.remote_couch.indexOf('/', 9))
+    var site = 'https://kelpie.netlify.app';
+    var remote_couch_hostname = ENV.remote_couch.substring(
+      0,
+      ENV.remote_couch.indexOf('/', 9)
+    );
     ENV.contentSecurityPolicy = {
       'default-src': ["'none'"],
-      'connect-src': ["'self' " + remote_couch_hostname, "'self' " + site], 
-      'style-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
-      'script-src': ["'self'","'unsafe-eval' *" , "'unsafe-inline' *"],
-      
+      'connect-src': ["'self' " + remote_couch_hostname, "'self' " + site],
+      'style-src': ["'self'", "'unsafe-eval' *", "'unsafe-inline' *"],
+      'script-src': ["'self'", "'unsafe-eval' *", "'unsafe-inline' *"],
     };
   }
-  ENV.reportOnly = true
-  ENV.delivery = ['header'] 
+  ENV.reportOnly = true;
+  ENV.delivery = ['header'];
   return ENV;
 };

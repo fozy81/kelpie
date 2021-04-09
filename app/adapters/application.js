@@ -38,8 +38,14 @@ import { inject as service } from '@ember/service';
 import { Adapter } from 'ember-pouch';
 import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';
+import pouchInMemoryPlugin from 'pouchdb-adapter-memory';
 
 PouchDB.plugin(auth);
+
+// Run test database in memory to avoid credential timing issue
+if (config.emberPouch.options && config.emberPouch.options.adapter === "memory") {
+  PouchDB.plugin(pouchInMemoryPlugin);
+}
 
 // let db = new PouchDB('kelpie');
 
@@ -56,13 +62,25 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    const db = new PouchDB(ENV.remote_couch, {
+    let db = new PouchDB(
+      ENV.remote_couch,     
+      );    
+
+  // Run test without fetch credentials to avoid timing issue
+  if(config.emberPouch.options && config.emberPouch.options.adapter === "memory") {
+     db = new PouchDB(
+      ENV.remote_couch,     
+      config.emberPouch.options);
+    }
+   else {
+     db = new PouchDB(ENV.remote_couch, {
       fetch(url, opts) {
         opts.credentials = 'include';
         return PouchDB.fetch(url, opts);
       }
      });
-   
+    }
+
     db.createIndex({
       index: {
         fields: ['data.createdDateValue']

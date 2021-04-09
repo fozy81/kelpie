@@ -22,19 +22,20 @@ export default class EditMethodComponent extends Component {
         let task = this.store.peekRecord('task', taskId)           
         let method = this.store.peekRecord('method', id)   
         method.formTemplates.map(function(formTemplate) {
-           store.findRecord('form-template', formTemplate.id).then(function(formTemplate){
+           store.findRecord('form-template', formTemplate.id,  { include: 'questionsTemplate' }).then(function(formTemplate){
                store.createRecord('form', { 
             title: formTemplate.title,
             description: '',
             task: task,
-            edit: true,
+            edit: false,
             multiEntry: false,
             dateCreated: new Date(),
             archive: false,
             formTemplateId: formTemplate.id,
             templateId: task.id,
-            formTemplate: formTemplate
-               }).save()         
+            formTemplate: formTemplate,
+            question: formTemplate.questionsTemplate
+               }).save() 
             })            
         })  
     }
