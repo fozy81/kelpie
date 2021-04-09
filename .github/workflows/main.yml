@@ -28,6 +28,6 @@ jobs:
               run: yarn install --frozen-lockfile
  
             - name: Test Ember app
-              run: yarn test
+              run: yarn run test:ember
               
 
