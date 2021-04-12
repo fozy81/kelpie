@@ -1,9 +1,4 @@
-export default function(server) {
-
-server.loadFixtures();
-server.createList('formTemplate', 2);
-
-
-
-
+export default function (server) {
+  server.loadFixtures();
+  server.createList('formTemplate', 2);
 }

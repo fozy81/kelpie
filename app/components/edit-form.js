@@ -1,120 +1,137 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service'
+import { inject as service } from '@ember/service';
 
 export default class EditFormComponent extends Component {
-
-  @service store
+  @service store;
   @action
   saveForm() {
-    event.preventDefault()
-    console.log(this.args.forms)
-    let formTemplateId = this.args.forms.formTemplate.id
-    this.store.findRecord('form-template', formTemplateId).then(function (formTemplate) {
-      formTemplate.save();
-    })
+    event.preventDefault();
+    console.log(this.args.forms);
+    let formTemplateId = this.args.forms.formTemplate.id;
+    this.store
+      .findRecord('form-template', formTemplateId)
+      .then(function (formTemplate) {
+        formTemplate.save();
+      });
 
     // stop showing edit menu
-    this.args.edit()
+    this.args.edit();
   }
-
-
-
 
   @tracked selectedOptions = [];
   @action
   formChange(event) {
-    let selection = { id: event.target.id, value: event.target.value, name: event.target.name, nameid: `event.target.name + event.target.id` }
-    console.log('name:' + event.target.name)
-    console.log('selection:' + selection.id)
+    let selection = {
+      id: event.target.id,
+      value: event.target.value,
+      name: event.target.name,
+      nameid: `event.target.name + event.target.id`,
+    };
+    console.log('name:' + event.target.name);
+    console.log('selection:' + selection.id);
     if (this.selectedOptions.length === 0) {
-      this.selectedOptions.push(selection)
+      this.selectedOptions.push(selection);
     } else {
       // eslint-disable-next-line no-inner-declarations
       function changeDesc(value, nameid, selectedOptions) {
-        let found = false
+        let found = false;
         for (var i = 0; i < selectedOptions.length; i++) {
-          if (selectedOptions[i].nameid === nameid ) {
+          if (selectedOptions[i].nameid === nameid) {
             selectedOptions[i].value = value;
             //break; Stop this loop, we found it!
-            found += true
+            found += true;
           }
         }
         if (found === false) {
-          selectedOptions = selectedOptions.push(selection)
+          selectedOptions = selectedOptions.push(selection);
         }
-        return selectedOptions
+        return selectedOptions;
       }
-      let selectedOptions = this.selectedOptions
-      let options = changeDesc(event.target.value, event.target.id, selectedOptions);
-      this.selectedOptions = selectedOptions
+      let selectedOptions = this.selectedOptions;
+      let options = changeDesc(
+        event.target.value,
+        event.target.id,
+        selectedOptions
+      );
+      this.selectedOptions = selectedOptions;
     }
   }
 
   @service router;
   @action
   saveReplaceForm(event) {
-    console.log('saveReplaceForm: ')
+    console.log('saveReplaceForm: ');
     // event.preventDefault()
-    let store = this.store
-    let args = this.args
-    let router = this.router
-    let selectedOptions = this.selectedOptions
+    let store = this.store;
+    let args = this.args;
+    let router = this.router;
+    let selectedOptions = this.selectedOptions;
     //save form template
-    let formTemplateId = this.args.forms.formTemplate.get('id')
-    console.log('formTempalteID really ' + formTemplateId)
-    store.findRecord('form-template', formTemplateId, { include: 'questionTemplates' }).then(
-      function (formTemplate) {
-        // convert checkbox string to boolean      
-        if (formTemplate.multiEntry === 'true' | formTemplate.multiEntry === true) {
-          formTemplate.multiEntry = true
+    let formTemplateId = this.args.forms.formTemplate.get('id');
+    console.log('formTempalteID really ' + formTemplateId);
+    store
+      .findRecord('form-template', formTemplateId, {
+        include: 'questionTemplates',
+      })
+      .then(function (formTemplate) {
+        // convert checkbox string to boolean
+        if (
+          (formTemplate.multiEntry === 'true') |
+          (formTemplate.multiEntry === true)
+        ) {
+          formTemplate.multiEntry = true;
         } else {
-          formTemplate.multiEntry = false
+          formTemplate.multiEntry = false;
         }
-        console.log('multientry check: ' + formTemplate.multiEntry)
+        console.log('multientry check: ' + formTemplate.multiEntry);
         formTemplate.save().then(function (formTemplates) {
-
           // For question type 'dropdown' select options:
           let questionTemplates = formTemplates.questionTemplates;
           questionTemplates.map(function (question, index) {
-           
-            store.findRecord('question-template', question.id).then(
-              function (questionTemplate) {
+            store
+              .findRecord('question-template', question.id)
+              .then(function (questionTemplate) {
                 // console.log('selectedOptions: ' + selectedOptions[index].value )
-                console.log('question map')
+                console.log('question map');
                 if (selectedOptions.length === 0) {
-                  questionTemplate.type = "text"
-                  questionTemplate.units = "none"
+                  questionTemplate.type = 'text';
+                  questionTemplate.units = 'none';
                 } else {
-                   console.log('question map')
-                  selectedOptions.map(function(selected){
-                    console.log('selected id: ' + selected.id )
-                    console.log('questionTemplate id: ' + questionTemplate.id )
-                    if(selected.id == questionTemplate.id && selected.name == "type") {
-                      questionTemplate.type = selected.value                      
+                  console.log('question map');
+                  selectedOptions.map(function (selected) {
+                    console.log('selected id: ' + selected.id);
+                    console.log('questionTemplate id: ' + questionTemplate.id);
+                    if (
+                      selected.id == questionTemplate.id &&
+                      selected.name == 'type'
+                    ) {
+                      questionTemplate.type = selected.value;
                     }
-                    if(selected.id == questionTemplate.id && selected.name == "units") {
-                      console.log('units: ' + selected.value )  
-                      questionTemplate.units = selected.value                      
+                    if (
+                      selected.id == questionTemplate.id &&
+                      selected.name == 'units'
+                    ) {
+                      console.log('units: ' + selected.value);
+                      questionTemplate.units = selected.value;
                     }
-                  })
-                  
+                  });
                 }
-                questionTemplate.response = ''                       
-                questionTemplate.save()
-              })
-
-          })
-        })
-      }).then(function () {
-        let formId = args.forms.id
+                questionTemplate.response = '';
+                questionTemplate.save();
+              });
+          });
+        });
+      })
+      .then(function () {
+        let formId = args.forms.id;
 
         let form = store.peekRecord('form', formId);
         form.destroyRecord();
         // add new form
-        const taskId = router.currentRoute.params.task_id
-        console.log(taskId)
+        const taskId = router.currentRoute.params.task_id;
+        console.log(taskId);
         let myTask = store.peekRecord('task', taskId);
         let formTemplate = store.peekRecord('form-template', formTemplateId);
         let formRecord = store.createRecord('form', {
@@ -129,19 +146,18 @@ export default class EditFormComponent extends Component {
           task: myTask,
           taskTemplateId: formTemplate.taskTemplateId,
           taskTemplate: formTemplate.taskTemplate,
-          display: false
-        }
-        )
+          display: false,
+        });
         formRecord.save().then(function (form) {
-          console.log(form.templateId)
-          let questionTemplates = formTemplate.questionTemplates
+          console.log(form.templateId);
+          let questionTemplates = formTemplate.questionTemplates;
           let myForm = store.peekRecord('form', form.id);
           questionTemplates.map(function (questionTemplate) {
-            console.log('question: ' + questionTemplate.question)
-            console.log('multi-entry? : ' + myForm.multiEntry)
-            let response = ''
+            console.log('question: ' + questionTemplate.question);
+            console.log('multi-entry? : ' + myForm.multiEntry);
+            let response = '';
             if (questionTemplate.default) {
-              response = questionTemplate.default
+              response = questionTemplate.default;
             }
             let question = store.createRecord('question', {
               question: questionTemplate.question,
@@ -151,47 +167,43 @@ export default class EditFormComponent extends Component {
               multiEntry: myForm.multiEntry,
               type: questionTemplate.type,
               units: questionTemplate.units,
-              pos: questionTemplate.pos,             
+              pos: questionTemplate.pos,
               required: questionTemplate.required,
               min: questionTemplate.min,
               max: questionTemplate.max,
               step: questionTemplate.step,
               default: questionTemplate.default,
-              form: myForm
-            })
-            question.save()
-          })
-        })
-      })
+              form: myForm,
+            });
+            question.save();
+          });
+        });
+      });
 
-
-    // remove existing formlet questionTemplates = formTemplate.questionTemplates 
-
-
+    // remove existing formlet questionTemplates = formTemplate.questionTemplates
 
     // stop showing edit menu
     //this.args.edit()
   }
 
-  @tracked showthis = false
+  @tracked showthis = false;
 
   @action
   addQuestion() {
-    let formTemplateId = this.args.forms.formTemplate.get('id')
-    console.log(formTemplateId)
-    let formTemplate = this.store.peekRecord('form-template', formTemplateId)
-    let questions = formTemplate.questionTemplates
-    let position = questions.length + 1
+    let formTemplateId = this.args.forms.formTemplate.get('id');
+    console.log(formTemplateId);
+    let formTemplate = this.store.peekRecord('form-template', formTemplateId);
+    let questions = formTemplate.questionTemplates;
+    let position = questions.length + 1;
 
     let newQuestion = this.store.createRecord('question-template', {
       multiEntry: false,
       pos: position,
-      formTemplate: formTemplate
-    })
+      formTemplate: formTemplate,
+    });
 
-
-    newQuestion.save().then(console.log('question?' + newQuestion.question))
-    this.showthis = true
+    newQuestion.save().then(console.log('question?' + newQuestion.question));
+    this.showthis = true;
   }
 
   @action
@@ -202,27 +214,22 @@ export default class EditFormComponent extends Component {
   @tracked showField = '';
   @action
   showInput(index) {
-    this.showField = index
-    console.log(this.showField)
+    this.showField = index;
+    console.log(this.showField);
   }
 
   @action
   removeFormTemplate(id) {
-
-    console.log('remove question!' + id)
+    console.log('remove question!' + id);
 
     let form = this.store.peekRecord('form-template', id);
-    console.log('remove question!' + form)
+    console.log('remove question!' + form);
     if (form.archive === true) {
-      form.archive = false
+      form.archive = false;
     } else {
-      form.archive = true
+      form.archive = true;
     }
-    form.save()
-    this.args.edit()
+    form.save();
+    this.args.edit();
   }
-
-
-
-
 }

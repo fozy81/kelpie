@@ -3,11 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Helper | load', function(hooks) {
+module('Integration | Helper | load', function (hooks) {
   setupRenderingTest(hooks);
 
   // Replace this with your real tests.
-  test.skip('code not used currently - needs weakmap value?', async function(assert) {
+  test.skip('code not used currently - needs weakmap value?', async function (assert) {
     this.set('inputValue', '1234');
 
     await render(hbs`{{load inputValue}}`);

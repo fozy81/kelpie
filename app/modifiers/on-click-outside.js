@@ -1,4 +1,4 @@
-import { modifier } from "ember-modifier";
+import { modifier } from 'ember-modifier';
 
 export default modifier((element, [callback]) => {
   function handleClick(event) {
@@ -7,9 +7,9 @@ export default modifier((element, [callback]) => {
     }
   }
 
-  document.addEventListener("click", handleClick);
+  document.addEventListener('click', handleClick);
 
   return () => {
-    document.removeEventListener("click", handleClick);
+    document.removeEventListener('click', handleClick);
   };
 });

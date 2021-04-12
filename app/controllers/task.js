@@ -2,38 +2,32 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-import QRCode from 'qrcode'
-
+import QRCode from 'qrcode';
 
 export default class TaskController extends Controller {
-
-  @tracked qr = null 
+  @tracked qr = null;
   @action
   createQr() {
-  // let url = `http://localhost:4200/task/${this.model.task.id}`
+    // let url = `http://localhost:4200/task/${this.model.task.id}`
 
-  
-  // QRCode.toCanvas(document.getElementById('canvas'), url, function (error) {
-  //   if (error) console.error(error)
-  //   console.log('success!');
-  // })
+    // QRCode.toCanvas(document.getElementById('canvas'), url, function (error) {
+    //   if (error) console.error(error)
+    //   console.log('success!');
+    // })
 
-  return null
-    
+    return null;
   }
-
-
 
   @tracked archive = false;
   @action
   showArchive() {
-    this.archive = !this.archive
+    this.archive = !this.archive;
   }
 
   @tracked showDetails = false;
   @action
   showMore() {
-    this.showDetails = !this.showDetails
+    this.showDetails = !this.showDetails;
   }
 
   @tracked lat = null;
@@ -49,7 +43,7 @@ export default class TaskController extends Controller {
     const fetchCoordinates = async () => {
       try {
         const { coords } = await getCurrentPosition();
-        return coords
+        return coords;
         // Handle coordinates
       } catch (error) {
         // Handle error
@@ -58,18 +52,15 @@ export default class TaskController extends Controller {
     };
 
     return fetchCoordinates().then(function (value) {
-      console.log(value)
-      return value
-    })
-
+      console.log(value);
+      return value;
+    });
   }
 
   @action
   saveTask(id) {
-    let taskTemplate = this.store.peekRecord('task-template', id)
-    taskTemplate.save()
-    this.showDetails = !this.showDetails
+    let taskTemplate = this.store.peekRecord('task-template', id);
+    taskTemplate.save();
+    this.showDetails = !this.showDetails;
   }
-
-
 }

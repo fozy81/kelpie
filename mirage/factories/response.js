@@ -1,33 +1,30 @@
 import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
+  question(i) {
+    let questions = ['Taxon name', 'Abundance'];
+    questions = questions[i % 2];
+    return questions;
+  },
 
+  response(i) {
+    let responses = '';
+    return responses;
+  },
 
-   question(i) {
-        let questions  = ["Taxon name","Abundance"]
-        questions = questions[i % 2]
-        return questions
-        },
+  multiEntry(i) {
+    let multi = [true, true];
+    multi = multi[i % 2];
+    return multi;
+  },
 
-        response(i) {
-            let  responses = ""      
-          return responses
-        },
+  type(i) {
+    let types = ['select', 'input'];
+    types = types[i % 2];
+    return types;
+  },
 
-        multiEntry(i) {
-          let multi  = [true, true]
-          multi = multi[i % 2]
-          return multi
-        },
-
-        type(i) {
-          let types  = ["select","input"]
-          types = types[i % 2]
-          return types
-        },
-
-        rep() {         
-          return 1
-        }
-
+  rep() {
+    return 1;
+  },
 });

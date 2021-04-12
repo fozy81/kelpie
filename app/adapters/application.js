@@ -15,7 +15,7 @@
 //     assert('local_couch must be set', !isEmpty(localDb));
 
 //     const remote = new PouchDB('http://localhost:5984/test');
-//     const db = new PouchDB(localDb);  
+//     const db = new PouchDB(localDb);
 
 //   db.sync(remote, {
 //     live: true,   // do a live, ongoing sync
@@ -24,10 +24,9 @@
 //      this.set('db', db);
 
 //     return this;
-//   }    
+//   }
 
-// }  
-
+// }
 
 import ENV from 'kelpie/config/environment';
 // PouchDB.debug.enable('*');
@@ -43,7 +42,10 @@ import pouchInMemoryPlugin from 'pouchdb-adapter-memory';
 PouchDB.plugin(auth);
 
 // Run test database in memory to avoid credential timing issue
-if (config.emberPouch.options && config.emberPouch.options.adapter === "memory") {
+if (
+  config.emberPouch.options &&
+  config.emberPouch.options.adapter === 'memory'
+) {
   PouchDB.plugin(pouchInMemoryPlugin);
 }
 
@@ -62,42 +64,37 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    let db = new PouchDB(
-      ENV.remote_couch,     
-      );    
+    let db = new PouchDB(ENV.remote_couch);
 
-  // Run test without fetch credentials to avoid timing issue
-  if(config.emberPouch.options && config.emberPouch.options.adapter === "memory") {
-     db = new PouchDB(
-      ENV.remote_couch,     
-      config.emberPouch.options);
-    }
-   else {
-     db = new PouchDB(ENV.remote_couch, {
-      fetch(url, opts) {
-        opts.credentials = 'include';
-        return PouchDB.fetch(url, opts);
-      }
-     });
+    // Run test without fetch credentials to avoid timing issue
+    if (
+      config.emberPouch.options &&
+      config.emberPouch.options.adapter === 'memory'
+    ) {
+      db = new PouchDB(ENV.remote_couch, config.emberPouch.options);
+    } else {
+      db = new PouchDB(ENV.remote_couch, {
+        fetch(url, opts) {
+          opts.credentials = 'include';
+          return PouchDB.fetch(url, opts);
+        },
+      });
     }
 
     db.createIndex({
       index: {
-        fields: ['data.createdDateValue']
-      }
-    })
+        fields: ['data.createdDateValue'],
+      },
+    });
 
     db.createIndex({
       index: {
-        fields: ['data.dueDateValue']
-      }
-    })
+        fields: ['data.dueDateValue'],
+      },
+    });
 
-    
-  
     this.db = db;
 
     return this;
   }
-
 }
