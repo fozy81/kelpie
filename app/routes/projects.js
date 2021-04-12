@@ -1,16 +1,15 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service'
+import ENV from 'kelpie/config/environment';
 
 export default class ProjectsRoute extends Route {
 
     @service session;
-    // beforeModel(){
-    //     try {
-    //         this.session.isAuthenticated       
-    //       } catch (error) {      
-    //         this.replaceWith('login');
-    //       }   
-    // }
+    beforeModel(){   
+        if(!this.session.isAuthenticated && ENV.locationType !== "none") {
+            this.replaceWith('login');
+        } 
+    }
 
 
     model() {

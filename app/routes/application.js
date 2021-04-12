@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service'
 import shortlink from 'shortlink';
+import ENV from 'kelpie/config/environment';
 
 export default class ApplicationRoute extends Route {
 
@@ -8,7 +9,7 @@ export default class ApplicationRoute extends Route {
   beforeModel(transition) {
     console.log(transition.intent.url)
     this.get('session').requireAuthentication(transition, 'login');
-    if(!this.session.isAuthenticated) {
+    if(!this.session.isAuthenticated && ENV.locationType !== "none") {
       this.replaceWith('login');
      } 
      if(transition.intent.url == '/login') {
@@ -18,7 +19,7 @@ export default class ApplicationRoute extends Route {
 
   
     model() {
-      if (this.session.isAuthenticated) {
+      if (this.session.isAuthenticated || ENV.locationType === "none") {
         let store = this.store
         let projects = this.store.query('project', {
           filter: { title: 'Welcome Project' }

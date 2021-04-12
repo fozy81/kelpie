@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click, settled, waitFor, waitUntil, throws} from '@ember/test-helpers';
+import { visit, currentURL, fillIn, click, settled, waitFor, waitUntil, throws, pauseTest} from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | login', function(hooks) {
@@ -28,10 +28,11 @@ module('Acceptance | login', function(hooks) {
     // await waitUntil(function() {
     //   return currentURL('/login')
     //   }, { timeout: 2000 })
-    await visit('/login');  
+    await visit('/login');   
     await visit('/projects');  
-    assert.equal(currentURL(), '/projects');
-    
+    await pauseTest(); 
+    await click('.add')    
+    assert.equal(currentURL(), '/projects');    
   });
 
  

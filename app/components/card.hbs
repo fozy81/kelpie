@@ -1,6 +1,6 @@
 
 {{#if this.showCard}}
-  <div style="background-color:{{safe @colour}};" class="m-2 p-2
+  <div style="background-color:{{safe @colour}};" class="card m-2 p-2
               shadow-md border-gray-200 border rounded-lg">
  <LinkTo @route={{@route}} @model={{@id}} {{on "click" (fn this.restore @model)}}>
 
