@@ -36,7 +36,7 @@ module('Acceptance | login', function (hooks) {
     //   return currentURL('/login')
     //   }, { timeout: 2000 })
     await visit('/login');
-    await visit('/projects');   
+    await visit('/projects');
     await click('.add');
     assert.equal(currentURL(), '/projects');
   });

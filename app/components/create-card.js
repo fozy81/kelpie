@@ -420,7 +420,34 @@ Plain text sentence.
       return;
     }
 
+    if (this.args.modelName === 'task') {
+      const router = this.router;
+      const store = this.store;
+      const projectId = router.currentRoute.params.project_id;
+      let myProject = store.peekRecord('project', projectId);
+      let date = new Date();
+      let n = date.valueOf();
+      store.findRecord('task-template', id).then(function (taskTemplate) {
+        console.log('templateID: ' + taskTemplate.title);
+        let taskRecord = store.createRecord('task', {
+          title: taskTemplate.title,
+          description: taskTemplate.description,
+          taskTemplateId: taskTemplate.id,
+          archive: false,
+          createdDate: date,
+          createdDateValue: n,
+          modifiedDate: date,
+          modifiedDateValue: n,
+          project: myProject,
+          taskTemplate: taskTemplate,
+        });
+        taskRecord.save();
+      });
+      return;
+    }
+
     console.log('add template form');
+    console.log('model: ' + this.args.modelName);
     const router = this.router;
     const store = this.store;
     const taskId = router.currentRoute.params.task_id;
