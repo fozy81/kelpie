@@ -9,8 +9,8 @@
 </div>
 
 <form aria-label="Change password" {{on "submit" this.changePassword}}>
-  <label for="identification">Current password:</label>
-  <input type="password" id='identification' placeholder="Current Login" value={{this.identification}} {{on "change"
+  <label for="currentpassword">Current password:</label>
+  <input type="password" id='currentpassword' placeholder="Current Login" value={{this.identification}} {{on "change"
     this.updateIdentification}}>
   <label for="new">New password:</label>
   <input type="password" id='new' placeholder="New Login" value={{this.new}} {{on "change" this.newId}}>

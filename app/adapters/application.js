@@ -93,6 +93,13 @@ export default class ApplicationAdapter extends Adapter {
       },
     });
 
+    let local = new PouchDB('kelpie');
+
+    local.sync(db, {
+    live: true,   // do a live, ongoing sync
+    retry: true   // retry if the connection is lost
+ });
+
     this.db = db;
 
     return this;
