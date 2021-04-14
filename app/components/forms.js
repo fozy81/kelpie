@@ -38,6 +38,7 @@ export default class FormsComponent extends Component {
     this.methodTemplateId = id;
   }
 
+  // If archived date within 15 seconds of 'date' then keep displaying on page providing 'restore' option:
   @tracked date = new Date().valueOf() - 15000;
   @action
   archiveDate() {

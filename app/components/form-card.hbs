@@ -129,8 +129,14 @@
             <div>
              <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" this.tags}}>Tags + </button></div>
            </div>
-            {{#if this.methodDisplay}}
+            {{#if (and this.methodDisplay (eq this.edit false))}}
+            <div class="text-right">
+            <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" {{on "click" (fn this.editMethod)}}>Edit Method</button>
+            </div>
             <div class="markdown">{{format-markdown this.method.body}} </div>
+            {{/if}}
+            {{#if (and this.methodDisplay (eq this.edit true))}}
+            <EditMethod  @method={{this.method}} @editing={{this.edit}}/>
             {{/if}}
             {{/if}}
 

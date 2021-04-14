@@ -311,4 +311,11 @@ export default class CounterComponent extends Component {
 
     this.methodDisplay = !this.methodDisplay;
   }
+
+  @tracked edit = false;
+  @action
+  editMethod() {
+    this.edit = !this.edit;
+  }
+
 }

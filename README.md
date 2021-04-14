@@ -1,3 +1,5 @@
+[![CI](https://github.com/fozy81/kelpie/actions/workflows/main.yml/badge.svg)](https://github.com/fozy81/kelpie/actions/workflows/main.yml)
+
 # Kelpie
 
 Kelpie aims to be a prototype/demo app for planning and recording survey data either on or offline. Full of bugs and hacks...just a testbed for tinkering with js, ember, pouch, html, css, linting...
