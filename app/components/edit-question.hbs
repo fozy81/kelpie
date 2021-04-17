@@ -111,17 +111,17 @@ Uneditable default response:
  Min
 <Input 
  class="m-2 w-30 border-b border-gray-400"
- @type="text"
+ @type="number"
  @value={{@question.min}}/>
 Max
 <Input 
  class="m-2 w-30 border-b border-gray-400"
- @type="text"
+ @type="number"
  @value={{@question.max}}/>
 Step
 <Input 
  class="m-2 w-30 border-b border-gray-400"
- @type="text"
+ @type="number"
  @value={{@question.step}}/>
 {{/if}}
 
@@ -135,12 +135,24 @@ Step
     {{else}}
   <option  selected="true" value="none">--Pick one--</option>
   {{/if}}  
-   <option value="none">none</option>
-  <option value="metres">metres</option>
+  <option value="none">none</option>
+  <option value="m">m</option>
+  <option value="m/km">m/km</option>  
+  <option value="ppm">ppm</option>  
   <option value="cm">cm</option>
+  <option value="cm2">cm2</option>
+  <option value="m2">m2</option>
   <option value="km">km</option>  
-  <option value="grams">grams</option>  
+  <option value="km2">km2</option>    
+  <option value="g">g</option>  
+  <option value="mg">mg</option>  
+  <option value="mg/L">mg/L</option>  
+  <option value="μg">μg</option>  
+  <option value="μg/L">μg/L</option>  
   <option value="kg">kg</option>  
+  <option value="£">£</option>  
+  <option value="$">$</option>  
+  <option value="%">%</option>  
 </select> 
 </div>
 
