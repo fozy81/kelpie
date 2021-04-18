@@ -97,7 +97,13 @@
 {{!-- <!-- ### On first entry ### --> --}}
 {{#if (eq @question.multiEntry false)}}   
    {{#if (eq @hideEditQuestion false)}}  
-    {{#if (eq @question.response '')}}               
+    {{#if (eq @question.response '')}}    
+       {{#if (eq @question.type "image")}}  
+        <p></p>
+      <label for={{@question.question}}>{{@question.question}}</label>
+	     <input type="file" id="imageFile" capture="user" accept="image/*">
+          <p></p>
+      {{else}}    
       {{#if (eq @question.type "select")}}        
         {{#let this.options as |options|}}      
           <p></p>
@@ -110,7 +116,7 @@
           {{/each}}     
           </select> 
           <p>  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</p>
-        {{/let}}
+        {{/let}}      
       {{else}}     
            {{#if @question.default}}
          <p></p>        
@@ -153,6 +159,7 @@
         {{/if}}
       {{/if}}
     {{/if}}   
+       {{/if}}   
     {{#if @question.response}}  
    
     {{!-- <!-- ### If response entered #### --> --}}
