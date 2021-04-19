@@ -94,12 +94,7 @@ export default class EditFormComponent extends Component {
               .findRecord('question-template', question.id)
               .then(function (questionTemplate) {
                 // console.log('selectedOptions: ' + selectedOptions[index].value )
-                console.log('question map');
-                if (selectedOptions.length === 0) {
-                  questionTemplate.type = 'text';
-                  questionTemplate.units = 'none';
-                } else {
-                  console.log('question map');
+                console.log('question map'); 
                   selectedOptions.map(function (selected) {
                     console.log('selected id: ' + selected.id);
                     console.log('questionTemplate id: ' + questionTemplate.id);
@@ -116,8 +111,7 @@ export default class EditFormComponent extends Component {
                       console.log('units: ' + selected.value);
                       questionTemplate.units = selected.value;
                     }
-                  });
-                }
+                  });                
                 questionTemplate.response = '';
                 questionTemplate.save();
               });
