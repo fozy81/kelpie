@@ -402,12 +402,16 @@ Plain text sentence.
                           response: questionTemplate.response,
                           questionTemplate: questionTemplate,
                           questionTemplateId: questionTemplate.id,
-                          multiEntry: questionTemplate.multiEntry,
+                          multiEntry: formTemplate.multiEntry,
                           type: questionTemplate.type,
                           pos: questionTemplate.pos,
                           required: questionTemplate.required,
                           dateCreated: new Date(),
                           archive: false,
+                          min: questionTemplate.min,
+                          max: questionTemplate.max,
+                          step: questionTemplate.step,
+                          default: questionTemplate.default,
                           form: form,
                         });
                         question.save();
