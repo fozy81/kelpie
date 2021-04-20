@@ -126,9 +126,34 @@
                   </button>
             </div>
             {{/if}}
+            {{#if this.tags}}
+                <div>
+                       
+              <Input class="m-2 border-b border-gray-400"    
+              id={{@model.id}}                     
+              @value={{@model.tags}}       
+              @type='text'
+              />
+               <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" 
+               {{on "click" (fn this.saveTags @model.id)}}>Update</button>
+              
+             </div>
+            {{else}}
+            {{#if @model.tags}}
+     
+            {{#let this.arrayTags as |tag|}}
+            {{#each tag as |taggy|}}
             <div>
-             <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" this.tags}}>Tags + </button></div>
-           </div>
+            <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" this.showTags}}>{{taggy}}</button> 
+            </div>
+            {{/each}}
+            {{/let}}
+            {{else}}
+            <div>
+             <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" this.showTags}}>Tags + </button></div>
+            {{/if}}
+           {{/if}}
+             </div>   
             {{#if (and this.methodDisplay (eq this.edit false))}}
             <div class="text-right">
             <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" {{on "click" (fn this.editMethod)}}>Edit Method</button>
