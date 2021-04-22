@@ -16,6 +16,7 @@ export default class ProjectModel extends Model {
   @attr percentageComplete;
   @attr('boolean') archive;
   @attr('string') rev;
+  @attr('string') tags;
   @hasMany tasks;
   @belongsTo projectTemplate;
 }
