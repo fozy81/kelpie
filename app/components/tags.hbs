@@ -3,7 +3,7 @@
 
     <Input class="m-2 border-b border-gray-400" id={{@model.id}} @value={{@model.tags}} @type='text' />
        <button class="font-bold" type="button" {{on "click"
-        (fn this.saveTags @model.id)}}>X</button>
+        this.showTags}}>X</button>
     <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
         (fn this.saveTags @model.id)}}>Update</button>
 
@@ -14,14 +14,14 @@
 {{#let this.arrayTags as |tag|}}
 {{#each tag as |taggy|}}
 
-    <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
+    <button class="m-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
         this.showTags}}>{{taggy}}</button>
 
 {{/each}}
 {{/let}}
 {{else}}
 <div>
-    <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
+    <button class="m-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
         this.showTags}}>Tags + </button>
 </div>
 {{/if}}
