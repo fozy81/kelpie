@@ -12,15 +12,7 @@ module('Integration | Component | tags', function(hooks) {
 
     await render(hbs`<Tags />`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      <Tags>
-        template block text
-      </Tags>
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'Tags +');
+ 
   });
 });
