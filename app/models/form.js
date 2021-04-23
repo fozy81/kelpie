@@ -19,6 +19,9 @@ export default class FormModel extends Model {
   @attr('number') createdDateValue;
   @attr('date') modifiedDate;
   @attr('number') modifiedDateValue;
+  @attr containerId;
+  @attr containerTitle;
+  @attr containerDescription;
   @belongsTo task;
   @belongsTo formTemplate;
   @belongsTo taskTemplate;

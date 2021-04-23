@@ -13,6 +13,9 @@ export default class FormTemplateModel extends Model {
   @attr('date') modifiedDate;
   @attr('number') modifiedDateValue;
   @attr('string') rev;
+  @attr containerId;
+  @attr containerTitle;
+  @attr containerDescription;
   @hasMany questionTemplates;
   @hasMany forms;
 }

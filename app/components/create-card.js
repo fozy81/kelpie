@@ -54,6 +54,9 @@ export default class CreateCardComponent extends Component {
       if (model == 'task-template') {
         model = 'form-template';
       }
+      if (model == 'container') {
+        model = 'container';
+      }
       // if(model == "project") {
       //   model = "project-template"
       //   }
