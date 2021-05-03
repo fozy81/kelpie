@@ -64,16 +64,16 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    let db = new PouchDB(ENV.remote_couch);
+    let remote = new PouchDB(ENV.remote_couch);
 
     // Run test without fetch credentials to avoid timing issue
     if (
       config.emberPouch.options &&
       config.emberPouch.options.adapter === 'memory'
     ) {
-      db = new PouchDB(ENV.remote_couch, config.emberPouch.options);
+      remote = new PouchDB(ENV.remote_couch, config.emberPouch.options);
     } else {
-      db = new PouchDB(ENV.remote_couch, {
+      remote = new PouchDB(ENV.remote_couch, {
         fetch(url, opts) {
           opts.credentials = 'include';
           return PouchDB.fetch(url, opts);
@@ -81,13 +81,13 @@ export default class ApplicationAdapter extends Adapter {
       });
     }
 
-    db.createIndex({
+    remote.createIndex({
       index: {
         fields: ['data.createdDateValue'],
       },
     });
 
-    db.createIndex({
+    remote.createIndex({
       index: {
         fields: ['data.dueDateValue'],
       },
@@ -95,12 +95,24 @@ export default class ApplicationAdapter extends Adapter {
 
     let local = new PouchDB('kelpie');
 
-    local.sync(db, {
+    local.createIndex({
+      index: {
+        fields: ['data.createdDateValue'],
+      },
+    });
+
+    local.createIndex({
+      index: {
+        fields: ['data.dueDateValue'],
+      },
+    });
+
+    local.sync(remote, {
     live: true,   // do a live, ongoing sync
     retry: true   // retry if the connection is lost
  });
 
-    this.db = db;
+    this.db = local;
 
     return this;
   }

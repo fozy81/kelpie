@@ -10,6 +10,11 @@ module.exports = function (defaults) {
         plugins: [{ module: require('tailwindcss') }],
       },
     },
+    'esw-cache-fallback': {
+      patterns: [
+        '/(.+)'
+      ],
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
