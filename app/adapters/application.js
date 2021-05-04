@@ -112,7 +112,7 @@ export default class ApplicationAdapter extends Adapter {
     retry: true   // retry if the connection is lost
  });
 
-    this.db = remote;
+    this.db = local;
 
     return this;
   }
