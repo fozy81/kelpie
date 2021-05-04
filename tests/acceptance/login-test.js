@@ -32,9 +32,9 @@ module('Acceptance | login', function (hooks) {
     await fillIn('.identification', 'test');
     await fillIn('.password', 'test');
     await click('.login');
-    // await waitUntil(function() {
-    //   return currentURL('/login')
-    //   }, { timeout: 2000 })
+    await waitUntil(function() {
+      return currentURL('/login')
+      }, { timeout: 2000 })
     await visit('/login');
     await visit('/projects');
     await click('.add');

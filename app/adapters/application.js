@@ -64,6 +64,8 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
+    
+
     let remote = new PouchDB(ENV.remote_couch);
 
     // Run test without fetch credentials to avoid timing issue
@@ -107,10 +109,21 @@ export default class ApplicationAdapter extends Adapter {
       },
     });
 
-    local.sync(remote, {
-    live: true,   // do a live, ongoing sync
-    retry: true   // retry if the connection is lost
- });
+//     local.sync(remote, {
+//     live: true,   // do a live, ongoing sync
+//     retry: true   // retry if the connection is lost
+//  });
+
+ var url = ENV.remote_couch
+ var opts = { live: true, retry: true };
+
+ // do one way, one-off sync from the server until completion
+ local.replicate.from(url).on('complete', function(info) {
+  // then two-way, continuous, retriable sync
+  local.sync(url, opts)
+   
+})
+
 
     this.db = local;
 
