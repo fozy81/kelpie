@@ -49,13 +49,13 @@ export default class SearchProjectsComponent extends Component {
     let date = new Date(this.date);
     date = date.valueOf();
     console.log('searh term: ' + this.search);
-    console.log('search date: ' + date);
-    let regexp = new RegExp(this.search, 'i');
+    console.log('search date: ' + date);  
     function error(reason) {
       console.log(reason); // handle the error
       return;
     }
-    let regexp_couchdb = this.search;
+    let regexp_search = new RegExp(this.search, 'i');
+    // let regexp_search = this.search;
 
     // let result = this.store.query('project', {
     //     filter: {
@@ -72,7 +72,7 @@ export default class SearchProjectsComponent extends Component {
     // couchdb regrex!
     let result = this.store.query('project', {
       filter: {
-        title: { $regex: regexp_couchdb },
+        title: { $regex: regexp_search },
         dueDateValue: { $lte: date },
         archive: { $eq: false },
       },
@@ -83,7 +83,7 @@ export default class SearchProjectsComponent extends Component {
 
     let archive = this.store.query('project', {
       filter: {
-        title: { $regex: regexp_couchdb },
+        title: { $regex: regexp_search },
         dueDateValue: { $lte: date },
         archive: { $eq: true },
       },

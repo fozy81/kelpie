@@ -45,8 +45,8 @@ export default class CreateCardComponent extends Component {
         model = 'method';
       }
 
-      // let regexp = new RegExp(this.newName, 'i');
-      let regexp = this.newName;
+      let regexp_search = new RegExp(this.newName, 'i');
+      // let regexp_search = this.newName;
       console.log('model before: ' + model);
       if (model == 'form') {
         model = 'form-template';
@@ -60,16 +60,20 @@ export default class CreateCardComponent extends Component {
       // if(model == "project") {
       //   model = "project-template"
       //   }
-      console.log('model' + model);
+      console.log('model: ' + model);
       if (model == 'task') {
         model = 'task-template';
       }
+      console.log('search term: ' + regexp_search)
+      console.log('model search: ' + model)
       let search = this.store.query(model, {
         filter: {
-          title: { $regex: regexp },
-          type: { $eq: model },
+          title: { $regex: regexp_search },
+         type: { $eq: model },
         },
-      });
+        sort: [{ title: 'asc' }],
+        limit: 10,
+      });      
       this.query = search;
     } else {
       this.query = [''];

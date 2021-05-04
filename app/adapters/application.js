@@ -109,6 +109,14 @@ export default class ApplicationAdapter extends Adapter {
       },
     });
 
+
+    local.createIndex({
+      index: {
+        fields: ['data.title'],
+      },
+    });
+ 
+
 //     local.sync(remote, {
 //     live: true,   // do a live, ongoing sync
 //     retry: true   // retry if the connection is lost
