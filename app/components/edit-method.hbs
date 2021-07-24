@@ -1,7 +1,28 @@
 <div class="m-2 border-2 border-gray-300 rounded-lg p-2">
 
-Editing method...{{@method.title}}
-<div>Create a 'Method' consisting of a group of form(s) and guidance for using.</div>
+
+
+<div class="wrap flex">
+<div class="font-bold p-2 text-gray-600 w-3/4">Editing method: {{@method.title}}</div>
+{{#if (or (eq @method.archive false) (eq @method.archive undefined))}}
+<button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
+ {{on "click" (fn this.archiveMethod @method.id)}} 
+ type="button">
+ Archive
+ </button>
+{{/if}}
+{{#if (eq @method.archive true)}}
+<button class="text-right border-gray-400 border p-2 rounded-md bg-gray-200 text-sm m-1" 
+ {{on "click" (fn this.archiveMethod @method.id)}} 
+ type="button">
+ Re-Activate
+ </button>
+{{/if}}
+</div>
+
+
+
+<div>Create a 'Method' consisting of a group of form(s) and method Description.</div>
 
   <label for="title"> Title:</label>
   <Input id="title"  class="border border-gray-300" @type="text" @value={{@method.title}} /> 
@@ -22,9 +43,11 @@ Editing method...{{@method.title}}
   <option selected="true" value="test">test</option>  
 </select> --}}
 
-<div>Added Forms: 
- {{#each @method.formTemplates as |form|}}   
-  ID: {{form.title}} 
+<div class="flex-wrap">Added Forms: <br>
+ {{#each @method.formTemplates as |form|}} 
+  
+  <div class="border-2 flex-none  border-teal-400 rounded-full m-2 px-2 py-1 shadow-sm" >{{form.title}} 
+    <button type="submit" class="font-bold" {{on "click" (fn this.removeForm form.id @method.id)}}> X</button></div> 
 
  {{/each}}
 </div>

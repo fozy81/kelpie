@@ -28,7 +28,7 @@ module('Acceptance | login', function (hooks) {
 
   test('visiting /login', async function (assert) {
     await visit('/');
-    assert.equal(currentURL(), '/login', 'should redirect automatically');
+    assert.equal(currentURL(), '/', 'should not redirect automatically to login');
     // await fillIn('.identification', 'test');
     // await fillIn('.password', 'test');
     // await click('.login');

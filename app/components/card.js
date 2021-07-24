@@ -16,11 +16,11 @@ export default class CardComponent extends Component {
     let incompleteQuestion = [];
     let stats = function (forms) {
       forms.map(function (form) {
-        form.questions.map(function (question) {
+        form.questions.map(function (question) {          
           if ((question.response != '') & (question.archive === false)) {
             completedQuestion.push(question);
           }
-          if ((question.response == '') & (question.archive === false)) {
+          if ((question.response == '') & (question.archive === false) & (question.required === false)) {
             incompleteQuestion.push(question);
           }
         });

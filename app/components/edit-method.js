@@ -43,6 +43,36 @@ export default class EditMethodComponent extends Component {
     });
   }
 
+  @action
+  archiveMethod(id) {
+        let method = this.store.peekRecord('method', id);
+    if (method.archive === true) {
+      method.archive = false;
+    } else {
+      method.archive = true;
+    }
+    method.save(); 
+  }
+
+
+
+  @action
+  removeForm(id, methodId) {
+         console.log('remove method')
+        let method = this.store.peekRecord('method', methodId,  {include: 'formTemplates'});
+        let formTemplates = method.formTemplates.map(function(formTemplate) {
+          console.log(formTemplate)
+          if (formTemplate.id === id) {
+            return
+          } else {
+            return formTemplate
+          }
+        })
+   
+        method.formTemplates = formTemplates
+    method.save(); 
+  }
+
   // @action
   // addFormTemplate() {
   //   let methodId = this.args.method.id

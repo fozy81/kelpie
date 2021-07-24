@@ -64,36 +64,25 @@ export default class ApplicationAdapter extends Adapter {
   constructor() {
     super(...arguments);
 
-    
+    // If not authenticated, then don't use local db?
+    console.log('session: ' + this.session.isAuthenticated);
 
-    let remote = new PouchDB(ENV.remote_couch);
+    // let remote = new PouchDB(ENV.remote_couch);
 
     // Run test without fetch credentials to avoid timing issue
-    if (
-      config.emberPouch.options &&
-      config.emberPouch.options.adapter === 'memory'
-    ) {
-      remote = new PouchDB(ENV.remote_couch, config.emberPouch.options);
-    } else {
-      remote = new PouchDB(ENV.remote_couch, {
-        fetch(url, opts) {
-          opts.credentials = 'include';
-          return PouchDB.fetch(url, opts);
-        },
-      });
-    }
-
-    remote.createIndex({
-      index: {
-        fields: ['data.createdDateValue'],
-      },
-    });
-
-    remote.createIndex({
-      index: {
-        fields: ['data.dueDateValue'],
-      },
-    });
+    // if (
+    //   config.emberPouch.options &&
+    //   config.emberPouch.options.adapter === 'memory'
+    // ) {
+    //   remote = new PouchDB(ENV.remote_couch, config.emberPouch.options);
+    // } else {
+    //   remote = new PouchDB(ENV.remote_couch, {
+    //     fetch(url, opts) {
+    //       opts.credentials = 'include';
+    //       return PouchDB.fetch(url, opts);
+    //     },
+    //   });
+    // }
 
     let local = new PouchDB('kelpie');
 
@@ -109,32 +98,78 @@ export default class ApplicationAdapter extends Adapter {
       },
     });
 
-
     local.createIndex({
       index: {
         fields: ['data.title'],
       },
     });
- 
 
-//     local.sync(remote, {
-//     live: true,   // do a live, ongoing sync
-//     retry: true   // retry if the connection is lost
-//  });
+    //     local.sync(remote, {
+    //     live: true,   // do a live, ongoing sync
+    //     retry: true   // retry if the connection is lost
+    //  });
 
- var url = ENV.remote_couch
- var opts = { live: true, retry: true };
+    // var url = ENV.remote_couch;
+    // var opts = { live: true, retry: true };
 
- // do one way, one-off sync from the server until completion
- local.replicate.from(url).on('complete', function(info) {
-  // then two-way, continuous, retriable sync
-  local.sync(url, opts)
-   
-})
+    // remote.info().then(function () {
+    //   remote.createIndex({
+    //     index: {
+    //       fields: ['data.createdDateValue'],
+    //     },
+    //   });
 
+    //   remote.createIndex({
+    //     index: {
+    //       fields: ['data.dueDateValue'],
+    //     },
+    //   });
+    //   // do one way, one-off sync from the server until completion
+    //   local.replicate.from(url).on('complete', function (info) {
+    //     // then two-way, continuous, retriable sync
+    //     local.sync(url, opts);
+    //   });
+    // });
+
+    if (this.session.isAuthenticated) {
+      let remote = new PouchDB(ENV.remote_couch);
+      // Run test without fetch credentials to avoid timing issue
+      if (
+        config.emberPouch.options &&
+        config.emberPouch.options.adapter === 'memory'
+      ) {
+        remote = new PouchDB(ENV.remote_couch, config.emberPouch.options);
+      } else {
+        remote = new PouchDB(ENV.remote_couch, {
+          fetch(url, opts) {
+            opts.credentials = 'include';
+            return PouchDB.fetch(url, opts);
+          },
+        });
+      }
+
+      var url = ENV.remote_couch;
+      var opts = { live: true, retry: true };
+
+      remote.createIndex({
+        index: {
+          fields: ['data.createdDateValue'],
+        },
+      });
+
+      remote.createIndex({
+        index: {
+          fields: ['data.dueDateValue'],
+        },
+      });
+      // do one way, one-off sync from the server until completion
+      local.replicate.from(url).on('complete', function (info) {
+        // then two-way, continuous, retriable sync
+        local.sync(url, opts);
+      });
+    }
 
     this.db = local;
-
     return this;
   }
 }
