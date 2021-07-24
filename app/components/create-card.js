@@ -64,16 +64,16 @@ export default class CreateCardComponent extends Component {
       if (model == 'task') {
         model = 'task-template';
       }
-      console.log('search term: ' + regexp_search)
-      console.log('model search: ' + model)
+      console.log('search term: ' + regexp_search);
+      console.log('model search: ' + model);
       let search = this.store.query(model, {
         filter: {
           title: { $regex: regexp_search },
-         type: { $eq: model },
+          type: { $eq: model },
         },
         sort: [{ title: 'asc' }],
         limit: 10,
-      });      
+      });
       this.query = search;
     } else {
       this.query = [''];

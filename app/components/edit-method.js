@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 
 export default class EditMethodComponent extends Component {
   @service store;
@@ -45,32 +46,36 @@ export default class EditMethodComponent extends Component {
 
   @action
   archiveMethod(id) {
-        let method = this.store.peekRecord('method', id);
+    let method = this.store.peekRecord('method', id);
     if (method.archive === true) {
       method.archive = false;
     } else {
       method.archive = true;
     }
-    method.save(); 
+    method.save();
   }
-
-
 
   @action
   removeForm(id, methodId) {
-         console.log('remove method')
-        let method = this.store.peekRecord('method', methodId,  {include: 'formTemplates'});
-        let formTemplates = method.formTemplates.map(function(formTemplate) {
-          console.log(formTemplate)
-          if (formTemplate.id === id) {
-            return
-          } else {
-            return formTemplate
-          }
-        })
-   
-        method.formTemplates = formTemplates
-    method.save(); 
+    console.log('remove method');
+    let method = this.store.peekRecord('method', methodId, {
+      include: 'formTemplates',
+    });
+
+    const formTemplates = method.formTemplates.filter(
+      (formTemplate) => formTemplate.id != id
+    );
+    // let formTemplates = method.formTemplates.map(function (formTemplate) {
+    //   console.log(formTemplate);
+    //   if (formTemplate.id === id) {
+    //     return;
+    //   } else {
+    //     return formTemplate;
+    //   }
+    // });
+
+    method.formTemplates = A(formTemplates);
+    method.save();
   }
 
   // @action
