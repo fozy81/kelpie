@@ -63,4 +63,5 @@ export default class TaskController extends Controller {
     taskTemplate.save();
     this.showDetails = !this.showDetails;
   }
+
 }

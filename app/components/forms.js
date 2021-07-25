@@ -18,14 +18,17 @@ export default class FormsComponent extends Component {
       return item.id;
     });
 
-    const found = selection.filter((el) => arr.includes(el.id));
-
+    let found = selection.filter((el) => arr.includes(el.id));
+    console.log(found)
+    found = found.sortBy('createdDateValue');
+    console.log(found)
     return found;
   }
 
   get dateOrderForms() {
     let forms = this.args.forms;
-    let sorted = forms.sortBy(toString('dateCreated')).reverse();
+    let sorted = forms.sortBy('dateCreatedValue').reverse();
+    console.log(sorted);
     return sorted;
   }
 

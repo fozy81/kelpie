@@ -42,7 +42,7 @@
 <button type="submit" class="border-2 border-gray-500 bg-gray-200 rounded-lg p-1"{{on "click" (fn this.saveTask @model.task.taskTemplate.id)}}>Update</button>
 
 
-
+{{!-- {{#let this.orderByPosition as | orderedquestions|}} --}}
 {{#each @model.task.taskTemplate.forms as |form|}}
 
  {{#if (eq form.archive false)}}
@@ -53,7 +53,7 @@
     />
     {{/if}}
 {{/each}}
-
+{{!-- {{/let}} --}}
 {{!-- <div class="m-1">Pre-arrange access: <Input class="border border-gray-500" @value={{@model.task.taskTemplate.arrangeAccess}} /></div>
 <div class="m-1">Describe assess: <div><Textarea class="border border-gray-500" @value={{@model.task.taskTemplate.describeAccess}} rows="10"
   cols="34"/></div></div>

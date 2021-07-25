@@ -317,5 +317,4 @@ export default class CounterComponent extends Component {
   editMethod() {
     this.edit = !this.edit;
   }
-   
 }
