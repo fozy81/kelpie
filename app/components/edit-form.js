@@ -5,20 +5,6 @@ import { inject as service } from '@ember/service';
 
 export default class EditFormComponent extends Component {
   @service store;
-  @action
-  saveForm() {
-    event.preventDefault();
-    console.log(this.args.forms);
-    let formTemplateId = this.args.forms.formTemplate.id;
-    this.store
-      .findRecord('form-template', formTemplateId)
-      .then(function (formTemplate) {
-        formTemplate.save();
-      });
-
-    // stop showing edit menu
-    this.args.edit();
-  }
 
   @tracked selectedOptions = [];
   @action
@@ -61,12 +47,19 @@ export default class EditFormComponent extends Component {
 
   @service router;
   @action
-  saveReplaceForm(event) {
-    console.log('saveReplaceForm: ');
+  saveForm() {
+    // event.preventDefault();
+    // console.log(this.args.forms);
+    // let formTemplateId = this.args.forms.formTemplate.id;
+    // this.store
+    //   .findRecord('form-template', formTemplateId)
+    //   .then(function (formTemplate) {
+    //     formTemplate.save();
+    //   });
+
+    console.log('saveForm');
     // event.preventDefault()
     let store = this.store;
-    let args = this.args;
-    let router = this.router;
     let selectedOptions = this.selectedOptions;
     //save form template
     let formTemplateId = this.args.forms.formTemplate.get('id');
@@ -91,94 +84,175 @@ export default class EditFormComponent extends Component {
           let questionTemplates = formTemplates.questionTemplates;
           questionTemplates.map(function (question, index) {
             store
-              .findRecord('question-template', question.id)
+              .findRecord('question-template', question.get('id'))
               .then(function (questionTemplate) {
                 // console.log('selectedOptions: ' + selectedOptions[index].value )
-                console.log('question map'); 
-                  selectedOptions.map(function (selected) {
-                    console.log('selected id: ' + selected.id);
-                    console.log('questionTemplate id: ' + questionTemplate.id);
-                    if (
-                      selected.id == questionTemplate.id &&
-                      selected.name == 'type'
-                    ) {
-                      questionTemplate.type = selected.value;
-                    }
-                    if (
-                      selected.id == questionTemplate.id &&
-                      selected.name == 'units'
-                    ) {
-                      console.log('units: ' + selected.value);
-                      questionTemplate.units = selected.value;
-                    }
-                  });                
+                console.log('question map');
+                selectedOptions.map(function (selected) {
+                  console.log('selected id: ' + selected.id);
+                  console.log('questionTemplate id: ' + questionTemplate.id);
+                  if (
+                    selected.id == questionTemplate.id &&
+                    selected.name == 'type'
+                  ) {
+                    questionTemplate.type = selected.value;
+                  }
+                  if (
+                    selected.id == questionTemplate.id &&
+                    selected.name == 'units'
+                  ) {
+                    console.log('units: ' + selected.value);
+                    questionTemplate.units = selected.value;
+                  }
+                });
                 questionTemplate.response = '';
                 questionTemplate.save();
               });
           });
         });
-      })
-      .then(function () {
-        let formId = args.forms.id;
-
-        let form = store.peekRecord('form', formId);
-        form.destroyRecord();
-        // add new form
-        const taskId = router.currentRoute.params.task_id;
-        console.log(taskId);
-        let myTask = store.peekRecord('task', taskId);
-        let formTemplate = store.peekRecord('form-template', formTemplateId);
-        let formRecord = store.createRecord('form', {
-          title: formTemplate.title,
-          description: formTemplate.description,
-          edit: false,
-          multiEntry: formTemplate.multiEntry,
-          createdDate: new Date(),
-          createdDateValue: new Date().valueOf(),
-          templateId: myTask.id,
-          formTemplateId: formTemplate.id,
-          formTemplate: formTemplate,
-          task: myTask,
-          taskTemplateId: formTemplate.taskTemplateId,
-          taskTemplate: formTemplate.taskTemplate,
-          display: false,
-        });
-        formRecord.save().then(function (form) {
-          console.log(form.templateId);
-          let questionTemplates = formTemplate.questionTemplates;
-          let myForm = store.peekRecord('form', form.id);
-          questionTemplates.map(function (questionTemplate) {
-            console.log('question: ' + questionTemplate.question);
-            console.log('multi-entry? : ' + myForm.multiEntry);
-            let response = '';
-            if (questionTemplate.default) {
-              response = questionTemplate.default;
-            }
-            let question = store.createRecord('question', {
-              question: questionTemplate.question,
-              questionTemplate: questionTemplate,
-              questionTemplateId: questionTemplate.id,
-              response: response,
-              multiEntry: myForm.multiEntry,
-              type: questionTemplate.type,
-              units: questionTemplate.units,
-              pos: questionTemplate.pos,
-              required: questionTemplate.required,
-              min: questionTemplate.min,
-              max: questionTemplate.max,
-              step: questionTemplate.step,
-              default: questionTemplate.default,
-              form: myForm,
-            });
-            question.save();
-          });
-        });
       });
+  }
+
+  @action
+  deleteForm() {
+    console.log('delete form');
+    const id = this.args.forms.id;
+    let form = this.store.peekRecord('form', id, {
+      include: 'form.questions',
+    });
+
+    form.questions.map(function (question) {
+      question.destroyRecord();
+    });
+    form.destroyRecord();
+  }
+
+  @action
+  saveFormTemplateDeleteForm() {
+    this.saveForm();
+    this.deleteForm();
+  }
+
+  @action
+  saveReplaceForm(event) {
+    console.log('saveReplaceForm: ');
+    // event.preventDefault()
+    let router = this.router;
+    let store = this.store;
+    // let selectedOptions = this.selectedOptions;
+    let args = this.args;
+    this.saveForm();
+    //save form template
+    // let formTemplateId = this.args.forms.formTemplate.get('id');
+    // console.log('formTempalteID really ' + formTemplateId);
+    // store
+    //   .findRecord('form-template', formTemplateId, {
+    //     include: 'questionTemplates',
+    //   })
+    //   .then(function (formTemplate) {
+    //     // convert checkbox string to boolean
+    //     if (
+    //       (formTemplate.multiEntry === 'true') |
+    //       (formTemplate.multiEntry === true)
+    //     ) {
+    //       formTemplate.multiEntry = true;
+    //     } else {
+    //       formTemplate.multiEntry = false;
+    //     }
+    //     console.log('multientry check: ' + formTemplate.multiEntry);
+    //     formTemplate.save().then(function (formTemplates) {
+    //       // For question type 'dropdown' select options:
+    //       let questionTemplates = formTemplates.questionTemplates;
+    //       questionTemplates.map(function (question, index) {
+    //         store
+    //           .findRecord('question-template', question.id)
+    //           .then(function (questionTemplate) {
+    //             // console.log('selectedOptions: ' + selectedOptions[index].value )
+    //             console.log('question map');
+    //             selectedOptions.map(function (selected) {
+    //               console.log('selected id: ' + selected.id);
+    //               console.log('questionTemplate id: ' + questionTemplate.id);
+    //               if (
+    //                 selected.id == questionTemplate.id &&
+    //                 selected.name == 'type'
+    //               ) {
+    //                 questionTemplate.type = selected.value;
+    //               }
+    //               if (
+    //                 selected.id == questionTemplate.id &&
+    //                 selected.name == 'units'
+    //               ) {
+    //                 console.log('units: ' + selected.value);
+    //                 questionTemplate.units = selected.value;
+    //               }
+    //             });
+    //             questionTemplate.response = '';
+    //             questionTemplate.save();
+    //           });
+    //       });
+    //     });
+    //   })
+    //.then(function () {
+    let formId = args.forms.get('id');
+    let formTemplateId = this.args.forms.formTemplate.get('id');
+    let form = store.peekRecord('form', formId);
+    form.destroyRecord();
+    // add new form
+    const taskId = router.currentRoute.params.task_id;
+    console.log(taskId);
+    let myTask = store.peekRecord('task', taskId);
+    let formTemplate = store.peekRecord('form-template', formTemplateId);
+    let formRecord = store.createRecord('form', {
+      title: formTemplate.title,
+      description: formTemplate.description,
+      edit: false,
+      multiEntry: formTemplate.multiEntry,
+      createdDate: new Date(),
+      createdDateValue: new Date().valueOf(),
+      templateId: myTask.id,
+      formTemplateId: formTemplate.id,
+      formTemplate: formTemplate,
+      task: myTask,
+      taskTemplateId: formTemplate.taskTemplateId,
+      taskTemplate: formTemplate.taskTemplate,
+      display: false,
+    });
+    formRecord.save().then(function (form) {
+      console.log(form.templateId);
+      let questionTemplates = formTemplate.questionTemplates;
+      let myForm = store.peekRecord('form', form.id);
+      questionTemplates.map(function (questionTemplate) {
+        console.log('question: ' + questionTemplate.question);
+        console.log('multi-entry? : ' + myForm.multiEntry);
+        let response = '';
+        if (questionTemplate.default) {
+          response = questionTemplate.default;
+        }
+        let question = store.createRecord('question', {
+          question: questionTemplate.question,
+          questionTemplate: questionTemplate,
+          questionTemplateId: questionTemplate.id,
+          response: response,
+          multiEntry: myForm.multiEntry,
+          type: questionTemplate.type,
+          units: questionTemplate.units,
+          pos: questionTemplate.pos,
+          required: questionTemplate.required,
+          min: questionTemplate.min,
+          max: questionTemplate.max,
+          step: questionTemplate.step,
+          default: questionTemplate.default,
+          form: myForm,
+        });
+        question.save();
+      });
+    });
+    //   });
 
     // remove existing formlet questionTemplates = formTemplate.questionTemplates
 
     // stop showing edit menu
-    //this.args.edit()
+    this.args.edit();
   }
 
   @tracked showthis = false;
