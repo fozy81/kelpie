@@ -15,7 +15,7 @@
    />
   <button class="p-2 font-bold" {{on "click" this.showCard}} type="button"> X
   </button>
-  {{#if (is-empty @method)}}
+  {{#if (and (eq @modelName "form") (is-empty @method))}}
   Add:
   <label for={{@question.question}}>{{@question.question}}</label>
   <select id="test" {{on "change" this.updateModel}}>
