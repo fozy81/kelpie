@@ -6,6 +6,11 @@ import { inject as service } from '@ember/service';
 export default class EditFormComponent extends Component {
   @service store;
 
+  @action
+  stopEditing() {
+    this.args.edit();
+  }
+
   @tracked selectedOptions = [];
   @action
   formChange(event) {
@@ -125,6 +130,15 @@ export default class EditFormComponent extends Component {
       question.destroyRecord();
     });
     form.destroyRecord();
+  }
+
+  @action
+  deleteFormAndTemplate() {
+    let store = this.store;
+    let formTemplateId = this.args.forms.formTemplate.get('id');
+    let formTemplate = store.peekRecord('form-template', formTemplateId);
+    formTemplate.destroyRecord();
+    this.deleteForm();
   }
 
   @action

@@ -38,7 +38,9 @@ Description <span class="ml-2">
 /></span>
 </div>
 
-<CreateCard @modelName="container" @label="Add Default Container" @method={{@method.id}}/>
+<CreateCard @modelName="container" @label="Add Default Container" @formTemplateId={{@forms.formTemplate.id}} />
+
+Container: {{@forms.formTemplate.containerId}}
 
 <div class="font-bold p-2">  
 <label for="multi">Mutli-entry form</label> <span class="ml-2"> 
@@ -62,18 +64,29 @@ name="multiEntry"
 Add Question
 </button>
 
+{{#if (eq @forms.newForm true)}}
 <button class="border-gray-400 border-2 p-2" {{on "click" this.saveFormTemplateDeleteForm}} type="button">
 Save Form
 </button>
+{{else}}
+<button class="border-gray-400 border-2 p-2" {{on "click" this.stopEditing}} type="button">
+Save Form
+</button>
+{{/if}}
 
 <button class="border-gray-400 border-2 p-2" {{on "click" this.saveReplaceForm}} type="button">
 Save & Replace Form
 </button>
 
-<button {{on "click" @edit}} class="border-gray-400 border-2 p-2" type="button">
+{{#if (eq @forms.newForm true)}}
+<button class="border-gray-400 border-2 p-2" {{on "click" this.deleteFormAndTemplate}} type="button">
 Cancel
 </button>
-
+{{else}}
+<button class="border-gray-400 border-2 p-2" {{on "click" this.stopEditing}} type="button">
+Cancel
+</button>
+{{/if}}
 </div>
 <p></p>
 </div>

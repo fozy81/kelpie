@@ -131,6 +131,28 @@ export default class CreateCardComponent extends Component {
           });
       }
 
+      if (model == 'container') {
+        console.log(
+          'create new container record for form template Id: ' +
+            this.args.formTemplateId
+        );
+        let formTemplate = this.store.peekRecord(
+          'formTemplate',
+          this.args.formTemplateId
+        );
+        this.store
+          .createRecord(model, {
+            title: this.newName,
+            description: '',
+          })
+          .save()
+          .then(function (container) {
+            console.log('container details: ' + container.id);
+            formTemplate.containerId = container.id;
+            formTemplate.save();
+          });
+      }
+
       if (model == 'task') {
         if (this.model === 'form-template') {
           const id = router.currentRoute.params.project_id;
@@ -202,6 +224,7 @@ export default class CreateCardComponent extends Component {
             description: '',
             task: myTask,
             edit: true,
+            newForm: true,
             multiEntry: false,
             createdDate: new Date(),
             createdDateValue: new Date().valueOf(),
@@ -242,6 +265,7 @@ export default class CreateCardComponent extends Component {
             description: '',
             task: myTask,
             edit: true,
+            newForm: true,
             multiEntry: false,
             dateCreated: new Date(),
             archive: false,
