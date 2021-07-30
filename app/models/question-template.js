@@ -12,7 +12,7 @@ export default class QuestionTemplateModel extends Model {
   @attr('number') step;
   @attr default;
   @attr options;
-  @attr required;
+  @attr('boolean', { defaultValue: false }) required;
   @attr('boolean') archive;
   @attr('date') createdDate;
   @attr('number') createdDateValue;

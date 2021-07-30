@@ -23,7 +23,9 @@ export default class CardComponent extends Component {
           if (
             (question.response == '') &
             (question.archive === false) &
-            (question.required === false)
+            ((question.required === undefined &&
+              typeof question.required == 'undefined') ||
+              question.required === true)
           ) {
             incompleteQuestion.push(question);
           }

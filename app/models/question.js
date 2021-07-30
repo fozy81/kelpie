@@ -6,7 +6,7 @@ export default class QuestionModel extends Model {
   @attr response;
   @attr multiEntry;
   @attr type;
-  @attr required;
+  @attr('boolean') required;
   @attr units;
   @attr('boolean') archive;
   @attr('number') pos;
