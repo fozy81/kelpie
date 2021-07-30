@@ -21,11 +21,13 @@ export default class CardComponent extends Component {
             completedQuestion.push(question);
           }
           if (
-            (question.response == '') &
-            (question.archive === false) &
-            ((question.required === undefined &&
+            (question.response == '' &&
+              question.archive === false &&
+              question.required === undefined &&
               typeof question.required == 'undefined') ||
-              question.required === true)
+            (question.response == '' &&
+              question.archive === false &&
+              question.required === false)
           ) {
             incompleteQuestion.push(question);
           }

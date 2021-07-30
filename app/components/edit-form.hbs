@@ -38,9 +38,15 @@ Description <span class="ml-2">
 /></span>
 </div>
 
-<CreateCard @modelName="container" @label="Add Default Container" @formTemplateId={{@forms.formTemplate.id}} />
+{{#if @forms.formTemplate.container.title}}
+<div class="flex-wrap">Default Container: <br>  
+  <div class="border-2 flex-none  border-teal-400 rounded-full m-2 px-2 py-1 shadow-sm" >{{@forms.formTemplate.container.title}} 
+    <button type="submit" class="font-bold" {{on "click" (fn this.removeContainer @forms.formTemplate.id )}}> X</button></div> 
+</div>
 
-Container: {{@forms.formTemplate.containerId}}
+{{else}}
+<CreateCard @modelName="container" @label="Add Default Container" @formTemplateId={{@forms.formTemplate.id}} />
+{{/if}}
 
 <div class="font-bold p-2">  
 <label for="multi">Mutli-entry form</label> <span class="ml-2"> 

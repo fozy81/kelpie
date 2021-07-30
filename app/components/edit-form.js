@@ -11,6 +11,17 @@ export default class EditFormComponent extends Component {
     this.args.edit();
   }
 
+  @action
+  removeContainer(id) {
+    console.log('remove method');
+    let formTemplate = this.store.peekRecord('formTemplate', id, {
+      include: 'container',
+    });
+
+    formTemplate.container = null
+    formTemplate.save();
+  }
+
   @tracked selectedOptions = [];
   @action
   formChange(event) {
