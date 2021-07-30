@@ -89,7 +89,7 @@ export default class EditFormComponent extends Component {
           let questionTemplates = formTemplates.questionTemplates;
           questionTemplates.map(function (question, index) {
             store
-              .findRecord('question-template', question.get('id'))
+              .findRecord('question-template', question.id)
               .then(function (questionTemplate) {
                 // console.log('selectedOptions: ' + selectedOptions[index].value )
                 console.log('question map');
@@ -145,6 +145,12 @@ export default class EditFormComponent extends Component {
   saveFormTemplateDeleteForm() {
     this.saveForm();
     this.deleteForm();
+  }
+
+  @action
+  saveFormStopEditing() {
+    this.saveForm();
+    this.args.edit();
   }
 
   @action
@@ -207,7 +213,7 @@ export default class EditFormComponent extends Component {
     //     });
     //   })
     //.then(function () {
-    let formId = args.forms.get('id');
+    let formId = args.forms.id;
     let formTemplateId = this.args.forms.formTemplate.get('id');
     let form = store.peekRecord('form', formId);
     form.destroyRecord();
@@ -215,52 +221,57 @@ export default class EditFormComponent extends Component {
     const taskId = router.currentRoute.params.task_id;
     console.log(taskId);
     let myTask = store.peekRecord('task', taskId);
-    let formTemplate = store.peekRecord('form-template', formTemplateId);
-    let formRecord = store.createRecord('form', {
-      title: formTemplate.title,
-      description: formTemplate.description,
-      edit: false,
-      multiEntry: formTemplate.multiEntry,
-      createdDate: new Date(),
-      createdDateValue: new Date().valueOf(),
-      templateId: myTask.id,
-      formTemplateId: formTemplate.id,
-      formTemplate: formTemplate,
-      task: myTask,
-      taskTemplateId: formTemplate.taskTemplateId,
-      taskTemplate: formTemplate.taskTemplate,
-      display: false,
-    });
-    formRecord.save().then(function (form) {
-      console.log(form.templateId);
-      let questionTemplates = formTemplate.questionTemplates;
-      let myForm = store.peekRecord('form', form.id);
-      questionTemplates.map(function (questionTemplate) {
-        console.log('question: ' + questionTemplate.question);
-        console.log('multi-entry? : ' + myForm.multiEntry);
-        let response = '';
-        if (questionTemplate.default) {
-          response = questionTemplate.default;
-        }
-        let question = store.createRecord('question', {
-          question: questionTemplate.question,
-          questionTemplate: questionTemplate,
-          questionTemplateId: questionTemplate.id,
-          response: response,
-          multiEntry: myForm.multiEntry,
-          type: questionTemplate.type,
-          units: questionTemplate.units,
-          pos: questionTemplate.pos,
-          required: questionTemplate.required,
-          min: questionTemplate.min,
-          max: questionTemplate.max,
-          step: questionTemplate.step,
-          default: questionTemplate.default,
-          form: myForm,
+    store
+      .findRecord('form-template', formTemplateId)
+      .then(function (formTemplate) {
+        let formRecord = store.createRecord('form', {
+          title: formTemplate.title,
+          description: formTemplate.description,
+          edit: false,
+          multiEntry: formTemplate.multiEntry,
+          createdDate: new Date(),
+          createdDateValue: new Date().valueOf(),
+          templateId: myTask.id,
+          formTemplateId: formTemplate.id,
+          formTemplate: formTemplate,
+          task: myTask,
+          taskTemplateId: formTemplate.taskTemplateId,
+          taskTemplate: formTemplate.taskTemplate,
+          display: false,
         });
-        question.save();
+        formRecord.save().then(function (form) {
+          console.log(form.templateId);
+          let questionTemplates = formTemplate.get('questionTemplates');
+          let myForm = form; //store.peekRecord('form', form.id);
+          questionTemplates.map(function (questionTemplate) {
+            console.log('question: ' + questionTemplate.question);
+            console.log('multi-entry? : ' + myForm.multiEntry);
+            let response = '';
+            if (questionTemplate.default) {
+              response = questionTemplate.default;
+            }
+            let question = store.createRecord('question', {
+              question: questionTemplate.question,
+              questionTemplate: questionTemplate,
+              questionTemplateId: questionTemplate.id,
+              response: response,
+              multiEntry: myForm.multiEntry,
+              type: questionTemplate.type,
+              units: questionTemplate.units,
+              pos: questionTemplate.pos,
+              required: questionTemplate.required,
+              min: questionTemplate.min,
+              max: questionTemplate.max,
+              step: questionTemplate.step,
+              default: questionTemplate.default,
+              form: myForm,
+            });
+            question.save();
+          });
+          myForm.save();
+        });
       });
-    });
+
     //   });
 
     // remove existing formlet questionTemplates = formTemplate.questionTemplates
