@@ -16,11 +16,15 @@ export default class CardComponent extends Component {
     let incompleteQuestion = [];
     let stats = function (forms) {
       forms.map(function (form) {
-        form.questions.map(function (question) {          
+        form.questions.map(function (question) {
           if ((question.response != '') & (question.archive === false)) {
             completedQuestion.push(question);
           }
-          if ((question.response == '') & (question.archive === false) & (question.required === false)) {
+          if (
+            (question.response == '') &
+            (question.archive === false) &
+            (question.required === false)
+          ) {
             incompleteQuestion.push(question);
           }
         });
@@ -38,7 +42,9 @@ export default class CardComponent extends Component {
       if (isNaN(parseInt(percentage))) {
         text = '';
       }
-      console.log(text);
+      console.log('text: ' + text);
+      console.log('completed: ' + completed);
+      console.log('incomplete: ' + incomplete);
       let stat = {
         total: total,
         percentage: percentage,
