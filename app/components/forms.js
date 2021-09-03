@@ -19,9 +19,29 @@ export default class FormsComponent extends Component {
     });
 
     let found = selection.filter((el) => arr.includes(el.id));
-    console.log(found)
     found = found.sortBy('createdDateValue');
-    console.log(found)
+    return found;
+  }
+
+  get uniqueContainer() {
+    let selection = this.args.forms;
+    var arr = [];
+    selection = selection.sortBy('archive');
+    selection.forEach(function (item) {
+      var i = arr.findIndex((x) => x.container.id == item.container.id);
+      if (i <= -1) {
+        arr.push({ id: item.id, ContainerId: item.container.id });
+      }
+    });
+
+    arr = arr.map(function (item) {
+      return item.id;
+    });
+
+    let found = selection.filter((el) => arr.includes(el.id));
+    found = found.sortBy('createdDateValue');
+    console.log('found');
+    console.log(found);
     return found;
   }
 

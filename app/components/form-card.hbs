@@ -22,14 +22,14 @@
                   <button type="button" class="w-full text-left" {{on "click" (fn this.showQuestion @model.methodId)}}>
                         <div class="font-bold">{{@model.formTemplate.title}}
                               {{#let this.questionStats as |stat|}}
-                              {{#let this.formStats as |formStat|}}
+                              {{#let this.formStats as |formStat|}}                              
                               <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
                                     {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}} <span
                                           class="text-sm"> {{if @model.multiEntry formStat.total}}</span>
                               </span>
                               {{/let}}
-                              {{/let}}
-                        </div>
+                              {{/let}}                  
+                        </div>               
                   </button>
                   {{!-- Open form menu --}}
                   {{#if this.shows}}

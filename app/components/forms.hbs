@@ -1,9 +1,25 @@
 
 {{#let this.uniqueForms as |uniqueforms|}}
 {{#let this.dateOrderForms as |allforms|}}
-  {{#each uniqueforms as |form|}}   
+  {{#each uniqueforms as |form|}}     
+  {{#if (and (eq form.archive false) (is-empty form.container.title))}}
+  {{#if (eq form.taskTemplateId '')}}
+    <FormCard
+      @model={{form}}
+      @questions={{form.questions}}
+      @allforms={{allforms}}        
+    />
+    {{/if}}
+    {{/if}}
+  {{/each}}
+{{/let}}
+{{/let}}
 
-  {{#if (eq form.archive false)}}
+{{#let this.uniqueForms as |uniqueforms|}}
+{{#let this.dateOrderForms as |allforms|}}
+  {{#each uniqueforms as |form|}} 
+  {{#if (and (eq form.archive false) (gt form.container.title ''))}}
+  {{form.container.title}}: {{form.containerId}}
   {{#if (eq form.taskTemplateId '')}}
     <FormCard
       @model={{form}}

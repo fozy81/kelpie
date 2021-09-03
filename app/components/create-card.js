@@ -148,7 +148,7 @@ export default class CreateCardComponent extends Component {
           .save()
           .then(function (container) {
             console.log('container details: ' + container.id);
-            formTemplate.containerId = container.id;
+            // formTemplate.containerId = container.id;
             formTemplate.container = container;
             formTemplate.save();
           });

@@ -20,9 +20,9 @@ export default class FormModel extends Model {
   @attr('number') createdDateValue;
   @attr('date') modifiedDate;
   @attr('number') modifiedDateValue;
-  @attr containerId;
-  @attr containerTitle;
-  @attr containerDescription;
+  @attr('string', { defaultValue: '' }) containerId;
+  @attr('string', { defaultValue: '' }) containerMainId;
+  @attr('string', { defaultValue: '' }) containerLevelId;
   @belongsTo task;
   @belongsTo formTemplate;
   @belongsTo taskTemplate;

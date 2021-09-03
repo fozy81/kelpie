@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import shortlink from 'shortlink';
 
 export default class EditFormComponent extends Component {
   @service store;
@@ -235,6 +236,7 @@ export default class EditFormComponent extends Component {
     store
       .findRecord('form-template', formTemplateId)
       .then(function (formTemplate) {
+        let id = shortlink.generate(8);
         let formRecord = store.createRecord('form', {
           title: formTemplate.title,
           description: formTemplate.description,
@@ -245,10 +247,14 @@ export default class EditFormComponent extends Component {
           templateId: myTask.id,
           formTemplateId: formTemplate.id,
           formTemplate: formTemplate,
+          container: formTemplate.container,
           task: myTask,
           taskTemplateId: formTemplate.taskTemplateId,
           taskTemplate: formTemplate.taskTemplate,
           display: false,
+          containerId: id,
+          containerMainId: id,
+          containLevelId: id,
         });
         formRecord.save().then(function (form) {
           console.log(form.templateId);

@@ -16,7 +16,7 @@ export default class TasksRoute extends Route {
     return RSVP.hash({
       task: this.store.findRecord('task', params.task_id, {
         include:
-          'project,taskTemplate.forms,forms.formTemplate,forms.questions.questionTemplate,forms.formTemplate.container',
+          'project,taskTemplate.forms,forms.formTemplate,forms.questions.questionTemplate,forms.formTemplate.container,forms.container',
       }),
       //,
       //formTemplate: this.store.findAll('form-template', { include: 'questionTemplates' })
