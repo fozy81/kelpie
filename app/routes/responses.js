@@ -10,7 +10,7 @@ export default class ResponsesRoute extends Route {
   }
 
   model() {
-    return this.store.findAll('project', { include: 'tasks,forms.questions' });
+    return this.store.findAll('project', { include: 'tasks,containers.forms.questions' });
   }
 
   //     model() {

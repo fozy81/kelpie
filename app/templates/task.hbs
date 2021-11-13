@@ -69,6 +69,9 @@
 {{/if}}
 </div>
 
-<Forms @forms={{@model.task.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
+{{#each @model.task.containers as |container|}}
 
+<Forms @forms={{container.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
+
+{{/each}}
 {{outlet}}

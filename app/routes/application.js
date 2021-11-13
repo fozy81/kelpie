@@ -112,25 +112,38 @@ export default class ApplicationRoute extends Route {
                       taskTemplate: taskTemplate,
                       taskTemplateId: taskTemplate.id,
                     });
-                    task.save().then(addForm).catch(failure);
+                    task.save().then(addContainer).catch(failure);
 
-                    function addForm(task) {
-                      let form = store.createRecord('form', {
-                        title: 'Wildlife Survey',
-                        description: 'Record wildlife present',
+                    function addContainer(task) {
+                      let container = store.createRecord('container', {
+                        title: 'None',
+                        description: 'None',
                         task: task,
-                        templateId: task.id,
-                        taskTemplateId: '',
-                        formTemplateId: formTemplate.id,
-                        edit: false,
-                        multiEntry: true,
                         createdDate: new Date(),
                         createdDateValue: new Date().valueOf(),
-                        display: true,
                         archive: false,
-                        formTemplate: formTemplate,
                       });
-                      form.save().then(addQuestion).catch(failure);
+                      container.save().then(addForm).catch(failure);
+
+                      function addForm(container) {
+                        let form = store.createRecord('form', {
+                          title: 'Wildlife Survey',
+                          description: 'Record wildlife present',
+                          methodId: 1,
+                          container: container,
+                          templateId: container.id,
+                          taskTemplateId: '',
+                          formTemplateId: formTemplate.id,
+                          edit: false,
+                          multiEntry: true,
+                          createdDate: new Date(),
+                          createdDateValue: new Date().valueOf(),
+                          display: true,
+                          archive: false,
+                          formTemplate: formTemplate,
+                        });
+                        form.save().then(addQuestion).catch(failure);
+                      }
                     }
                   }
                 }
@@ -162,6 +175,7 @@ export default class ApplicationRoute extends Route {
                   questionTwo.save().catch(failure);
 
                   let method = store.createRecord('method', {
+                    id: 1,
                     title: 'Wildlife',
                     body: ` # My Demo Method 
                                 Record Wildlife...

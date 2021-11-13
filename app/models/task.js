@@ -14,8 +14,7 @@ export default class TaskModel extends Model {
   @attr('string', { defaultValue: '' }) taskId;
   @attr('string', { defaultValue: '' }) taskMainId;
   @attr('string', { defaultValue: '' }) taskLevelId;
-  @belongsTo container;
+  @hasMany containers;
   @belongsTo project;
-  @hasMany forms;
   @belongsTo taskTemplate;
 }
