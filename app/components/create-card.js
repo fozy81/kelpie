@@ -491,8 +491,12 @@ Plain text sentence.
     const store = this.store;
     const taskId = router.currentRoute.params.task_id;
     let myTask = store.peekRecord('task', taskId);
-    store.findRecord('form-template', id).then(function (formTemplate) {
+    store.findRecord('form-template', id).then(async function (formTemplate) {
       console.log('templateID: ' + formTemplate.questionTemplates);
+      console.log(
+        'If this form has a container create new task? ' +
+         (await formTemplate.container.title)
+      );
       let formRecord = store.createRecord('form', {
         title: formTemplate.title,
         description: formTemplate.description,

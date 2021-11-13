@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import { load } from 'kelpie/helpers/unique-forms';
-import { inject as service } from '@ember/service';
 import ENV from 'kelpie/config/environment';
 
 export default class TasksRoute extends Route {
@@ -18,6 +18,12 @@ export default class TasksRoute extends Route {
         include:
           'project,taskTemplate.forms,forms.formTemplate,forms.questions.questionTemplate,forms.formTemplate.container,forms.container',
       }),
+
+      // .query('project', {
+      //   filter: { task_id: { $gte: null }, mainTaskId: { $gte: null } },
+      //   limit: 20,
+      // })
+
       //,
       //formTemplate: this.store.findAll('form-template', { include: 'questionTemplates' })
       // formTemplate: this.store.findRecord('task', params.task_id, { include: 'forms' }).then(function (task) {
@@ -29,4 +35,23 @@ export default class TasksRoute extends Route {
       // })
     });
   }
+  // @service store;
+  // model(params) {
+  //   let id = params.task_id;
+  //   console.log(id);
+  //   let item = this.store
+  //     .query('task', {
+  //       filter: {
+  //         id: id,
+  //       },
+  //     })
+  //     .then(function (tasks) {
+  //       let templates = tasks.map(function (task) {
+  //         console.log(task.id);
+  //         return this.store.findRecord('task', task.id);
+  //       });
+  //       return templates;
+  //     });
+  //   return item;
+  // }
 }

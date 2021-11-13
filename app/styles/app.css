@@ -3,6 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+        height: 0;       
+    }
+}
+
+.page {
+page-break-after: always;
+}
 /* Markdown Styles */
 /* Global */
 .markdown {

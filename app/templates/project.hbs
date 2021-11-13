@@ -31,11 +31,13 @@ Tasks:
 {{task.taskTemplate.title}}
 {{/each}} --}}
 {{#each @model.tasks as |task|}}
-  {{#if (eq task.archive false)}}
+  {{#if (or (and (eq task.archive false) (eq task.taskMainId task.taskLevelId)))}}
 
 <Card @title={{task.title}}
        @route="task"
-       @id={{task.id}}        
+       @id={{task.id}}     
+       @mainId={{task.taskMainId}}
+       @levelId={{task.taskLevelId}}   
        @forms={{task.forms}}
        @colour="#edf2f7" 
        />   

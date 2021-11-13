@@ -1,12 +1,9 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
-export default class ContainerModel extends Model {
+export default class ContainerTemplateModel extends Model {
   @attr title;
   @attr description;
-  @attr containerId;
-  @attr('string', { defaultValue: 'container' }) type;
+  @attr('string', { defaultValue: 'container-template' }) type;
   @attr('boolean', { defaultValue: false }) archive;
   @attr('string') rev;
-  @hasMany formTemplates;
-  @hasMany forms;
 }

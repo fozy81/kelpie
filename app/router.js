@@ -19,4 +19,5 @@ Router.map(function () {
   this.route('responses');
   this.route('login');
   this.route('scan');
+  this.route('print');
 });

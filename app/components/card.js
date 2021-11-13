@@ -8,7 +8,7 @@ export default class CardComponent extends Component {
   get questionStats() {
     let forms = this.args.forms;
     if (typeof forms == 'undefined') {
-      return;
+      return null;
     }
     let completed = 0;
     let incomplete = 0;
