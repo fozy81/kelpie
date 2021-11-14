@@ -71,11 +71,11 @@
 
 {{#each @model.task.containers as |container|}}
 
-{{#if (eq container.title 'None')}}
+{{#if (eq container.title '')}}
 <Forms @forms={{container.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
 {{/if}}
-{{#if (eq container.title 'None')}}
-<Container @model={{container}}  @archive={{this.archive}} @showArchive={{this.showArchive}}/>
+{{#if container.title}}
+<Container @model={{container}} @containers={{@model.task.containers}} @level={{@model.task.id}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
 
 
 {{/if}}

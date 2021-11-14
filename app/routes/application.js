@@ -106,6 +106,7 @@ export default class ApplicationRoute extends Route {
 
                   function addTasks(taskTemplate) {
                     let task = store.createRecord('task', {
+                      id: "D567013B-7D43-0096-8539-46EA508D383E",
                       title: 'Woodlands site',
                       description: 'Woods',
                       project: project,
@@ -116,14 +117,40 @@ export default class ApplicationRoute extends Route {
 
                     function addContainer(task) {
                       let container = store.createRecord('container', {
-                        title: 'None',
-                        description: 'None',
+                        id: "C343A8B8-DFA7-067A-BD85-1C97FA4828C1",
+                        title: 'Box',
+                        description: 'Box',
+                        level: "D567013B-7D43-0096-8539-46EA508D383E",
                         task: task,
                         createdDate: new Date(),
                         createdDateValue: new Date().valueOf(),
                         archive: false,
                       });
                       container.save().then(addForm).catch(failure);
+
+                      
+                      let containerOne = store.createRecord('container', {
+                        title: 'Box',
+                        description: 'Box',
+                        level: "C343A8B8-DFA7-067A-BD85-1C97FA4828C1",
+                        task: task,
+                        createdDate: new Date(),
+                        createdDateValue: new Date().valueOf(),
+                        archive: false,
+                      });
+                      containerOne.save()
+
+                      let containerTwo = store.createRecord('container', {
+                        title: '',
+                        description: '',
+                        level: "D567013B-7D43-0096-8539-46EA508D383E",
+                        task: task,
+                        createdDate: new Date(),
+                        createdDateValue: new Date().valueOf(),
+                        archive: false,
+                      });
+                      containerTwo.save()
+                                        
 
                       function addForm(container) {
                         let form = store.createRecord('form', {
@@ -144,7 +171,9 @@ export default class ApplicationRoute extends Route {
                         });
                         form.save().then(addQuestion).catch(failure);
                       }
+                    
                     }
+                  
                   }
                 }
                 function addQuestion(form) {
