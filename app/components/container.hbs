@@ -1,0 +1,21 @@
+
+{{!-- closed container --}}
+{{#if this.closed}}
+<div class="wrap flex">
+    <div class="w-full h-auto m-2 p-2 shadow-md
+            border-2 rounded-md
+            border-blue-300 text-left">
+        <div class="wrap flex">
+              <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>
+                 {{@model.title}}
+                </button>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{!-- container open --}}
+{{#if (eq this.closed false)}}
+<Forms @forms={{@model.forms}} @archive={{ @archive}} @showArchive={{@showArchive}}/>
+
+{{/if}}
+{{yield}}
