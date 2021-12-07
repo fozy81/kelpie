@@ -16,7 +16,8 @@ export default class FormTemplateModel extends Model {
   @attr containerId;
   @attr containerTitle;
   @attr containerDescription;
+  @attr containerTemplateId;
   @hasMany questionTemplates;
   @hasMany forms;
-  @belongsTo container;
+  @belongsTo containerTemplate;
 }

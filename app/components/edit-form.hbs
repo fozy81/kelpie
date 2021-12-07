@@ -75,12 +75,12 @@ Add Question
 Save Form
 </button>
 {{else}}
-<button class="border-gray-400 border-2 p-2" {{on "click" this.saveFormStopEditing}} type="button">
+<button class="border-gray-400 border-2 p-2" {{on "click" (fn this.saveFormStopEditing @container)}} type="button">
 Save Form
 </button>
 {{/if}}
 
-<button class="border-gray-400 border-2 p-2" {{on "click" this.saveReplaceForm}} type="button">
+<button class="border-gray-400 border-2 p-2" {{on "click" (fn this.saveReplaceForm @container)}} type="button">
 Save & Replace Form
 </button>
 

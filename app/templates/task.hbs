@@ -1,5 +1,5 @@
 
-<div   class="m-1">
+<div class="m-1">
   <div class="flex wrap">
     <LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
       <div style="background-color:{{@model.task.project.colour}};"
@@ -70,9 +70,8 @@
 </div>
 
 {{#each @model.task.containers as |container|}}
-
 {{#if (eq container.title '')}}
-<Forms @forms={{container.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>
+<Forms @forms={{container.forms}} @archive={{this.archive}} @showArchive={{this.showArchive}}  @container={{container}}/>
 {{/if}}
 {{#if container.title}}
 <Container @model={{container}} @containers={{@model.task.containers}} @level={{@model.task.id}} @archive={{this.archive}} @showArchive={{this.showArchive}}/>

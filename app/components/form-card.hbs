@@ -9,33 +9,33 @@
 {{!-- {{#each @formTemplates as |formTemplate|}} --}}
 
 {{!-- {{#if (eq allform.id @model.templateId)}} --}}
-<EditForm @forms={{@model}} @edit={{this.editForm}} />
+<EditForm @forms={{@model}} @edit={{this.editForm}} @container={{@container}} />
 {{!-- {{/if}} --}}
 {{!-- {{/each}} --}}
 {{else}}
 {{!-- Closed form --}}
-<div class="wrap flex">
-      <div class="w-full h-auto m-2 p-2 shadow-md
+<div class="wrap flex m-1 my-2">
+      <div class="w-full h-auto p-2 shadow-md
             border-2 rounded-md
             border-teal-300 text-left">
             <div class="wrap flex">
-                  <button type="button" class="w-full text-left" {{on "click" (fn this.showQuestion @model.methodId)}}>
+                  <button type="button" class="w-full text-left" {{on "click" this.showQuestion}}>
                         <div class="font-bold">{{@model.formTemplate.title}}
                               {{#let this.questionStats as |stat|}}
-                              {{#let this.formStats as |formStat|}}                              
+                              {{#let this.formStats as |formStat|}}
                               <span class="text-sm  {{if stat.complete " text-lg text-teal-600" "text-orange-600" }}">
                                     {{if stat.complete "✓" stat.text}} {{if @model.multiEntry "≡"}} <span
                                           class="text-sm"> {{if @model.multiEntry formStat.total}}</span>
                               </span>
                               {{/let}}
-                              {{/let}}                  
-                        </div>               
+                              {{/let}}
+                        </div>
                   </button>
                   {{!-- Open form menu --}}
                   {{#if this.shows}}
                   <div class="w-8 text-right block">
                         <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}}
-                              @edit={{this.editForm}} @model={{@model}} />
+                              @edit={{this.editForm}} @add={{this.addContainer}} @model={{@model}} />
 
                         {{!--
                         <Menu @id={{@model.id}} @label="form" @model={{@model}} @title="..." @edit={{this.editForm}} />
@@ -66,12 +66,17 @@
                               formid={{@model.id}} update="false" type="button" {{on "click" this.addSelections}}>Submit
                         </button>
                         <button class="place-content-center m-2 p-1 border-1 border-gray-800 rounded-md bg-gray-400"
-                              formid={{@model.id}} update="false" type="button" {{on "click" (fn this.showQuestion @model.methodId)}}>Cancel
+                              formid={{@model.id}} update="false" type="button" {{on "click" (fn this.showQuestion
+                              @model.methodId)}}>Cancel
                         </button>
                         {{/if}}
                         {{/let}}
                   </div>
                   <p></p>
+                  {{!-- Add container --}}
+                  {{#if this.addingContainer}}
+                  Add container here: !!
+                  {{/if}}
             </div>
 
             {{!--
@@ -84,7 +89,7 @@
             {{#if form.display}}
             {{#if (not-eq form.archive true)}}
             <div class="wrap flex">
-                  <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md">
+                  <div class="w-full h-auto border border-teal-300 m-1 p-1 rounded-md ">
                         <div class="wrap flex">
                               <button class="w-full text-left block" type="button" {{on "click" (fn this.showMenu
                                     index)}}>
@@ -107,35 +112,37 @@
 
                               <div class="w-8 text-right block">
                                     <Menu @id={{form.id}} @label="form" @title="..." @archive={{this.archiveForm}}
-                                          @edit={{this.editForm}} @model="" />
+                                          @add={{this.addContainer}} @edit={{this.editForm}} @model="" />
                               </div>
 
                         </div>
                   </div>
-            </div>            
-            {{/if}}
-            {{/if}}
-            {{/if}}      
-            {{/if}}
-            {{/each}}           
-            <div class="flex">
-            {{#if @model.methodTitle}}
-            <div class="">
-                  <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click" (fn this.showMethod @model.methodId)}}>
-                        {{@model.methodTitle}}
-                  </button>
             </div>
             {{/if}}
-            <Tags @model={{@model}} />
-             </div>   
+            {{/if}}
+            {{/if}}
+            {{/if}}
+            {{/each}}
+            <div class="flex">
+                  {{#if @model.methodTitle}}
+                  <div class="">
+                        <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg"
+                              type="button" {{on "click" (fn this.showMethod @model.methodId)}}>
+                              {{@model.methodTitle}}
+                        </button>
+                  </div>
+                  {{/if}}
+                  <Tags @model={{@model}} />
+            </div>
             {{#if (and this.methodDisplay (eq this.edit false))}}
             <div class="text-right">
-            <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" {{on "click" (fn this.editMethod)}}>Edit Method</button>
+                  <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" {{on "click"
+                        (fn this.editMethod)}}>Edit Method</button>
             </div>
             <div class="markdown">{{format-markdown this.method.body}} </div>
             {{/if}}
             {{#if (and this.methodDisplay (eq this.edit true))}}
-            <EditMethod  @method={{this.method}} @editing={{this.edit}}/>
+            <EditMethod @method={{this.method}} @editing={{this.edit}} />
             {{/if}}
             {{/if}}
 

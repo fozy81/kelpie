@@ -1,7 +1,7 @@
 {{#if this.show}}
 <div {{on-click-outside this.removeMenuList}}> 
-<div class ="relative block right-0 float-right pr-32 m-2 text-left" >
-<div class="absolute bg-white p-2 rounded-lg border-gray-200 border-2 shadow-sm">
+<div class ="relative block right-0 float-right pr-32 m-1 text-left" >
+<div class="absolute bg-white p-1 rounded-lg border-gray-200 border-2 shadow-sm">
     <div class="flex wrap"> 
 <div class="flex-1 py-1">
     <button type="button" class="w-full" {{on "click" this.hideMenuList}}>Menu</button>
@@ -58,7 +58,9 @@
     <button type="button" {{on "click" this.removeForm}}>Remove Form</button>
      </div>
   {{/if}}
- <div class="block py-2">Add container...</div>
+ <div class="block py-2">
+         <button type="button" class="left-0 block text-left"  {{on "click" @add}}>Add container...</button>
+ </div>
 <div class="block py-2">Print...</div>
 
 {{/if}}
@@ -66,6 +68,6 @@
 </div>
 </div>
 {{else}}
-<Menu @label={{@label}} @edit={{@edit}} @model={{@model}}  @archive={{@archive}} @id={{@id}} class="flex-1"  @showArchive={{@showArchive}} @title="..."/>
+<Menu @label={{@label}} @edit={{@edit}} @model={{@model}} @add={{@add}}  @archive={{@archive}} @id={{@id}} class="flex-1"  @showArchive={{@showArchive}} @title="..."/>
 
 {{/if}}

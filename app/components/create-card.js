@@ -74,6 +74,12 @@ export default class CreateCardComponent extends Component {
         sort: [{ title: 'asc' }],
         limit: 10,
       });
+      //   if(typeof search.id !== "undefined") {
+      //     console.log(search.id)
+      //  search = this.store.findRecord('form-template', search.id, {
+      //    include: 'containerTemplate, questionTemplates'
+      //   })
+
       this.query = search;
     } else {
       this.query = [''];
@@ -149,7 +155,7 @@ export default class CreateCardComponent extends Component {
           .then(function (container) {
             console.log('container details: ' + container.id);
             // formTemplate.containerId = container.id;
-            formTemplate.container = container;
+            formTemplate.containerTemplate = container;
             formTemplate.save();
           });
       }
@@ -167,7 +173,7 @@ export default class CreateCardComponent extends Component {
 
           taskTemplate.save().then(addTask);
 
-          function addTask(formTemplate) {
+          function addTask() {
             let task = store.createRecord(model, {
               title: newName,
               project: myProject,
@@ -175,15 +181,33 @@ export default class CreateCardComponent extends Component {
               taskTemplate: taskTemplate,
             });
 
-            function transitionToTask(task) {
-              router.transitionTo('/task/' + task.id);
+            function containerSave(task) {
+              let containerRecord = store.createRecord('container', {
+                title: '',
+                description: '',
+                level: task.id,
+                createdDate: new Date(),
+                createdDateValue: new Date().valueOf(),
+                modifiedDate: new Date(),
+                modifiedDateValue: new Date().valueOf(),
+                task: task,
+              });
+              return containerRecord.save();
+            }
+
+            function transitionToTask(containerRecord) {
+              router.transitionTo('/task/' + containerRecord.level);
             }
 
             function failure(reason) {
               console.log(reason); // handle the error
             }
 
-            task.save().then(transitionToTask).catch(failure);
+            task
+              .save()
+              .then(containerSave)
+              .then(transitionToTask)
+              .catch(failure);
           }
         }
       }
@@ -244,23 +268,39 @@ export default class CreateCardComponent extends Component {
         const store = this.store;
         const newName = this.newName;
         const id = router.currentRoute.params.task_id;
+        let container = this.args.container;
         function failure(reason) {
           console.log(reason); // handle the error
         }
 
-        let myTask = store.peekRecord('task', id);
-        let formTemplate = store.createRecord('form-template', {
-          title: newName,
+        // Create container template here!
+
+        let containerTemplate = store.createRecord('container-template', {
+          title: '',
           description: '',
-          edit: true,
-          multiEntry: false,
-          taskTemplateId: '',
         });
-        formTemplate.save().then(addForm).catch(failure);
+        containerTemplate
+          .save()
+          .then(addFormTemplate)
+          .then(addForm)
+          .catch(failure);
+
+        function addFormTemplate(containerTemplate) {
+          let formTemplate = store.createRecord('form-template', {
+            title: newName,
+            description: '',
+            edit: true,
+            multiEntry: false,
+            taskTemplateId: '',
+            containerTemplateId: containerTemplate.id,
+          });
+          return formTemplate.save();
+        }
 
         function addForm(formTemplate) {
           // add form template to form record
-          console.log('creating new form');
+          let myTask = store.peekRecord('task', id);
+          console.log('creating new form - container: ' + container.id);
           let form = store.createRecord(model, {
             title: formTemplate.title,
             description: '',
@@ -274,6 +314,7 @@ export default class CreateCardComponent extends Component {
             templateId: myTask.id,
             formTemplate: formTemplate,
             taskTemplateId: formTemplate.taskTemplateId,
+            container: container,
           });
           form.save().catch((reason) => console.log('error detected'));
         }
@@ -319,6 +360,7 @@ Plain text sentence.
       const store = this.store;
       const taskId = router.currentRoute.params.task_id;
       let myTask = store.peekRecord('task', taskId);
+      list;
       console.log(myTask.taskTemplateId);
 
       store
@@ -489,68 +531,114 @@ Plain text sentence.
     console.log('model: ' + this.args.modelName);
     const router = this.router;
     const store = this.store;
+    let currentContainer = this.args.container;
+    console.log(
+      'container? ' +
+        currentContainer.id +
+        ' container name: ' +
+        currentContainer.title
+    );
     const taskId = router.currentRoute.params.task_id;
     let myTask = store.peekRecord('task', taskId);
-    store.findRecord('form-template', id).then(async function (formTemplate) {
-      console.log('templateID: ' + formTemplate.questionTemplates);
-      console.log(
-        'If this form has a container create new task? ' +
-         (await formTemplate.container.title)
-      );
-      let formRecord = store.createRecord('form', {
-        title: formTemplate.title,
-        description: formTemplate.description,
-        formTemplateId: formTemplate.id,
-        formTemplate: formTemplate,
-        edit: false,
-        multiEntry: formTemplate.multiEntry,
-        templateId: myTask.id,
-        createdDate: new Date(),
-        createdDateValue: new Date().valueOf(),
-        display: false,
-        archive: false,
-        taskTemplateId: formTemplate.taskTemplateId,
-        task: myTask,
-      });
-      formRecord.save().then(async function (form) {
-        console.log('form id:' + (await form.templateId));
-        store
-          .findRecord('form-template', id, { include: 'questionTemplates' })
-          .then(async function (formTemplate) {
-            console.log(
-              'template questions length:' +
-                (await formTemplate.get('questionTemplates').length) +
-                ' ' +
-                formTemplate.title
-            );
-            let questionTemplates = await formTemplate.questionTemplates;
-            questionTemplates.map(async function (questionTemplate) {
-              let question = store.createRecord('question', {
-                question: questionTemplate.get('question'),
-                response: questionTemplate.get('response'),
-                questionTemplate: questionTemplate,
-                questionTemplateId: questionTemplate.get('id'),
-                multiEntry: questionTemplate.get('multiEntry'),
-                type: questionTemplate.get('type'),
-                pos: questionTemplate.get('pos'),
-                required: questionTemplate.get('required'),
-                dateCreated: new Date(),
-                archive: false,
-                form: form,
-              });
-              question
-                .save()
-                .catch((reason) =>
-                  console.log('error in question save detected')
-                );
-            });
-          })
-          .catch((reason) =>
-            console.log('error in load form template detected')
-          );
-      });
-    });
 
+    store
+      .findRecord('form-template', id, {
+        include: 'containerTemplate,questionTemplates',
+      })
+      .then(async function (formTemplate) {
+        console.log('templateID: ' + formTemplate.questionTemplates);
+        console.log(
+          'If this form has a container create new container? ' +
+            formTemplate.containerTemplateId
+        );
+
+        console.log('check container: ' + formTemplate.containerTemplateId);
+
+        store
+          .findRecord('container-template', formTemplate.containerTemplateId)
+          .then(function (containerTemplate) {
+            let addContainer = async function () {
+              let container = currentContainer;
+              console.log(container.title);
+             
+              if (
+                currentContainer.title == '' &&
+                containerTemplate.get('title') !== ''
+              ) {
+                console.log('container title null');
+                container = store.createRecord('container', {
+                  title: containerTemplate.get('title'),
+                  description: containerTemplate.get('description'),
+                  containerId: shortlink.generate(8),
+                  task: myTask,
+                  level: currentContainer.level,
+                });
+                return container.save();
+              } else {
+                return container;
+              }
+            };
+            let addformRecord = function (container) {
+              let formRecord = store.createRecord('form', {
+                title: formTemplate.title,
+                description: formTemplate.description,
+                formTemplateId: formTemplate.id,
+                formTemplate: formTemplate,
+                edit: false,
+                multiEntry: formTemplate.multiEntry,
+                templateId: container.id,
+                createdDate: new Date(),
+                createdDateValue: new Date().valueOf(),
+                display: false,
+                archive: false,
+                taskTemplateId: formTemplate.taskTemplateId,
+                container: container,
+              });
+              return formRecord.save();
+            };
+            addContainer()
+              .then(addformRecord)
+              .then(async function (form) {
+                console.log('form id:' + (await form.get('templateId')));
+                store
+                  .findRecord('form-template', id, {
+                    include: 'questionTemplates',
+                  })
+                  .then(async function (formTemplate) {
+                    console.log(
+                      'template questions length:' +
+                        (await formTemplate.get('questionTemplates').length) +
+                        ' ' +
+                        formTemplate.get('title')
+                    );
+                    let questionTemplates = await formTemplate.questionTemplates;
+                    questionTemplates.map(async function (questionTemplate) {
+                      let question = store.createRecord('question', {
+                        question: questionTemplate.get('question'),
+                        response: questionTemplate.get('response'),
+                        questionTemplate: questionTemplate,
+                        questionTemplateId: questionTemplate.get('id'),
+                        multiEntry: questionTemplate.get('multiEntry'),
+                        type: questionTemplate.get('type'),
+                        pos: questionTemplate.get('pos'),
+                        required: questionTemplate.get('required'),
+                        dateCreated: new Date(),
+                        archive: false,
+                        form: form,
+                      });
+                      question
+                        .save()
+                        .catch((reason) =>
+                          console.log('error in question save detected')
+                        );
+                    });
+                  })
+                  .catch((reason) =>
+                    console.log('error in load form template detected')
+                  );
+              });
+          });
+      });
     this.show = !this.show;
   }
 }

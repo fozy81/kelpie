@@ -4,6 +4,7 @@ export default class ContainerModel extends Model {
   @attr title;
   @attr description;
   @attr level;
+  @attr containerId;
   @attr('date') createdDate;
   @attr('number') createdDateValue;
   @attr('string', { defaultValue: 'container' }) type;

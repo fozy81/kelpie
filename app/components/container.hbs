@@ -1,37 +1,46 @@
 {{!-- closed container --}}
 {{#if (eq @model.level @level)}}
-
-    <div class="w-full h-auto m-2 p-2 shadow-md
+<div class="my-2 pr-2">
+    <div class="w-full h-auto m-1 p-2 shadow-md
             border-2 rounded-md
             border-blue-300 text-left">
-    
-{{#if this.closed}}
-{{!-- container level matches level argument --}}
 
-    <div class="wrap flex">
+        {{#if this.closed}}
+        {{!-- container level matches level argument --}}
+
+        <div class="wrap flex">
             <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>
-                {{@model.title}}
+                {{@model.title}}: {{@model.containerId}}
             </button>
-</div>
-{{/if}}
+        </div>
+        {{/if}}
 
-{{!-- container not closed (...open!) --}}
-{{#if (eq this.closed false)}}
+        {{!-- container not closed (...open!) --}}
+        {{#if (eq this.closed false)}}
 
-<div class="wrap flex">
-    <div class="w-full h-auto
+        <div class="wrap flex">
+                     <div class="w-full h-auto
            text-left">
-        <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>close</button>
-            <Forms @forms={{@model.forms}} @archive={{ @archive}} @showArchive={{@showArchive}} />    
+            <div class="wrap flex">
+                <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>{{@model.title}}:
+                    {{@model.containerId}}</button>
+                       <div class="w-8 text-right block">
+                <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}} @edit={{this.editForm}}
+                    @add={{this.addContainer}} @model={{@model}} />
+            </div>
+            </div>
+                <Forms @forms={{@model.forms}} @archive={{ @archive}} @showArchive={{@showArchive}}
+                    @container={{@model}} />
+            </div>
+        </div>
+        {{!-- show sub container --}}
+        {{#each @containers as |container|}}
+        <Container @model={{container}} @containers={{@containers}} @level={{@model.id}} @archive={{@archive}}
+            @showArchive={{@showArchive}} />
+        {{/each}}
+        {{/if}}
+
     </div>
 </div>
-{{!-- show sub container --}}
- {{#each @containers as |container|}} 
- <Container @model={{container}} @containers={{@containers}}  @level={{@model.id}} @archive={{@archive}} @showArchive={{@showArchive}} /> 
-{{/each}}
-{{/if}}
-       
-    </div>
-
 {{/if}}
 {{yield}}

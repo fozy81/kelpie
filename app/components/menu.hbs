@@ -2,10 +2,10 @@
 
 
 {{#if this.show}}
-<Menu::List @id={{@id}} @label={{@label}} @edit={{@edit}} @model={{@model}} @archive={{@archive}} @showArchive={{@showArchive}}/>
+<Menu::List @id={{@id}} @label={{@label}} @edit={{@edit}} @add={{@add}} @model={{@model}} @archive={{@archive}} @showArchive={{@showArchive}}/>
 {{else}}
 <button  type="button"
-class="p-1 m-1 bg-gray-200 rounded-md
+class="pr-1 pl-1 bg-gray-200 rounded-md
  border-gray-400 border-gray-400 border-2
   shadow-sm" 
 {{on "click" this.showCard}}>

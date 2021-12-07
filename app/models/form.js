@@ -27,5 +27,5 @@ export default class FormModel extends Model {
   @belongsTo formTemplate;
   @belongsTo taskTemplate;
   @hasMany questions;
-  @attr('string') rev; 
+  @attr('string') rev;
 }

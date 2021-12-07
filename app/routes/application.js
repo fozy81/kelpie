@@ -59,13 +59,24 @@ export default class ApplicationRoute extends Route {
                 return;
               }
 
+           
+                let containerTemplate = store.createRecord('container-template', {
+                  title: 'Box',
+                  description: '',
+                });
+                containerTemplate.save().then(addformTemplate).catch(failure)
+
+                function addformTemplate(containerTemplate) {
               let formTemplate = store.createRecord('form-template', {
                 title: 'Wildlife Survey',
                 description: 'Record wildlife present',
                 archive: false,
                 multiEntry: true,
+                containerTemplateId: containerTemplate.id,
+                containerTemplate: containerTemplate,
               });
               formTemplate.save().then(addQuestionTemplate).catch(failure);
+
 
               function addQuestionTemplate(formTemplate) {
                 let questionTemplate = store.createRecord('question-template', {
@@ -95,6 +106,7 @@ export default class ApplicationRoute extends Route {
                 );
                 questionTemplateTwo.save().then(addTaskTemplate).catch(failure);
 
+              
                 function addTaskTemplate() {
                   let taskTemplate = store.createRecord('task-template', {
                     title: 'Woodlands site',
@@ -118,8 +130,9 @@ export default class ApplicationRoute extends Route {
                     function addContainer(task) {
                       let container = store.createRecord('container', {
                         id: "C343A8B8-DFA7-067A-BD85-1C97FA4828C1",
-                        title: 'Box',
+                        title: containerTemplate.title,
                         description: 'Box',
+                        containerId: shortlink.generate(8),
                         level: "D567013B-7D43-0096-8539-46EA508D383E",
                         task: task,
                         createdDate: new Date(),
@@ -130,8 +143,9 @@ export default class ApplicationRoute extends Route {
 
                       
                       let containerOne = store.createRecord('container', {
-                        title: 'Box',
+                        title: containerTemplate.title,
                         description: 'Box',
+                        containerId: shortlink.generate(8),
                         level: "C343A8B8-DFA7-067A-BD85-1C97FA4828C1",
                         task: task,
                         createdDate: new Date(),
@@ -143,6 +157,7 @@ export default class ApplicationRoute extends Route {
                       let containerTwo = store.createRecord('container', {
                         title: '',
                         description: '',
+                        containerId: shortlink.generate(8),
                         level: "D567013B-7D43-0096-8539-46EA508D383E",
                         task: task,
                         createdDate: new Date(),
@@ -172,9 +187,10 @@ export default class ApplicationRoute extends Route {
                         form.save().then(addQuestion).catch(failure);
                       }
                     
+                    
                     }
-                  
                   }
+                }
                 }
                 function addQuestion(form) {
                   let question = store.createRecord('question', {
