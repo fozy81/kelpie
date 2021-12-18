@@ -147,15 +147,15 @@ export default class CreateCardComponent extends Component {
           this.args.formTemplateId
         );
         this.store
-          .createRecord(model, {
+          .createRecord('container-template', {
             title: this.newName,
             description: '',
           })
           .save()
-          .then(function (container) {
-            console.log('container details: ' + container.id);
-            // formTemplate.containerId = container.id;
-            formTemplate.containerTemplate = container;
+          .then(function (containerTemplate) {
+            console.log('container Template details: ' + containerTemplate.id);
+            formTemplate.containerTemplateId = containerTemplate.id;
+            formTemplate.containerTemplate = containerTemplate;
             formTemplate.save();
           });
       }
@@ -292,6 +292,7 @@ export default class CreateCardComponent extends Component {
             edit: true,
             multiEntry: false,
             taskTemplateId: '',
+            containerTemplate: containerTemplate,
             containerTemplateId: containerTemplate.id,
           });
           return formTemplate.save();
@@ -522,7 +523,18 @@ Plain text sentence.
           project: myProject,
           taskTemplate: taskTemplate,
         });
-        taskRecord.save();
+        taskRecord.save().then(function (taskRecord) {
+          let container = store.createRecord('container', {
+            title: '',
+            description: '',
+            containerId: shortlink.generate(8),
+            task: taskRecord,
+            level: taskRecord.id,
+            createdDate: date,
+            createdDateValue: n,
+          });
+          container.save();
+        });
       });
       return;
     }
@@ -560,7 +572,7 @@ Plain text sentence.
             let addContainer = async function () {
               let container = currentContainer;
               console.log(container.title);
-             
+
               if (
                 currentContainer.title == '' &&
                 containerTemplate.get('title') !== ''

@@ -6,4 +6,5 @@ export default class ContainerTemplateModel extends Model {
   @attr('string', { defaultValue: 'container-template' }) type;
   @attr('boolean', { defaultValue: false }) archive;
   @attr('string') rev;
+  @hasMany formTemplates;
 }

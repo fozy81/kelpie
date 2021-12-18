@@ -36,8 +36,7 @@
   {{/if}}
   {{/each}}
   {{ else }}
-  {{#each this.query as |item|}} 
-  item
+  {{#each this.query as |item|}}  
   {{#if (or (eq item.archive false) (eq item.archive undefined))}}
   <div>   
     <button {{on "click" (fn this.addFormTemplate item.id)}} type="button">

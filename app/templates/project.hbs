@@ -31,14 +31,11 @@ Tasks:
 {{task.taskTemplate.title}}
 {{/each}} --}}
 {{#each @model.tasks as |task|}}
-  {{#if (or (and (eq task.archive false) (eq task.taskMainId task.taskLevelId)))}}
+  {{#if (eq task.archive false)}}
 
 <Card @title={{task.title}}
        @route="task"
-       @id={{task.id}}     
-       @mainId={{task.taskMainId}}
-       @levelId={{task.taskLevelId}}   
-       {{!-- @forms={{task.forms}} --}}
+       @id={{task}}      
        @colour="#edf2f7" 
        />   
    {{/if}}
@@ -51,7 +48,7 @@ Tasks:
 {{#each @model.tasks  as |task|}}
 {{#if (and (eq task.archive true) (gte task.modifiedDateValue this.date)) }}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{task}}/>
+<Card @model={{task}} @id={{task}}/>
 </div>
 {{/if}}
 {{/each}}
@@ -60,7 +57,7 @@ Tasks:
 {{#each @model.tasks  as |task|}}   
 {{#if task.archive}}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{task}}/>
+<Card @model={{task}} @id={{task}}/>
 </div>
 {{/if}}
 {{/each}}

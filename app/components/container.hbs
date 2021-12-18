@@ -10,7 +10,7 @@
 
         <div class="wrap flex">
             <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>
-                {{@model.title}}: {{@model.containerId}}
+                <span class="font-bold">{{@model.title}}</span>   <span class="font-thin">{{@model.containerId}}</span>
             </button>
         </div>
         {{/if}}
@@ -22,8 +22,9 @@
                      <div class="w-full h-auto
            text-left">
             <div class="wrap flex">
-                <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>{{@model.title}}:
-                    {{@model.containerId}}</button>
+                <button type="button" class="w-full text-left" {{on "click" this.openContainer}}>
+                    <span class="font-bold">{{@model.title}}</span>
+                    <span class="font-thin">{{@model.containerId}}</span></button>
                        <div class="w-8 text-right block">
                 <Menu @id={{@model.id}} @label="form" @title="..." @archive={{this.archiveForm}} @edit={{this.editForm}}
                     @add={{this.addContainer}} @model={{@model}} />

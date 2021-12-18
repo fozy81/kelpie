@@ -38,9 +38,9 @@ Description <span class="ml-2">
 /></span>
 </div>
 
-{{#if @forms.formTemplate.container.title}}
+{{#if @forms.formTemplate.containerTemplate.title}}
 <div class="flex-wrap">Default Container: <br>  
-  <div class="border-2 flex-none  border-teal-400 rounded-full m-2 px-2 py-1 shadow-sm" >{{@forms.formTemplate.container.title}} 
+  <div class="border-2 flex-none  border-teal-400 rounded-full m-2 px-2 py-1 shadow-sm" >{{@forms.formTemplate.containerTemplate.title}} 
     <button type="submit" class="font-bold" {{on "click" (fn this.removeContainer @forms.formTemplate.id )}}> X</button></div> 
 </div>
 

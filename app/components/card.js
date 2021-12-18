@@ -63,6 +63,7 @@ export default class CardComponent extends Component {
 
   @action
   restore(id) {
+    console.log('id: ' + id.id);
     if (id.type === 'form') {
       let form = this.store.peekRecord('form', id.id, {
         include: 'form.questions',
@@ -76,33 +77,37 @@ export default class CardComponent extends Component {
       form.save();
     } else if (id.type === 'task') {
       let task = this.store.peekRecord('task', id.id, {
-        include: 'forms.questions',
+        include: 'containers.forms.questions',
       });
 
-      task.forms.map(function (form) {
-        form.archive = false;
-        form.save();
-        form.questions.map(function (question) {
-          question.archive = false;
-          question.save();
+      task.containers.map(function (container) {
+        container.forms.map(function (form) {
+          form.archive = false;
+          form.save();
+          form.questions.map(function (question) {
+            question.archive = false;
+            question.save();
+          });
         });
       });
       task.archive = false;
       task.save();
     } else {
       let project = this.store.peekRecord('project', id.id, {
-        include: 'tasks.forms.questions',
+        include: 'tasks.containers.forms.questions',
       });
 
       project.tasks.map(function (task) {
         task.archive = false;
         task.save();
-        task.forms.map(function (form) {
-          form.archive = false;
-          form.save();
-          form.questions.map(function (question) {
-            question.archive = false;
-            question.save();
+        task.containers.map(function (container) {
+          container.forms.map(function (form) {
+            form.archive = false;
+            form.save();
+            form.questions.map(function (question) {
+              question.archive = false;
+              question.save();
+            });
           });
         });
       });
