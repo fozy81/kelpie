@@ -16,10 +16,11 @@ export default class EditFormComponent extends Component {
   removeContainer(id) {
     console.log('remove method');
     let formTemplate = this.store.peekRecord('formTemplate', id, {
-      include: 'container',
+      include: 'containerTemplate',
     });
-
-    formTemplate.container = null;
+    // create new containerTemplate with empty title?
+    formTemplate.containerTemplate = null;
+    formTemplate.containerTemplateId = null;
     formTemplate.save();
   }
 
