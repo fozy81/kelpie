@@ -3,6 +3,10 @@ import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 export default class ContainerModel extends Model {
   @attr title;
   @attr description;
+  @attr('string', { defaultValue: 'carluke-ecolab' }) destination;
+  @attr location;
+  @attr disposed;
+  @attr batch;
   @attr level;
   @attr containerId;
   @attr('date') createdDate;

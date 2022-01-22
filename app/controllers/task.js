@@ -24,6 +24,12 @@ export default class TaskController extends Controller {
     this.archive = !this.archive;
   }
 
+  @tracked print = false;
+  @action
+  showPrinting() {
+    this.print = !this.print;
+  }
+
   @tracked showDetails = false;
   @action
   showMore() {
@@ -63,5 +69,4 @@ export default class TaskController extends Controller {
     taskTemplate.save();
     this.showDetails = !this.showDetails;
   }
-
 }

@@ -76,6 +76,8 @@
                   {{!-- Add container --}}
                   {{#if this.addingContainer}}
                   Add container here: !!
+                  <CreateCard @modelName="container-template" @label="Add Container" @formTemplateId={{@model.formTemplate.id}} />
+                
                   {{/if}}
             </div>
 

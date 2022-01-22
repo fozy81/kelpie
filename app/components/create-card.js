@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import shortlink from 'shortlink';
 import { A } from '@ember/array';
+import { addItem } from 'kelpie/utils/add-item';
 
 export default class CreateCardComponent extends Component {
   @action
@@ -137,7 +138,7 @@ export default class CreateCardComponent extends Component {
           });
       }
 
-      if (model == 'container') {
+      if (model == 'container-template') {
         console.log(
           'create new container record for form template Id: ' +
             this.args.formTemplateId
@@ -147,7 +148,7 @@ export default class CreateCardComponent extends Component {
           this.args.formTemplateId
         );
         this.store
-          .createRecord('container-template', {
+          .createRecord(model, {
             title: this.newName,
             description: '',
           })
@@ -398,6 +399,7 @@ Plain text sentence.
                         questionTemplate: questionTemplate,
                         questionTemplateId: questionTemplate.id,
                         multiEntry: questionTemplate.multiEntry,
+                        units: questionTemplate.units,
                         type: questionTemplate.type,
                         pos: questionTemplate.pos,
                         required: questionTemplate.required,
@@ -488,6 +490,7 @@ Plain text sentence.
                           min: questionTemplate.min,
                           max: questionTemplate.max,
                           step: questionTemplate.step,
+                          units: questionTemplate.units,
                           default: questionTemplate.default,
                           form: form,
                         });
@@ -548,13 +551,42 @@ Plain text sentence.
     let myTask = store.peekRecord('task', taskId);
     if (this.args.label == 'Add Default Container') {
       console.log('containerTemplate: ' + id);
-      // add containerTemplate to formTemplate
-      // find formTemplate (already got formTemplateId)
-      // find containerTemplate (already got id)
-      // add containerTamplateId to formTemplate
-      // add containerTemplate to formTemplate
-      // save and return
+      console.log('formTemplateId: ' + this.args.formTemplateId);
+      let formTemplateId = this.args.formTemplateId;
+      // Two generic functions?
+      // addItem? Adds an item to an existing document (form, container, task??).
+      // e.g. pass a containerTemplate (item) object to a formTemplate?
+      // requires a editing component to always have access to these
+      // use async functions not promises??
+
+      // Change container the form is in (or change task or project?)     
+      // Pass in document (form or list of containers or tasks)
+      // Pass in item (containerTemplate or new taskTemplate or projectTemplate)
+      // Create new instance (container?) or update task, project?
+      // If container, update form to match mainLevelId etc of container etc?
+      // changeItem(document = form, item = container)
+      // changeItem(document = task, item = taskTemplate)
+      // or move container up a level until reaches top level (containerId = taskId?)
+      // changeItem(document = form, item = containerTemplate, context = currentContainer)
+
+      // Remove item - 
+      // removeItem(document = container)
+
+      let document = store.peekRecord('form-template', formTemplateId);
+      let item = store.peekRecord('container-template', id);
+      document = addItem(document, item);
+      document.save();
+      return;
     }
+
+    let currentContainer = this.args.container;
+    console.log(
+      'container? ' +
+        currentContainer.id +
+        ' container name: ' +
+        currentContainer.title
+    );
+
     store
       .findRecord('form-template', id, {
         include: 'containerTemplate,questionTemplates',
@@ -565,15 +597,8 @@ Plain text sentence.
           'If this form has a container create new container? ' +
             formTemplate.containerTemplateId
         );
-
         console.log('check container: ' + formTemplate.containerTemplateId);
-        let currentContainer = this.args.container;
-        console.log(
-          'container? ' +
-            currentContainer.id +
-            ' container name: ' +
-            currentContainer.title
-        );
+
         let containerTemplate = async function () {
           if (formTemplate.containerTemplateId == null) {
             let containerTemplate = currentContainer;
@@ -651,6 +676,7 @@ Plain text sentence.
                       multiEntry: questionTemplate.get('multiEntry'),
                       type: questionTemplate.get('type'),
                       pos: questionTemplate.get('pos'),
+                      units: questionTemplate.get('units'),
                       required: questionTemplate.get('required'),
                       dateCreated: new Date(),
                       archive: false,

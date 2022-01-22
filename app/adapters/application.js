@@ -104,6 +104,12 @@ export default class ApplicationAdapter extends Adapter {
       },
     });
 
+    local.createIndex({
+      index: {
+        fields: ['data.containerId'],
+      },
+    });
+
     //     local.sync(remote, {
     //     live: true,   // do a live, ongoing sync
     //     retry: true   // retry if the connection is lost
@@ -160,6 +166,18 @@ export default class ApplicationAdapter extends Adapter {
       remote.createIndex({
         index: {
           fields: ['data.dueDateValue'],
+        },
+      });
+
+      remote.createIndex({
+        index: {
+          fields: ['data.title'],
+        },
+      });
+
+      remote.createIndex({
+        index: {
+          fields: ['data.containerId'],
         },
       });
       // do one way, one-off sync from the server until completion

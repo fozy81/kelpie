@@ -10,6 +10,12 @@ export default class MenuListComponent extends Component {
     this.args.showArchive();
   }
 
+  @action
+  showPrint() {
+    console.log('show print');
+    this.args.showPrint();
+  }
+
   @tracked show = true;
   @action
   hideMenuList() {

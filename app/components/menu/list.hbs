@@ -26,7 +26,7 @@
 <div class="block py-2" {{on "click" this.removeProject}}>
     <button class="text-left" type="button">Remove Project</button></div>
 <div class="block py-2" {{on "click" this.showingArchive}}> <button type="button">Show Archived Tasks</button></div>
-<div class="block py-2">Print...</div>
+<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
 
 {{/if}}
 
@@ -40,7 +40,15 @@
 <div class="block py-2" {{on "click" this.showingArchive}}>
     <button type="button">Show Archived Forms</button>
    </div>
-<div class="block py-2">Print...</div>
+<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
+
+{{/if}}
+
+{{#if (eq @label "container")}}
+
+<div class="block py-2">Add Container</div>
+<div class="block py-2">Remove Container</div>
+<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
 
 {{/if}}
 
@@ -59,7 +67,7 @@
      </div>
   {{/if}}
  <div class="block py-2">
-         <button type="button" class="left-0 block text-left"  {{on "click" @add}}>Add container...</button>
+         <button type="button" class="left-0 block text-left"  {{on "click" @add}}>Add Container</button>
  </div>
 <div class="block py-2">Print...</div>
 
@@ -68,6 +76,6 @@
 </div>
 </div>
 {{else}}
-<Menu @label={{@label}} @edit={{@edit}} @model={{@model}} @add={{@add}}  @archive={{@archive}} @id={{@id}} class="flex-1"  @showArchive={{@showArchive}} @title="..."/>
+<Menu @label={{@label}} @edit={{@edit}} @model={{@model}} @add={{@add}}  @archive={{@archive}} @id={{@id}} class="flex-1"  @showPrint={{@showPrint}} @showArchive={{@showArchive}} @title="..."/>
 
 {{/if}}

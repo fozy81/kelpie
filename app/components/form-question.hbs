@@ -170,9 +170,10 @@
      {{#if (eq @question.type "checkbox")}}
      ✓ 
      {{else}}
-     {{@question.response}}  
+     {{@question.response}}
      {{/if}}
     </button>
+     {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}
     <p></p>    
     {{/if}}
    {{/if}} 

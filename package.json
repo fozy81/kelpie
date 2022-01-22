@@ -92,6 +92,7 @@
   },
   "dependencies": {
     "ember-cli-update": "^0.56.0",
+    "ember-jsqr": "^1.0.6",
     "marked": "^2.0.1",
     "pouchdb-adapter-memory": "^7.2.2",
     "qrcode": "^1.4.4",

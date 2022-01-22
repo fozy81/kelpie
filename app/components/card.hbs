@@ -1,4 +1,13 @@
 
+
+{{#if (eq @model "container")}}
+ <div style="background-color:{{safe @colour}};" class="card m-2 p-2
+              shadow-md border-gray-200 border rounded-lg">
+ <LinkTo @route={{@route}} @model={{@id.task.id}} {{on "click" (fn this.restore @id)}} >
+{{@id.title}}: {{@id.task.title}} 
+ </LinkTo>
+</div>
+{{else}}
 {{#if this.showCard}}
   <div style="background-color:{{safe @colour}};" class="card m-2 p-2
               shadow-md border-gray-200 border rounded-lg">
@@ -38,6 +47,6 @@
   </div>
  
 {{/if}}
-
+{{/if}}
 
 {{yield}}

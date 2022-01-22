@@ -2,12 +2,17 @@
 <div class="m-1">
   <div class="flex wrap">
     <LinkTo class="py-2 flex-1" @route="project" @model={{@model.task.project.id}}>
+
+
       <div style="background-color:{{@model.task.project.colour}};"
         class="border border-gray-200 w-11/12 p-2 rounded-lg text-gray-900"> ᐸ Back to {{@model.task.project.title}}
       </div>
     </LinkTo>
+
+   
     <div class="relative w-22 text-right block">
-      <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}} />
+      <Menu @label="task" @id={{@model.task.project.id}} class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}}
+       />
     </div>
   </div>
   <div class="flex wrap">
@@ -67,6 +72,7 @@
 {{else}}
 <button type="button" class="text-sm font-thin border border-gray-500 rounded-lg p-1 shadow-sm" {{on "click" this.showMore}}> Details...</button>
 {{/if}}
+
 </div>
 
 {{#each @model.task.containers as |container|}}
@@ -81,4 +87,5 @@
 
 
 {{/each}}
+
 {{outlet}}
