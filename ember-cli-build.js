@@ -11,10 +11,18 @@ module.exports = function (defaults) {
       },
     },
     'esw-cache-fallback': {
-      patterns: [
-        '/(.+)'
-      ],
-    }
+      patterns: ['/(.+)'],
+    },
+    svgJar: {
+      strategy: 'inline',
+      optimizer: {
+        plugins: [
+          { removeTitle: false },
+          { removeDesc: { removeAny: false } },
+          { removeViewBox: false },
+        ],
+      },
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

@@ -11,13 +11,23 @@
             🦄 Kelpie
          </LinkTo>
       </div>
-      <div class="text-right w-1/3 mr-1 font-normal text-base">
-         <a href="https://github.com/fozy81/kelpie#kelpie" target="_blank" class="text-indigo-800 font-bold m-2" rel="noopener noreferrer">
+      <div class="text-right w-1/3 mr-1 font-normal text-base">     
+         <span class="whitespace-no-wrap inline-flex flex-wrap">
+             <span class="push {{if this.cloudState.cloudPull "push-enabled"}} m-1" title="Pull data">
+              {{svg-jar "cloud-download" size=1}}
+          </span>          
+          <span class="push {{if this.cloudState.cloudPush "push-enabled"}} m-1" title="Push data">
+              {{svg-jar "cloud-upload" size=1}}
+          </span>         
+            <RefreshIndicator @spin={{this.isSpinning}} />
+         <a href="https://github.com/fozy81/kelpie#kelpie" target="_blank" class="text-indigo-800 font-bold mr-2 ml-2" rel="noopener noreferrer">
             ℹ 
          </a>
+      
          <LinkTo @route="login">
             👤  {{#if (eq this.session.isAuthenticated false)}} <span>Login</span> {{/if}}
          </LinkTo>
+      </span>
       </div>
    </nav>
 

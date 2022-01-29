@@ -60,6 +60,7 @@ export default class ApplicationAdapter extends Adapter {
   @service session;
   @service cloudState;
   @service refreshIndicator;
+  @service store;
 
   constructor() {
     super(...arguments);
@@ -155,7 +156,7 @@ export default class ApplicationAdapter extends Adapter {
       }
 
       var url = ENV.remote_couch;
-      var opts = { live: true, retry: true };
+      // var opts = { live: true, retry: true };
 
       remote.createIndex({
         index: {
@@ -180,14 +181,46 @@ export default class ApplicationAdapter extends Adapter {
           fields: ['data.containerId'],
         },
       });
-      // do one way, one-off sync from the server until completion
-      local.replicate.from(url).on('complete', function (info) {
-        // then two-way, continuous, retriable sync
-        local.sync(url, opts);
+
+      const replicationOptions = {
+        live: true,
+        retry: true,
+      };
+
+      local.replicate.from(url, replicationOptions).on('paused', (err) => {
+        this.cloudState.setPull(!err);
       });
+
+      local.replicate
+        .to(url, replicationOptions)
+        .on('denied', (err) => {
+          if (!err.id.startsWith('_design/')) {
+            //there was an error pushing, probably logged out outside of this app (couch/cloudant dashboard)
+            this.session.invalidate(); //this cancels the replication
+
+            throw { message: 'Replication failed. Check login?' }; //prevent doc from being marked replicated
+          }
+        })
+        .on('paused', (err) => {
+          this.cloudState.setPush(!err);
+        })
+        .on('error', () => {
+          this.session.invalidate(); //mark error by loggin out
+        });
     }
 
     this.db = local;
+
     return this;
+  }
+
+  unloadedDocumentChanged(obj) {
+    this.refreshIndicator.kickSpin();
+
+    let store = this.store;
+    let recordTypeName = this.getRecordTypeName(store.modelFor(obj.type));
+    this.db.rel.find(recordTypeName, obj.id).then(function (doc) {
+      store.pushPayload(recordTypeName, doc);
+    });
   }
 }

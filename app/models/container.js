@@ -3,7 +3,7 @@ import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 export default class ContainerModel extends Model {
   @attr title;
   @attr description;
-  @attr('string', { defaultValue: 'carluke-ecolab' }) destination;
+  @attr('string', { defaultValue: 'carluke-lab1-cabinet' }) destination;
   @attr location;
   @attr disposed;
   @attr batch;

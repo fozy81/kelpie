@@ -580,6 +580,7 @@ Plain text sentence.
     }
 
     let currentContainer = this.args.container;
+    console.log('cc' + currentContainer);
     console.log(
       'container? ' +
         currentContainer.id +
