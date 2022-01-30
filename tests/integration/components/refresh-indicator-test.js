@@ -3,24 +3,15 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | refresh-indicator', function(hooks) {
+module('Integration | Component | refresh-indicator', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
     await render(hbs`<RefreshIndicator />`);
 
     assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      <RefreshIndicator>
-        template block text
-      </RefreshIndicator>
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

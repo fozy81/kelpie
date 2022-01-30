@@ -156,7 +156,6 @@ export default class ApplicationAdapter extends Adapter {
       }
 
       var url = ENV.remote_couch;
-      // var opts = { live: true, retry: true };
 
       remote.createIndex({
         index: {

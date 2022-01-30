@@ -29,6 +29,20 @@ export default class LoginController extends Controller {
   }
 
   @action
+  async signup(event) {
+    event.preventDefault();
+    try {
+      await this.session.authenticate(
+        'authenticator:pouch',
+        this.identification,
+        this.password
+      );
+    } catch (error) {
+      this.error = error.reason || error;
+    }
+  }
+
+  @action
   async changePassword(event) {
     event.preventDefault();
     console.log('change password');

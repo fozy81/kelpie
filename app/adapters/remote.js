@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';
 
-
 PouchDB.plugin(auth);
 
 export default class RemoteAdapter extends ApplicationAdapter {

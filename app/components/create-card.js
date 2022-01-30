@@ -559,7 +559,7 @@ Plain text sentence.
       // requires a editing component to always have access to these
       // use async functions not promises??
 
-      // Change container the form is in (or change task or project?)     
+      // Change container the form is in (or change task or project?)
       // Pass in document (form or list of containers or tasks)
       // Pass in item (containerTemplate or new taskTemplate or projectTemplate)
       // Create new instance (container?) or update task, project?
@@ -569,7 +569,7 @@ Plain text sentence.
       // or move container up a level until reaches top level (containerId = taskId?)
       // changeItem(document = form, item = containerTemplate, context = currentContainer)
 
-      // Remove item - 
+      // Remove item -
       // removeItem(document = container)
 
       let document = store.peekRecord('form-template', formTemplateId);

@@ -13,7 +13,7 @@ export default class ScanController extends Controller {
     if (result !== this.lastQRread) {
       this.scan += result;
     }
-    this.lastQRread = result; 
+    this.lastQRread = result;
     this.onScan(result);
   }
 
