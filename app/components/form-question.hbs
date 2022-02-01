@@ -20,7 +20,7 @@
     {{else}}
       <p></p>
       {{@question.question}} <span class="ml-2"> 
-      <Input class="m-2 border-b border-gray-400" 
+      <Input class="m-2 border-b border-gray-400 mx-auto" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
       @formid={{true}}      
@@ -170,9 +170,10 @@
      {{#if (eq @question.type "checkbox")}}
      ✓ 
      {{else}}
-     {{@question.response}}  
+     {{@question.response}}
      {{/if}}
     </button>
+     {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}
     <p></p>    
     {{/if}}
    {{/if}} 

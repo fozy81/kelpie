@@ -29,7 +29,21 @@
   <label for="password">Password</label>
   <input class="password" type="password" id='password' placeholder="Enter Password" value={{this.password}}
     {{on "change" this.updatePassword}}>
-  <button type="submit" class="login m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Login</button>
+  <button type="submit" class="login m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Login</button>  
+  {{#if this.error}}
+  <p>{{this.error}}</p>
+  {{/if}}
+</form>
+
+{{!-- app/templates/login.hbs --}}
+<form aria-label="Enter username and pasword" {{on "submit" this.signup}}>
+  <label for="identification">Email</label>
+  <input class="identification" id='identification' placeholder="Enter Login" value={{this.identification}}
+    {{on "change" this.updateIdentification}}>
+  <label for="password">Password</label>
+  <input class="password" type="password" id='password' placeholder="Enter Password" value={{this.password}}
+    {{on "change" this.updatePassword}}>
+  <button type="submit" class="login m-1 p-1 rounded-lg border-2 border-gray-400 bg-gray-200">Sign-up</button>  
   {{#if this.error}}
   <p>{{this.error}}</p>
   {{/if}}

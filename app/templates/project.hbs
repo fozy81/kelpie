@@ -1,68 +1,99 @@
+{{#if this.print}}
+<div class="flex wrap m-1 no-print">
+  <button type="button" class="py-2 flex-1" {{on "click" this.showPrinting}} >
+    <div class="p-2 w-11/12 text-gray-900 border border-gray-200 rounded-lg">
+      Cancel X
+    </div>
+  </button>
 
-
-<div class="flex wrap m-1">   
-<LinkTo @route="projects" class="py-2 flex-1" > 
-<div class="p-2 w-11/12 text-gray-900 border border-gray-200 rounded-lg"> 
- ᐸ Back to Projects
-     </div>
-</LinkTo> 
- 
-<div class="relative">
-   <Menu @label="project" @title="...Show menu" class="flex-1" @showArchive={{this.showArchive}} /></div>
-   </div>
-<div style="background-color:{{{@model.colour}}};" class="p-2 rounded-lg border-gray-400 border-2 m-2">
-<p></p>
-<div   class="font-bold">{{@model.title}}</div>
-
-<p></p>
-{{@model.description}} {{@model.percentageComplete}}
-<p></p>
-
-<DueDate @due={{@model.dueDate}} @id={{@model.id}}/>
-
-<div>
-<Tags @model={{@model}} />
+  <div class="relative">
+    <Menu @label="project" @title="...Show menu" class="flex-1" @showArchive={{this.showArchive}}
+      @showPrint={{this.showPrinting}} />
+  </div>
 </div>
-<hr>
-Tasks:
-<br>
-{{!-- Templates:
+
+ <div class="page"> 
+  {{@model.title}} <p></p>
+  Due date: {{@model.dueDate}}
+   </div>
 {{#each @model.tasks as |task|}}
-{{task.taskTemplate.title}}
-{{/each}} --}}
-{{#each @model.tasks as |task|}}
+{{#each task.containers as |container|}}
+{{#if container.title}} <div class="page flex"> 
+  <div>
+    Task: {{task.title}} <p></p>
+    Container: {{container.title}} <p></p>
+    Id: {{container.containerId}} <p></p>
+    Forms: {{#each container.forms as |form|}}
+    {{form.title}}   
+  {{/each}} </div>
+   <div {{did-insert (fn this.createQr container.containerId)}}><canvas id={{container.containerId}}></canvas>
+  </div>
+</div>
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{else}}
+<div class="flex wrap m-1 no-print">
+  <LinkTo @route="projects" class="py-2 flex-1">
+    <div class="p-2 w-11/12 text-gray-900 border border-gray-200 rounded-lg">
+      ᐸ Back to Projects
+    </div>
+  </LinkTo>
+
+  <div class="relative">
+    <Menu @label="project" @title="...Show menu" class="flex-1" @showArchive={{this.showArchive}}
+      @showPrint={{this.showPrinting}} />
+  </div>
+</div>
+<div style="background-color:{{{@model.colour}}};" class="p-2 rounded-lg border-gray-400 border-2 m-2">
+  <p></p>
+  <div class="font-bold">{{@model.title}}</div>
+
+  <p></p>
+  {{@model.description}} {{@model.percentageComplete}}
+  <p></p>
+
+  <DueDate @due={{@model.dueDate}} @id={{@model.id}} />
+
+  <div>
+    <Tags @model={{@model}} />
+  </div>
+  <hr>
+  Tasks:
+  <br>
+  {{!-- Templates:
+  {{#each @model.tasks as |task|}}
+  {{task.taskTemplate.title}}
+  {{/each}} --}}
+  {{#each @model.tasks as |task|}}
   {{#if (eq task.archive false)}}
 
-<Card @title={{task.title}}
-       @route="task"
-       @id={{task.id}}        
-       @forms={{task.forms}}
-       @colour="#edf2f7" 
-       />   
-   {{/if}}
-{{/each}}
- 
- </div>
-<CreateCard @label="Add New Task"
-            @modelName="task"/>           
+  <Card @title={{task.title}} @route="task" @id={{task}} @colour="#edf2f7" />
+  {{/if}}
+  {{/each}}
 
-{{#each @model.tasks  as |task|}}
+</div>
+<CreateCard @label="Add New Task" @modelName="task" />
+
+{{#each @model.tasks as |task|}}
 {{#if (and (eq task.archive true) (gte task.modifiedDateValue this.date)) }}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{task}}/>
+  <Card @model={{task}} @id={{task}} />
 </div>
 {{/if}}
 {{/each}}
 {{#if this.archive}}
-<div class="m-1"> Archived forms   <button type="button" class="font-bold" {{on "click" this.showArchive}}>X</button></div>
-{{#each @model.tasks  as |task|}}   
+<div class="m-1"> Archived forms <button type="button" class="font-bold" {{on "click" this.showArchive}}>X</button>
+</div>
+{{#each @model.tasks as |task|}}
 {{#if task.archive}}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{task}}/>
+  <Card @model={{task}} @id={{task}} />
 </div>
 {{/if}}
 {{/each}}
 {{/if}}
-
+{{/if}}
 
 {{outlet}}

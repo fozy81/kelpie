@@ -1,8 +1,8 @@
 
-{{#let this.uniqueForms as |uniqueforms|}}
+{{!-- {{#let this.uniqueForms as |uniqueforms|}}
 {{#let this.dateOrderForms as |allforms|}}
   {{#each uniqueforms as |form|}}     
-  {{#if (and (eq form.archive false) (is-empty form.container.title))}}
+  {{#if (and (eq form.archive false) (eq form.container.title ''))}}
   {{#if (eq form.taskTemplateId '')}}
     <FormCard
       @model={{form}}
@@ -13,25 +13,25 @@
     {{/if}}
   {{/each}}
 {{/let}}
-{{/let}}
+{{/let}} --}}
 
 {{#let this.uniqueForms as |uniqueforms|}}
 {{#let this.dateOrderForms as |allforms|}}
   {{#each uniqueforms as |form|}} 
-  {{#if (and (eq form.archive false) (gt form.container.title ''))}}
-  {{form.container.title}}: {{form.containerId}}
-  {{#if (eq form.taskTemplateId '')}}
+
+  {{#if (and (eq form.taskTemplateId '') (eq form.archive false))}}
     <FormCard
       @model={{form}}
       @questions={{form.questions}}
-      @allforms={{allforms}}        
+      @allforms={{allforms}}    
+      @container={{@container}}    
     />
-    {{/if}}
+   
     {{/if}}
   {{/each}}
 
 
-<CreateCard @modelName="form" @label="Add Forms..." @editing={{this.editingTemplate}} 
+<CreateCard @modelName="form" @label="Add Forms..." @editing={{this.editingTemplate}} @container={{@container}}
  />
 
 {{#if this.editMethodTemplate}}

@@ -16,6 +16,12 @@ export default class CounterComponent extends Component {
     });
   }
 
+  @tracked addingContainer = false;
+  @action
+  addContainer() {
+    this.addingContainer = !this.addingContainer;
+  }
+
   @action
   archiveForm(id) {
     this.store.findRecord('form', id).then(function (form) {
@@ -34,13 +40,13 @@ export default class CounterComponent extends Component {
 
   @tracked shows = false;
   @action
-  showQuestion(id) {
-    event.preventDefault(id);
+  showQuestion() {
+    event.preventDefault();
     if (this.shows) {
       this.methodDisplay = false;
     }
     this.shows = !this.shows;
-    this.store.findRecord('method', id).then(function (method) {});
+    // this.store.findRecord('method', id).then(function (method) {});
     console.log('show: ' + this.shows);
   }
 
@@ -159,7 +165,7 @@ export default class CounterComponent extends Component {
             multiEntry: currentForm.multiEntry,
             formTemplate: currentForm.formTemplate,
             formTemplateId: currentForm.formTemplate.get('id'),
-            task: currentForm.task,
+            container: currentForm.container,
             archive: false,
             display: true,
           })

@@ -49,7 +49,7 @@ export default class SearchProjectsComponent extends Component {
     let date = new Date(this.date);
     date = date.valueOf();
     console.log('searh term: ' + this.search);
-    console.log('search date: ' + date);  
+    console.log('search date: ' + date);
     function error(reason) {
       console.log(reason); // handle the error
       return;

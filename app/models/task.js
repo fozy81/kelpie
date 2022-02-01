@@ -11,7 +11,10 @@ export default class TaskModel extends Model {
   @attr('date') modifiedDate;
   @attr('number') modifiedDateValue;
   @attr('string') rev;
+  @attr('string', { defaultValue: '' }) taskId;
+  @attr('string', { defaultValue: '' }) taskMainId;
+  @attr('string', { defaultValue: '' }) taskLevelId;
+  @hasMany containers;
   @belongsTo project;
-  @hasMany forms;
   @belongsTo taskTemplate;
 }

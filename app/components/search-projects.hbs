@@ -1,19 +1,19 @@
 
 <div class="search-projects flex wrap m-1">
-    <h2 class="py-2 m-1 flex-1">Recently Created</h2>
+    <h2 class="py-2 m-1 flex-1">Recent</h2>
     <div class="relative">
         <Menu @label="projects" class="flex-1" @title="...Show menu" @showArchive={{this.showArchive}}/>
     </div>
 </div>
 <div {{did-insert this.recentFilter}}>
 {{#each this.recent as |project|}}
-<Card @route="project" @id={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
+<Card @route="project" @id={{project}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{/each}}
 </div>
 <div class="py-1">
 <CreateCard @list={{this.list}} @label="Add New Project" @modelName="project"/>
 </div>
-<h2 class="py-1 m-1 ">👤 Personal Projects
+<h2 class="py-1 m-1 ">Up coming
 
 {{#if this.show}}
 <div class="m-2"> 
@@ -41,7 +41,7 @@ type="button">
 {{/if}}
 </h2>
 {{#each this.results as |project|}}
-<Card @route="project" @id={{project.id}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
+<Card @route="project" @id={{project}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{else}}
 <div class="px-2"><em>No search results</em></div>
 {{/each}}
@@ -51,7 +51,7 @@ type="button">
 {{#each this.archives  as |project|}}
 {{#if (and (eq project.archive true) (gte project.modifiedDateValue this.date)) }}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{project}}/>
+<Card @model={{project}} @id={{project}}/>
 </div>
 {{/if}}
 {{/each}}
@@ -60,7 +60,7 @@ type="button">
 {{#each this.archives  as |project|}}   
 {{#if project.archive}}
 <div {{did-insert this.archiveDate}}>
-<Card @model={{project}}/>
+<Card @model={{project}}  @id={{project}}/>
 </div>
 {{/if}}
 {{/each}}

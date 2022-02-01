@@ -59,78 +59,135 @@ export default class ApplicationRoute extends Route {
                 return;
               }
 
-              let formTemplate = store.createRecord('form-template', {
-                title: 'Wildlife Survey',
-                description: 'Record wildlife present',
-                archive: false,
-                multiEntry: true,
+              let containerTemplate = store.createRecord('container-template', {
+                title: 'Box',
+                description: '',
               });
-              formTemplate.save().then(addQuestionTemplate).catch(failure);
+              containerTemplate.save().then(addformTemplate).catch(failure);
 
-              function addQuestionTemplate(formTemplate) {
-                let questionTemplate = store.createRecord('question-template', {
-                  question: 'Species',
-                  response: '',
-                  multiEntry: true,
-                  type: 'select',
-                  pos: 1,
+              function addformTemplate(containerTemplate) {
+                let formTemplate = store.createRecord('form-template', {
+                  title: 'Wildlife Survey',
+                  description: 'Record wildlife present',
                   archive: false,
-                  options:
-                    'Acroloxidae,Aeshnidae,Ancylidae,Aphelocheiridae,Asellidae,Astacidae,Athericidae,Baetidae,Beraeidae,Bithyniidae,Brachycentridae,Caenidae,Calopterygidae,Capniidae,Ceratopogonidae,Chaoboridae,Chironomidae,Chloroperlidae,Coenagrionidae,Cordulegasteridae,Cordulegastridae,Corixidae,Corophiidae,Crangonyctidae,Culicidae,Dendrocoelidae,Dixidae,Dolichopodidae,Dreissenidae,Dryopidae,Dugesiidae,Dytiscidae,Elmidae,Empididae,Ephemerellidae,Ephemeridae,Ephydridae,Erpobdellidae,Gammaridae,Gerridae,Glossiphoniidae,Glossosomatidae,Goeridae,Gyrinidae,Haliplidae,Heptageniidae,Hirudinidae,Hydraenidae,Hydrobiidae,Hydrometridae,Hydrophilidae (including Helophoridae + Georissidae and Hydrochidae),Hydropsychidae,Hydroptilidae,Hygrobiidae,Lepidostomatidae,Leptoceridae,Leptophlebiidae,Leuctridae,Libellulidae,Limnephilidae (including Apataniidae),Lymnaeidae,Mesoveliidae,Molannidae,Muscidae,Naucoridae,Nemouridae,Nepidae,Neritidae,Niphargidae,Noteridae,Notonectidae,Odontoceridae,Oligochaeta,Perlidae,Perlodidae,Philopotamidae,Phryganeidae,Physidae,Piscicolidae,Planariidae,Planorbidae,Platycnemididae,Pleidae,Polycentropodidae,Potamanthidae,Psychodidae,Psychomyiidae,Ptychopteridae,Rhagionidae,Rhyacophilidae,Sciomyzidae,Scirtidae,Sericostomatidae,Sialidae,Simuliidae,Siphlonuridae (including Ameletidae),Sisyridae,Sphaeriidae,Stratiomyidae,Syrphidae,Tabanidae,Taeniopterygidae,Tipulidae (including Limoniidae + Cylindrotomidae and Pediciidae),Unionidae,Valvatidae,Veliidae,Viviparidae',
-                  formTemplate: formTemplate,
+                  multiEntry: true,
+                  containerTemplateId: containerTemplate.id,
+                  containerTemplate: containerTemplate,
                 });
-                questionTemplate.save().catch(failure);
+                formTemplate.save().then(addQuestionTemplate).catch(failure);
 
-                let questionTemplateTwo = store.createRecord(
-                  'question-template',
-                  {
-                    question: 'Count',
-                    response: '',
-                    multiEntry: true,
-                    type: 'number',
-                    pos: 2,
-                    archive: false,
-                    formTemplate: formTemplate,
-                  }
-                );
-                questionTemplateTwo.save().then(addTaskTemplate).catch(failure);
+                function addQuestionTemplate(formTemplate) {
+                  let questionTemplate = store.createRecord(
+                    'question-template',
+                    {
+                      question: 'Species',
+                      response: '',
+                      multiEntry: true,
+                      type: 'select',
+                      pos: 1,
+                      archive: false,
+                      options:
+                        'Acroloxidae,Aeshnidae,Ancylidae,Aphelocheiridae,Asellidae,Astacidae,Athericidae,Baetidae,Beraeidae,Bithyniidae,Brachycentridae,Caenidae,Calopterygidae,Capniidae,Ceratopogonidae,Chaoboridae,Chironomidae,Chloroperlidae,Coenagrionidae,Cordulegasteridae,Cordulegastridae,Corixidae,Corophiidae,Crangonyctidae,Culicidae,Dendrocoelidae,Dixidae,Dolichopodidae,Dreissenidae,Dryopidae,Dugesiidae,Dytiscidae,Elmidae,Empididae,Ephemerellidae,Ephemeridae,Ephydridae,Erpobdellidae,Gammaridae,Gerridae,Glossiphoniidae,Glossosomatidae,Goeridae,Gyrinidae,Haliplidae,Heptageniidae,Hirudinidae,Hydraenidae,Hydrobiidae,Hydrometridae,Hydrophilidae (including Helophoridae + Georissidae and Hydrochidae),Hydropsychidae,Hydroptilidae,Hygrobiidae,Lepidostomatidae,Leptoceridae,Leptophlebiidae,Leuctridae,Libellulidae,Limnephilidae (including Apataniidae),Lymnaeidae,Mesoveliidae,Molannidae,Muscidae,Naucoridae,Nemouridae,Nepidae,Neritidae,Niphargidae,Noteridae,Notonectidae,Odontoceridae,Oligochaeta,Perlidae,Perlodidae,Philopotamidae,Phryganeidae,Physidae,Piscicolidae,Planariidae,Planorbidae,Platycnemididae,Pleidae,Polycentropodidae,Potamanthidae,Psychodidae,Psychomyiidae,Ptychopteridae,Rhagionidae,Rhyacophilidae,Sciomyzidae,Scirtidae,Sericostomatidae,Sialidae,Simuliidae,Siphlonuridae (including Ameletidae),Sisyridae,Sphaeriidae,Stratiomyidae,Syrphidae,Tabanidae,Taeniopterygidae,Tipulidae (including Limoniidae + Cylindrotomidae and Pediciidae),Unionidae,Valvatidae,Veliidae,Viviparidae',
+                      formTemplate: formTemplate,
+                    }
+                  );
+                  questionTemplate.save().catch(failure);
 
-                function addTaskTemplate() {
-                  let taskTemplate = store.createRecord('task-template', {
-                    title: 'Woodlands site',
-                    description: 'Woods',
-                    lat: 56.6,
-                    lon: 34.3,
-                  });
-                  taskTemplate.save().then(addTasks).catch(failure);
+                  let questionTemplateTwo = store.createRecord(
+                    'question-template',
+                    {
+                      question: 'Count',
+                      response: '',
+                      multiEntry: true,
+                      type: 'number',
+                      pos: 2,
+                      archive: false,
+                      formTemplate: formTemplate,
+                    }
+                  );
+                  questionTemplateTwo
+                    .save()
+                    .then(addTaskTemplate)
+                    .catch(failure);
 
-                  function addTasks(taskTemplate) {
-                    let task = store.createRecord('task', {
+                  function addTaskTemplate() {
+                    let taskTemplate = store.createRecord('task-template', {
                       title: 'Woodlands site',
                       description: 'Woods',
-                      project: project,
-                      taskTemplate: taskTemplate,
-                      taskTemplateId: taskTemplate.id,
+                      lat: 56.6,
+                      lon: 34.3,
                     });
-                    task.save().then(addForm).catch(failure);
+                    taskTemplate.save().then(addTasks).catch(failure);
 
-                    function addForm(task) {
-                      let form = store.createRecord('form', {
-                        title: 'Wildlife Survey',
-                        description: 'Record wildlife present',
-                        task: task,
-                        templateId: task.id,
-                        taskTemplateId: '',
-                        formTemplateId: formTemplate.id,
-                        edit: false,
-                        multiEntry: true,
-                        createdDate: new Date(),
-                        createdDateValue: new Date().valueOf(),
-                        display: true,
-                        archive: false,
-                        formTemplate: formTemplate,
+                    function addTasks(taskTemplate) {
+                      let task = store.createRecord('task', {
+                        id: 'D567013B-7D43-0096-8539-46EA508D383E',
+                        title: 'Woodlands site',
+                        description: 'Woods',
+                        project: project,
+                        taskTemplate: taskTemplate,
+                        taskTemplateId: taskTemplate.id,
                       });
-                      form.save().then(addQuestion).catch(failure);
+                      task.save().then(addContainer).catch(failure);
+
+                      function addContainer(task) {
+                        let container = store.createRecord('container', {
+                          id: 'C343A8B8-DFA7-067A-BD85-1C97FA4828C1',
+                          title: containerTemplate.title,
+                          description: 'Box',
+                          containerId: shortlink.generate(8),
+                          level: 'D567013B-7D43-0096-8539-46EA508D383E',
+                          task: task,
+                          createdDate: new Date(),
+                          createdDateValue: new Date().valueOf(),
+                          archive: false,
+                        });
+                        container.save().then(addForm).catch(failure);
+
+                        let containerOne = store.createRecord('container', {
+                          title: containerTemplate.title,
+                          description: 'Box',
+                          containerId: shortlink.generate(8),
+                          level: 'C343A8B8-DFA7-067A-BD85-1C97FA4828C1',
+                          task: task,
+                          createdDate: new Date(),
+                          createdDateValue: new Date().valueOf(),
+                          archive: false,
+                        });
+                        containerOne.save();
+
+                        let containerTwo = store.createRecord('container', {
+                          title: '',
+                          description: '',
+                          containerId: shortlink.generate(8),
+                          level: 'D567013B-7D43-0096-8539-46EA508D383E',
+                          task: task,
+                          createdDate: new Date(),
+                          createdDateValue: new Date().valueOf(),
+                          archive: false,
+                        });
+                        containerTwo.save();
+
+                        function addForm(container) {
+                          let form = store.createRecord('form', {
+                            title: 'Wildlife Survey',
+                            description: 'Record wildlife present',
+                            methodId: 1,
+                            container: container,
+                            templateId: container.id,
+                            taskTemplateId: '',
+                            formTemplateId: formTemplate.id,
+                            edit: false,
+                            multiEntry: true,
+                            createdDate: new Date(),
+                            createdDateValue: new Date().valueOf(),
+                            display: true,
+                            archive: false,
+                            formTemplate: formTemplate,
+                          });
+                          form.save().then(addQuestion).catch(failure);
+                        }
+                      }
                     }
                   }
                 }
@@ -162,6 +219,7 @@ export default class ApplicationRoute extends Route {
                   questionTwo.save().catch(failure);
 
                   let method = store.createRecord('method', {
+                    id: 1,
                     title: 'Wildlife',
                     body: ` # My Demo Method 
                                 Record Wildlife...

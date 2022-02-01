@@ -10,6 +10,12 @@ export default class MenuListComponent extends Component {
     this.args.showArchive();
   }
 
+  @action
+  showPrint() {
+    console.log('show print');
+    this.args.showPrint();
+  }
+
   @tracked show = true;
   @action
   hideMenuList() {
@@ -105,12 +111,16 @@ export default class MenuListComponent extends Component {
   removeAllForms() {
     const form = this.args.model;
     const templateId = form.formTemplateId;
-    const id = this.router.currentRoute.params.task_id;
-    let task = this.store.peekRecord('task', id, {
+    // const id = this.router.currentRoute.params.task_id;
+    const containId = form.get('templateId');
+    console.log('form container: ' + containId);
+    console.log('form templateId: ' + templateId);
+    let task = this.store.peekRecord('container', containId, {
       include: 'forms',
     });
 
     task.forms.map(function (form) {
+      console.log(form.archive);
       if (form.formTemplateId == templateId) {
         form.questions.map(function (question) {
           question.archive = true;

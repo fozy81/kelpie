@@ -23,10 +23,9 @@ export default class FormModel extends Model {
   @attr('string', { defaultValue: '' }) containerId;
   @attr('string', { defaultValue: '' }) containerMainId;
   @attr('string', { defaultValue: '' }) containerLevelId;
-  @belongsTo task;
+  @belongsTo container;
   @belongsTo formTemplate;
   @belongsTo taskTemplate;
   @hasMany questions;
   @attr('string') rev;
-  @belongsTo container;
 }

@@ -8,8 +8,8 @@ module('Integration | Modifier | on-click-outside', function (hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function (assert) {
-    await render(hbs`<div {{on-click-outside}}></div>`);
+    await render(hbs`<div {{on-click-outside}}>1234</div>`);
 
-    assert.ok(true);
+    assert.equal(this.element.textContent.trim(), '1234');
   });
 });

@@ -3,6 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+        height: 0;       
+    }
+}
+
+.page {
+page-break-after: always;
+}
 /* Markdown Styles */
 /* Global */
 .markdown {
@@ -99,3 +112,35 @@
   .markdown :not(pre) > code.language-text {
     white-space: pre-line;
   }
+
+svg{shape-rendering: geometricPrecision;}
+
+p.spinner { padding-top: 2px; margin-left: 8px; margin-right: 8px; }
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }  
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+.spin {
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.push { color: red; }
+.push-enabled { color: green; }
+
+.push svg { fill: red;}
+.push-enabled svg { fill: green;}

@@ -64,7 +64,7 @@ export default class FormQuestionComponent extends Component {
     let responses = [];
     let formId = form.formTemplateId;
     // find all responses from task
-    let task = store.peekRecord('task', form.templateId);
+    let task = store.peekRecord('container', form.templateId);
     task.forms.map(function (form) {
       // filter responses with matching formTemplateId
       if (form.formTemplateId === formId) {

@@ -16,10 +16,11 @@ export default class EditFormComponent extends Component {
   removeContainer(id) {
     console.log('remove method');
     let formTemplate = this.store.peekRecord('formTemplate', id, {
-      include: 'container',
+      include: 'containerTemplate',
     });
-
-    formTemplate.container = null
+    // create new containerTemplate with empty title?
+    formTemplate.containerTemplate = null;
+    formTemplate.containerTemplateId = null;
     formTemplate.save();
   }
 
@@ -160,14 +161,17 @@ export default class EditFormComponent extends Component {
   }
 
   @action
-  saveFormStopEditing() {
+  saveFormStopEditing(currentContainer) {
+    console.log(
+      'saveFormStopEditing - current continer: ' + currentContainer.id
+    );
     this.saveForm();
     this.args.edit();
   }
 
   @action
-  saveReplaceForm(event) {
-    console.log('saveReplaceForm: ');
+  saveReplaceForm(currentContainer) {
+    console.log('saveReplaceForm - current continer: ' + currentContainer.id);
     // event.preventDefault()
     let router = this.router;
     let store = this.store;
@@ -236,59 +240,90 @@ export default class EditFormComponent extends Component {
     store
       .findRecord('form-template', formTemplateId)
       .then(function (formTemplate) {
-        let id = shortlink.generate(8);
-        let formRecord = store.createRecord('form', {
-          title: formTemplate.title,
-          description: formTemplate.description,
-          edit: false,
-          multiEntry: formTemplate.multiEntry,
-          createdDate: new Date(),
-          createdDateValue: new Date().valueOf(),
-          templateId: myTask.id,
-          formTemplateId: formTemplate.id,
-          formTemplate: formTemplate,
-          container: formTemplate.container,
-          task: myTask,
-          taskTemplateId: formTemplate.taskTemplateId,
-          taskTemplate: formTemplate.taskTemplate,
-          display: false,
-          containerId: id,
-          containerMainId: id,
-          containLevelId: id,
-        });
-        formRecord.save().then(function (form) {
-          console.log(form.templateId);
-          let questionTemplates = formTemplate.get('questionTemplates');
-          let myForm = form; //store.peekRecord('form', form.id);
-          questionTemplates.map(function (questionTemplate) {
-            console.log('question: ' + questionTemplate.question);
-            console.log('multi-entry? : ' + myForm.multiEntry);
-            let response = '';
-            if (questionTemplate.default) {
-              response = questionTemplate.default;
-            }
-            let question = store.createRecord('question', {
-              question: questionTemplate.question,
-              questionTemplate: questionTemplate,
-              questionTemplateId: questionTemplate.id,
-              response: response,
-              multiEntry: myForm.multiEntry,
-              type: questionTemplate.type,
-              units: questionTemplate.units,
-              pos: questionTemplate.pos,
-              required: questionTemplate.required,
-              min: questionTemplate.min,
-              max: questionTemplate.max,
-              step: questionTemplate.step,
-              default: questionTemplate.default,
-              form: myForm,
-            });
-            question.save();
-          });
-          myForm.save();
-        });
-      });
+        store
+          .findRecord('container-template', formTemplate.containerTemplateId)
+          .then(function (containerTemplate) {
+            let addContainer = async function () {
+              let container = currentContainer;
+              console.log(container.title);
+              if (
+                currentContainer.title == '' &&
+                containerTemplate.get('title') !== ''
+              ) {
+                console.log('container title null');
 
+                let id = shortlink.generate(8);
+                container = store.createRecord('container', {
+                  title: '', // formTemplate.containerTemplate.get('title'),
+                  description: '',
+                  containerId: id,
+                  level: myTask.id,
+                  createdDate: new Date(),
+                  createdDateValue: new Date().valueOf(),
+                  modifiedDate: new Date(),
+                  modifiedDateValue: new Date().valueOf(),
+                  task: myTask,
+                });
+                return container.save();
+              } else {
+                return container;
+              }
+            };
+
+            addContainer().then(function (container) {
+              console.log(
+                'container title: ' + container.title + ' ' + container.id
+              );
+              console.log('formTemplate title: ' + formTemplate.title);
+              let formRecord = store.createRecord('form', {
+                title: formTemplate.title,
+                description: formTemplate.description,
+                edit: false,
+                multiEntry: formTemplate.multiEntry,
+                createdDate: new Date(),
+                createdDateValue: new Date().valueOf(),
+                templateId: myTask.id,
+                formTemplateId: formTemplate.id,
+                formTemplate: formTemplate,
+                taskTemplateId: formTemplate.taskTemplateId,
+                taskTemplate: formTemplate.taskTemplate,
+                display: false,
+                container: container,
+              });
+              formRecord.save().then(function (form) {
+                console.log(form.templateId);
+                let questionTemplates = formTemplate.get('questionTemplates');
+                let myForm = form; //store.peekRecord('form', form.id);
+                questionTemplates.map(function (questionTemplate) {
+                  console.log('question: ' + questionTemplate.question);
+                  console.log('multi-entry? : ' + myForm.multiEntry);
+                  let response = '';
+                  if (questionTemplate.default) {
+                    response = questionTemplate.default;
+                  }
+                  let question = store.createRecord('question', {
+                    question: questionTemplate.question,
+                    questionTemplate: questionTemplate,
+                    questionTemplateId: questionTemplate.id,
+                    response: response,
+                    multiEntry: myForm.multiEntry,
+                    type: questionTemplate.type,
+                    units: questionTemplate.units,
+                    pos: questionTemplate.pos,
+                    required: questionTemplate.required,
+                    min: questionTemplate.min,
+                    max: questionTemplate.max,
+                    step: questionTemplate.step,
+                    default: questionTemplate.default,
+                    form: myForm,
+                  });
+                  question.save();
+                });
+                // myForm.save();
+              });
+            });
+          });
+      });
     //   });
 
     // remove existing formlet questionTemplates = formTemplate.questionTemplates
