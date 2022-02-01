@@ -48,13 +48,13 @@ module.exports = function (environment) {
     ENV.APP.autoboot = false;
   }
 
-  ENV.remote_couch = 'http://localhost:5984/kelpie';
+  ENV.remote_couch = 'http://localhost:5984/kelpie-with-containers';
   ENV.local_couch = 'test';
   ENV.authAdapter = 'application';
 
   if (environment === 'production') {
     ENV.rootURL = '/';
-    ENV.remote_couch = `${process.env.remote_couch}/kelpie`;
+    ENV.remote_couch = `${process.env.remote_couch}/kelpie-with-containers`;
   }
   if (ENV.remote_couch) {
     // @TODO document why `contentSecurityPolicy` is needed, as it does not appear used anywhere else

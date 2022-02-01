@@ -2,6 +2,10 @@
 <button type="button" class="border-2 border-gray-400 bg-gray-200 p-1 m-1 rounded-lg" {{on "click"
   this.invalidateSession}}>Logout</button>
 
+<button type="button" class="border-2 border-gray-400 bg-gray-200 p-1 m-1 rounded-lg" {{on "click"
+  this.changedb}}>Change to project database</button>
+
+
 <div class="m-1">
   <br>
   <div class="m-1">Username: {{this.user}} </div>
