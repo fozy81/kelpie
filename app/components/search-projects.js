@@ -50,10 +50,7 @@ export default class SearchProjectsComponent extends Component {
     date = date.valueOf();
     console.log('searh term: ' + this.search);
     console.log('search date: ' + date);
-    function error(reason) {
-      console.log(reason); // handle the error
-      return;
-    }
+
     let regexp_search = new RegExp(this.search, 'i');
     // let regexp_search = this.search;
 

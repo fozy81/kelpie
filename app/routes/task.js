@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
-import { load } from 'kelpie/helpers/unique-forms';
 import ENV from 'kelpie/config/environment';
 
 export default class TasksRoute extends Route {

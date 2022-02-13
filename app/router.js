@@ -16,7 +16,6 @@ Router.map(function () {
   this.route('task', {
     path: 'task/:task_id',
   });
-  this.route('responses');
   this.route('login');
   this.route('scan');
   this.route('print');

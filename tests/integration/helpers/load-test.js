@@ -8,9 +8,10 @@ module('Integration | Helper | load', function (hooks) {
 
   // Replace this with your real tests.
   test.skip('code not used currently - needs weakmap value?', async function (assert) {
-    this.set('inputValue', '1234');
-
-    await render(hbs`{{load inputValue}}`);
+    const wm1 = new WeakMap();
+    const o1 = '34';
+    wm1.set(o1, 37);
+    await render(hbs`{{load this.wm1}}`);
 
     assert.equal(this.element.textContent.trim(), '1234');
   });

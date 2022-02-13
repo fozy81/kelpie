@@ -19,7 +19,8 @@ export default class ApplicationRoute extends Route {
   model() {
     // if (this.session.isAuthenticated || ENV.locationType === 'none') {
     let store = this.store;
-    let projects = this.store
+    // let projects = this.store
+    store
       .query('project', {
         filter: { title: 'Welcome Project' },
       })
