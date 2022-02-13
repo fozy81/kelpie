@@ -4,12 +4,15 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class SearchProjectsComponent extends Component {
+  @service store;
   @action
   focus(element) {
     element.focus();
   }
 
+  @tracked search = '';
   @tracked show = false;
+  @tracked date = '';
   @action
   showSearch() {
     this.show = !this.show;
@@ -21,8 +24,6 @@ export default class SearchProjectsComponent extends Component {
     this.date = date;
   }
 
-  @service store;
-  @tracked date = '';
   @action
   defaultDate() {
     let now = new Date();
@@ -33,7 +34,6 @@ export default class SearchProjectsComponent extends Component {
     this.date = date;
   }
 
-  @tracked search = '';
   @tracked results = null;
   @tracked archives = null;
   @action
