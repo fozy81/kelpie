@@ -1,6 +1,6 @@
 {{#if this.cameraStream}}
 
-  <canvas class="w-screen lg:w-auto" {{attach-qr-scanner this.cameraStream onData=this.handleData highlightColor='#4FD1C5'}}>
+  <canvas class="w-screen lg:w-full" {{attach-qr-scanner this.cameraStream onData=this.handleData highlightColor='#4FD1C5'}}>
   </canvas>
 
  {{#each this.results as |array|}}
