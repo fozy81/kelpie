@@ -51,7 +51,7 @@
                   {{!-- this.orderByPosition takes in multiple questions and orders them --}}
                   {{#each orderedquestions as |question index|}}
 
-                  <FormQuestion @form={{@model}} @question={{question}} @input={{this.input}} @index={{index}}
+                  <FormQuestion @form={{@model}} @question={{question}} @index={{index}}
                         @hideEditQuestion={{this.hideEditQuestion}} @display={{false}} @update={{index}}
                         @hideEditingQuestion={{this.hideEditingQuestion}}
                         @questionTemplates={{question.questionTemplate}} />
@@ -100,7 +100,7 @@
                                                 {{#each questions as |question index|}}
                                                 {{#if question.response}}
                                                 <FormQuestion @form={{@model}} @question={{question}}
-                                                      @input={{this.input}} @hideEditQuestion={{this.hideEditQuestion}}
+                                                      @hideEditQuestion={{this.hideEditQuestion}}
                                                       @index={{index}} @display={{true}}
                                                       @addSelections={{this.addSelections}} @update={{true}}
                                                       @hideEditingQuestion={{this.hideEditingQuestion}}
@@ -138,8 +138,8 @@
             </div>
             {{#if (and this.methodDisplay (eq this.edit false))}}
             <div class="text-right">
-                  <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" {{on "click"
-                        (fn this.editMethod)}}>Edit Method</button>
+                  <button class="m-1 flex-1 text-sm bg-gray-200 border-gray-400 border-2 p-1 rounded-lg" type="button" {{on "click"
+                        this.editMethod}}>Edit Method</button>
             </div>
             <div class="markdown">{{format-markdown this.method.body}} </div>
             {{/if}}

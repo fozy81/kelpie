@@ -17,6 +17,7 @@
 
 {{#if this.show}}
 <div class="m-2"> 
+{{!-- template-lint-disable require-input-label --}}
 <Input class="border border-gray-400" 
       placeholder="Project name"
        @value={{this.search}} 
@@ -25,8 +26,9 @@
        /> 
  <button {{on "click" this.showSearch}} class="font-bold px-2" type="button">X</button>
 <div class="py-2">
- 'Due Date' less than <Input @type="date" @value={{this.date}} class="border border-gray-400"
-    {{did-insert this.defaultDate}}  {{on "change" this.filter}}/> 
+'Due Date' less than {{!-- template-lint-disable require-input-label --}}
+<Input @type="date" @value={{this.date}} class="border border-gray-400"
+{{did-insert this.defaultDate}}  {{on "change" this.filter}}/> 
 </div>
 
 </div>
@@ -41,6 +43,7 @@ type="button">
 {{/if}}
 </h2>
 {{#each this.results as |project|}}
+{{!-- template-lint-disable no-duplicate-id --}}
 <Card @route="project" @id={{project}} @title={{project.title}} @due={{project.dueDate}} @colour={{project.colour}}/>
 {{else}}
 <div class="px-2"><em>No search results</em></div>

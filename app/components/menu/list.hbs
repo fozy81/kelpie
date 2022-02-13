@@ -1,5 +1,5 @@
 {{#if this.show}}
-<div {{on-click-outside this.removeMenuList}}> 
+<div {{click-outside this.removeMenuList}}> 
 <div class ="relative block right-0 float-right pr-32 m-1 text-left" >
 <div class="absolute bg-white p-1 rounded-lg border-gray-200 border-2 shadow-sm">
     <div class="flex wrap"> 
@@ -15,7 +15,7 @@
 <div class="block py-2">Create New Project</div>
 <div class="block py-2">Create New Team</div>
 <div class="block py-2">Print...</div>
-<div class="block py-2" {{on "click" this.showingArchive}}> <button type="button">Show Archived Projects</button></div>
+<div class="block py-2"> <button type="button" {{on "click" this.showingArchive}}>Show Archived Projects</button></div>
 
 {{/if}}
 
@@ -23,10 +23,10 @@
 
 <div class="block py-2">Add New Task</div>
 <div class="block py-2">Edit Project</div>
-<div class="block py-2" {{on "click" this.removeProject}}>
-    <button class="text-left" type="button">Remove Project</button></div>
-<div class="block py-2" {{on "click" this.showingArchive}}> <button type="button">Show Archived Tasks</button></div>
-<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
+<div class="block py-2" >
+    <button {{on "click" this.removeProject}} class="text-left" type="button">Remove Project</button></div>
+<div class="block py-2"><button  {{on "click" this.showingArchive}} type="button">Show Archived Tasks</button></div>
+<div class="block py-2"><button {{on "click" this.showPrint}} type="button">Print...</button></div>
 
 {{/if}}
 
@@ -34,13 +34,13 @@
 
 <div class="block py-2">Add New Form</div>
 <div class="block py-2">Edit Task</div>
-<div class="block py-2" {{on "click" this.removeTask}}>
-    <button type="button">Remove Task</button>
+<div class="block py-2">
+    <button {{on "click" this.removeTask}} type="button">Remove Task</button>
     </div>
-<div class="block py-2" {{on "click" this.showingArchive}}>
-    <button type="button">Show Archived Forms</button>
+<div class="block py-2">
+    <button {{on "click" this.showingArchive}} type="button">Show Archived Forms</button>
    </div>
-<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
+<div class="block py-2"><button {{on "click" this.showPrint}} type="button">Print...</button></div>
 
 {{/if}}
 
@@ -48,7 +48,7 @@
 
 <div class="block py-2">Add Container</div>
 <div class="block py-2">Remove Container</div>
-<div class="block py-2" {{on "click" this.showPrint}}> <button type="button">Print...</button></div>
+<div class="block py-2"><button {{on "click" this.showPrint}} type="button">Print...</button></div>
 
 {{/if}}
 
@@ -58,8 +58,8 @@
     <button class="left-0 block text-left" type="button" {{on "click" @edit}}>Edit Form Template</button>
     </div>   
      {{#if @model.multiEntry}}
-   <div class="block py-2" {{on "click" this.removeAllForms}}>
-    <button type="button" class="left-0 block text-left">Remove All Form(s)</button>
+   <div class="block py-2" >
+    <button {{on "click" this.removeAllForms}} type="button" class="left-0 block text-left">Remove All Form(s)</button>
      </div>
    {{else}}
    <div class="block py-2" >

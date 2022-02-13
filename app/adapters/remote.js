@@ -1,6 +1,5 @@
 import ApplicationAdapter from './application';
 import ENV from 'kelpie/config/environment';
-// PouchDB.debug.enable('*');
 import { inject as service } from '@ember/service';
 import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';

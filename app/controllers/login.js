@@ -8,7 +8,6 @@ export default class LoginController extends Controller {
   @service session;
   @service router;
   @service store;
-  // @service currentUser;
 
   @tracked error;
   @tracked password;
@@ -49,15 +48,15 @@ export default class LoginController extends Controller {
     event.preventDefault();
     console.log('change password');
     return;
-    try {
-      await this.session
-        .authenticate('authenticator:pouch', this.identification, this.password)
-        .then(function () {
-          window.location.reload();
-        });
-    } catch (error) {
-      this.error = error.reason || error;
-    }
+    // try {
+    //   await this.session
+    //     .authenticate('authenticator:pouch', this.identification, this.password)
+    //     .then(function () {
+    //       window.location.reload();
+    //     });
+    // } catch (error) {
+    //   this.error = error.reason || error;
+    // }
   }
 
   @action
@@ -84,7 +83,7 @@ export default class LoginController extends Controller {
   changedb() {
     let store = this.store;
     let remote = new PouchDB('http://localhost:5984/project');
-    remote.login('test', 'test').then(function (user) {
+    remote.login('test', 'test').then(function () {
       let db = new PouchDB('project');
       db.sync(remote, { live: true, retry: true });
       // grab the adapter, it can be any ember-pouch adapter.

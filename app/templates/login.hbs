@@ -40,7 +40,7 @@
 </form>
 
 {{!-- app/templates/login.hbs --}}
-<form aria-label="Enter username and pasword" {{on "submit" this.signup}}>
+{{!-- <form aria-label="Enter username and pasword" {{on "submit" this.signup}}>
   <label for="identification">Email</label>
   <input class="identification" id='identification' placeholder="Enter Login" value={{this.identification}}
     {{on "change" this.updateIdentification}}>
@@ -51,5 +51,5 @@
   {{#if this.error}}
   <p>{{this.error}}</p>
   {{/if}}
-</form>
+</form> --}}
 {{/if}}

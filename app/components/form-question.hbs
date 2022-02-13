@@ -20,6 +20,7 @@
     {{else}}
       <p></p>
       {{@question.question}} <span class="ml-2"> 
+      {{!-- template-lint-disable no-unknown-arguments-for-builtin-components --}}
       <Input class="m-2 border-b border-gray-400 mx-auto" 
       id={{@question.id}}
       response={{if @question.multiEntry "" @question.response}}
@@ -30,7 +31,7 @@
       min={{@question.min}}
       step={{@question.step}}
       {{did-insert this.focus}}
-      @required={{@question.required}}
+      required={{@question.required}}
       />  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</span>
       <p></p>    
     {{/if}}
@@ -107,6 +108,7 @@
         {{#let this.options as |options|}}      
           <p></p>
           <label for={{@question.question}}>{{@question.question}}</label>
+          {{!-- template-lint-disable no-duplicate-id --}}
           <select multientry={{@question.multiEntry}}
                  id={{@question.id}} >
           <option selected="true" value="">--- pick ---</option>     
@@ -117,6 +119,8 @@
           <p>  {{#if (not-eq @question.units 'none')}}{{@question.units}}{{/if}}</p>
         {{/let}}      
       {{else}}     
+           {{!-- template-lint-disable require-input-label --}}
+           {{!-- template-lint-disable no-unknown-arguments-for-builtin-components --}}
            {{#if @question.default}}
          <p></p>        
         <label>{{@question.question}}: <span class="ml-2">    
@@ -126,6 +130,8 @@
       {{else if (not-eq @question.type "checkbox")}} 
         <p></p>        
         <label>{{@question.question}} <span class="ml-2">     
+        {{!-- template-lint-disable no-unknown-arguments-for-builtin-components --}}
+        {{!-- template-lint-disable require-input-label --}}
         <Input class="m-2 border-b border-gray-400"         
         id={{@question.id}}
         response={{if @question.multiEntry "" @question.response}}
