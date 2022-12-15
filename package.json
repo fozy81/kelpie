@@ -93,7 +93,7 @@
     "edition": "octane"
   },
   "dependencies": {
-    "ember-cli-update": "^0.56.0",
+    "ember-cli-update": "^1.0.1",
     "ember-jsqr": "^1.0.6",
     "later": "^1.2.0",
     "marked": "^4.0.12",
